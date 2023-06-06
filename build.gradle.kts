@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 group = "it.pagopa.aca"
 
@@ -67,7 +68,7 @@ dependencies {
   testImplementation("io.projectreactor:reactor-test")
   // Kotlin dependencies
   testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-  // testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+  testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
 
 configurations {
@@ -82,6 +83,7 @@ dependencyLocking { lockAllConfigurations() }
 
 sourceSets {
   main {
+    java { srcDirs("$buildDir/generated/src/main/java") }
     kotlin { srcDirs("src/main/kotlin", "$buildDir/generated/src/main/kotlin") }
     resources { srcDirs("src/resources") }
   }
@@ -96,6 +98,44 @@ tasks.create("applySemanticVersionPlugin") {
   dependsOn("prepareKotlinBuildScriptModel")
   apply(plugin = "com.dipien.semantic-version")
 }
+
+tasks.register("aca", GenerateTask::class.java) {
+  generatorName.set("kotlin-spring")
+  inputSpec.set("$rootDir/api-spec/aca-api.yaml")
+  outputDir.set("$buildDir/generated")
+  apiPackage.set("it.pagopa.generated.aca.api")
+  modelPackage.set("it.pagopa.generated.aca.model")
+  generateApiTests.set(false)
+  generateApiDocumentation.set(false)
+  generateApiTests.set(false)
+  generateModelTests.set(false)
+  library.set("spring-boot")
+  modelNameSuffix.set("Dto")
+  configOptions.set(
+    mapOf(
+      "swaggerAnnotations" to "false",
+      "openApiNullable" to "true",
+      "interfaceOnly" to "true",
+      "hideGenerationTimestamp" to "true",
+      "skipDefaultInterface" to "true",
+      "useSwaggerUI" to "false",
+      "reactive" to "true",
+      "useSpringBoot3" to "true",
+      "oas3" to "true",
+      "generateSupportingFiles" to "true",
+      "enumPropertyNaming" to "UPPERCASE"
+    )
+  )
+}
+
+tasks.withType<KotlinCompile> {
+  dependsOn("aca")
+  kotlinOptions.jvmTarget = "17"
+}
+
+tasks.withType(JavaCompile::class.java).configureEach { options.encoding = "UTF-8" }
+
+tasks.withType(Javadoc::class.java).configureEach { options.encoding = "UTF-8" }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
   kotlin {
@@ -119,6 +159,23 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
   }
 }
 
-tasks.withType(JavaCompile::class.java).configureEach { options.encoding = "UTF-8" }
+tasks.named<Jar>("jar") { enabled = false }
 
-tasks.withType(Javadoc::class.java).configureEach { options.encoding = "UTF-8" }
+tasks.test {
+  useJUnitPlatform()
+  finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+  dependsOn(tasks.test) // tests are required to run before generating the report
+
+  classDirectories.setFrom(
+    files(
+      classDirectories.files.map {
+        fileTree(it).matching { exclude("it/pagopa/aca/AcaApplicationKt.class") }
+      }
+    )
+  )
+
+  reports { xml.required.set(true) }
+}
