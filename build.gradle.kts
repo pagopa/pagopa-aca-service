@@ -83,7 +83,6 @@ dependencyLocking { lockAllConfigurations() }
 
 sourceSets {
   main {
-    java { srcDirs("$buildDir/generated/src/main/java") }
     kotlin { srcDirs("src/main/kotlin", "$buildDir/generated/src/main/kotlin") }
     resources { srcDirs("src/resources") }
   }
