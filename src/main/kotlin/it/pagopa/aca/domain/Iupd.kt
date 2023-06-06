@@ -1,6 +1,4 @@
 package it.pagopa.aca.domain
-
-@JvmRecord
 data class Iupd(val fiscalCode: String, val iuv: String) {
 
     fun value(): String {
