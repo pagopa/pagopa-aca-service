@@ -29,7 +29,6 @@ repositories { mavenCentral() }
 
 dependencyManagement {
   imports { mavenBom("org.springframework.boot:spring-boot-dependencies:3.0.5") }
-  imports { mavenBom("com.azure.spring:spring-cloud-azure-dependencies:4.0.0") }
   // Kotlin BOM
   imports { mavenBom("org.jetbrains.kotlin:kotlin-bom:1.7.22") }
   imports { mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4") }
@@ -40,7 +39,6 @@ dependencies {
   implementation("io.projectreactor.netty:reactor-netty")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-validation")
-  implementation("com.azure.spring:spring-cloud-azure-starter")
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-web-services")
   implementation("org.glassfish.jaxb:jaxb-runtime")

@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  pagopa-wallet:
+    container_name: pagopa-aca
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    networks:
+      - pagopa-aca-net
+
+networks:
+  pagopa-aca-net:
+    driver: bridge
+
+

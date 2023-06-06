@@ -1,15 +1,13 @@
-FROM amazoncorretto:17-alpine as build
+FROM amazoncorretto:17-alpine AS build
 WORKDIR /workspace/app
 
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle.kts .
-COPY settings.gradle .
+COPY settings.gradle.kts .
 COPY gradle.lockfile .
 
 COPY eclipse-style.xml eclipse-style.xml
-COPY npg-api npg-api
-COPY api-spec api-spec
 COPY src src
 RUN ./gradlew build -x test
 RUN mkdir build/extracted && java -Djarmode=layertools -jar build/libs/*.jar extract --destination build/extracted
