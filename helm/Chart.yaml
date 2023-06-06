@@ -1,0 +1,10 @@
+apiVersion: v2
+name: aca
+description: Microservice that handles api for create a new debt position
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+dependencies:
+  - name: microservice-chart
+    version: 1.21.0
+    repository: "https://pagopa.github.io/aks-microservice-chart-blueprint"
