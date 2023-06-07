@@ -217,7 +217,7 @@ stages:
     jobs:
       - job: newman_api_test
         steps:
-          - checkout: pagopaCheckoutTests
+          - template: azure-templates/api-tests.yml
             parameters:
               ENV_FILE: "api-tests/ACA_uat_blu_env.json"
               API_TEST_FILE: "api-tests/ACA-api.tests.json"
