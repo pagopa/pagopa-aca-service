@@ -11,8 +11,7 @@ class IupdTests {
 
     @Test
     fun shouldCreateTransactionIdSuccessfully() {
-        val iupd =
-            StringBuilder().append("ACA_").append(fiscalCode).append("_").append(iuv).toString()
+        val iupd = "ACA_${fiscalCode}_${iuv}"
         assertEquals(iupd, Iupd(fiscalCode, iuv).value())
     }
 }
