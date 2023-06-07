@@ -75,8 +75,7 @@ stages:
             displayName: 'Health check'
           - script: yarn global add newman
             displayName: 'newman installation'
-          - script: ls
-          - script: newman run ./api-tests/ACA.json --environment=./api-tests/env/ACA _localhost_env.json --reporters cli,junit --reporter-junit-export Results/checkout-api-TEST.xml
+          - script: newman run ./api-tests/ACA.json --environment=./api-tests/env/ACA_localhost_env.json --reporters cli,junit --reporter-junit-export Results/checkout-api-TEST.xml
             displayName: 'Run api test'
             continueOnError: false
           - task: PublishTestResults@2
