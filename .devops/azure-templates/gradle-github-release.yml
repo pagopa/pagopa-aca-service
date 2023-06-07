@@ -69,7 +69,7 @@ steps:
           script: |
             version=$(./gradlew printVersion -q | head -n1 | cut -d' ' -f2)
             echo "##vso[task.setvariable variable=value;isOutput=true]$version"
-            git add pom.xml
+            git add build.gradle.kts
           failOnStderr: true
       - task: Bash@3
         displayName: Update Version Values Helm
