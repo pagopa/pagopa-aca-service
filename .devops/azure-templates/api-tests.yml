@@ -2,6 +2,8 @@ parameters:
   # Required
   - name: "ENV_FILE"
     type: string
+  - name: "API_TEST_FILE"
+    type: string
   - name: "TEST_FILE_PREFIX"
     type: string
 
@@ -10,8 +12,8 @@ steps:
       yarn global add newman
     displayName: 'Newman installation'
   - script: |
-      newman run api-tests/ACA-api.tests.json -e ${{ parameters.ENV_FILE }} --ignore-redirects --reporters cli,junit --reporter-junit-export Results/${{ parameters.TEST_FILE_PREFIX }}-api-TEST.xml
-    displayName: 'Run api test app - env file: ${{ parameters.ENV_FILE }}'
+      newman run ${{ parameters.API_TEST_FILE }} -e ${{ parameters.ENV_FILE }} --ignore-redirects --reporters cli,junit --reporter-junit-export Results/${{ parameters.TEST_FILE_PREFIX }}-api-TEST.xml
+    displayName: 'Run api test'
   - task: PublishTestResults@2
     condition: succeededOrFailed()
     inputs:
