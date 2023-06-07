@@ -23,7 +23,13 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"paFiscalCode\": \"867568757498\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": {{FISCAL_CODE}},\n  \"entityFullName\": \"entity test\",\n  \"iuv\": {{IUV}},\n  \"amount\": 100,\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
