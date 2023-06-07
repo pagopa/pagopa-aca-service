@@ -28,7 +28,7 @@ parameters:
       - minor
       - patch
       - none
-
+    default: none
   - name: 'RELEASE_CHART_SEMVER'
     displayName: 'When upgrading helm chart, define the version bump to apply'
     type: string
