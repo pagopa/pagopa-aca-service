@@ -66,7 +66,7 @@ stages:
     jobs:
       - job: make_integration_test
         steps:
-          - script: cp env.example .env
+          - script: cp .env.example .env
             displayName: 'Setup env for localhost'
           - script: docker compose up -d
             displayName: 'Run app with docker-compose'
