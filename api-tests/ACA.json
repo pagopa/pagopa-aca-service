@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "f1c2a4b0-659b-44cc-90f3-93d47b1501f0",
+		"name": "ACA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24209240"
+	},
+	"item": [
+		{
+			"name": "Create new debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA creation - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": \"867568757498\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": {{FISCAL_CODE}},\n  \"entityFullName\": \"entity test\",\n  \"iuv\": {{IUV}},\n  \"amount\": 100,\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
