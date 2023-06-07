@@ -1,10 +1,10 @@
 {
 	"id": "84d43167-b12d-4e7d-a58d-ff439504d59a",
-	"name": "ACA dev",
+	"name": "ACA uat blu",
 	"values": [
 		{
 			"key": "HOSTNAME",
-			"value": "https://api.dev.platform.pagopa.it",
+			"value": "https://api.uat.platform.pagopa.it",
 			"type": "default",
 			"enabled": true
 		},
@@ -21,15 +21,15 @@
 			"enabled": true
 		},
 		{
-			"key": "DEPLOYMENT",
-			"value": "green",
-			"type": "green",
-			"enabled": true
-		},
-		{
 			"key": "PATH",
 			"value": "pagopa-aca-service/paCreatePosition",
 			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "DEPLOYMENT",
+			"value": "blue",
+			"type": "blue",
 			"enabled": true
 		}
 	],
