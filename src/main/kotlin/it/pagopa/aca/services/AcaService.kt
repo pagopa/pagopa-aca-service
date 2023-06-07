@@ -1,15 +1,16 @@
 package it.pagopa.aca.services
 
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
-import lombok.extern.slf4j.Slf4j
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Mono
 
 @Service
-@Slf4j
 class AcaService {
 
-    fun handleDebitPosition(newDebtPositionRequestDto: NewDebtPositionRequestDto): Mono<Void> {
-        return Mono.just("data").then()
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    suspend fun handleDebitPosition(newDebtPositionRequestDto: NewDebtPositionRequestDto) {
+        // TODO add implementation here
+        logger.info("Handle debit position for amount ${newDebtPositionRequestDto.amount}")
     }
 }
