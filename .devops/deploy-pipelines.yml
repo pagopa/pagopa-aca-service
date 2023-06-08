@@ -139,6 +139,7 @@ stages:
               ENV_FILE: "api-tests/env/ACA_dev_env.json"
               API_TEST_FILE: "api-tests/ACA-api.tests.json"
               TEST_FILE_PREFIX: "dev"
+              API_SUBSCRIPTION_KEY: $(ACA_API_KEY_DEV)
 
   - stage: "Build_release_candidate"
     displayName: 'Build release candidate'
@@ -222,6 +223,7 @@ stages:
               ENV_FILE: "api-tests/env/ACA_uat_blu_env.json"
               API_TEST_FILE: "api-tests/ACA-api.tests.json"
               TEST_FILE_PREFIX: "blue-uat"
+              API_SUBSCRIPTION_KEY: $(ACA_API_KEY_UAT)
 
   - stage: "Bluegreen_WaitForApproval"
     displayName: 'UAT green approval deployment'
@@ -342,3 +344,4 @@ stages:
               ENV_FILE: "api-tests/env/ACA_uat_env.json"
               API_TEST_FILE: "api-tests/ACA-api.tests.json"
               TEST_FILE_PREFIX: "green-uat"
+              API_SUBSCRIPTION_KEY: $(ACA_API_KEY_UAT)

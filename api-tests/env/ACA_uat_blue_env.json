@@ -31,6 +31,12 @@
 			"value": "blue",
 			"type": "blue",
 			"enabled": true
+		},
+		{
+			"key": "API_SUBSCRIPTION_KEY",
+			"value": "default-key",
+			"type": "default-key",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",

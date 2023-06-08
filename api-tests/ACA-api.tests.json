@@ -28,6 +28,11 @@
 						"key": "deployment",
 						"value": "{{DEPLOYMENT}}",
 						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
 					}
 				],
 				"body": {

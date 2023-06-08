@@ -31,6 +31,12 @@
 			"value": "aca/v1/paCreatePosition",
 			"type": "default",
 			"enabled": true
+		},
+		{
+			"key": "API_SUBSCRIPTION_KEY",
+			"value": "default-key",
+			"type": "default-key",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
