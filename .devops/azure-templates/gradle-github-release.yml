@@ -53,6 +53,7 @@ steps:
       - task: Gradle@3
         displayName: 'Bump version'
         name: bump_version
+        tasks: 'incrementVersion'
         inputs:
           goals: 'incrementVersion'
           ${{ if eq(parameters.semver, 'patch') }}:
