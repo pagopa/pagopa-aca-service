@@ -47,7 +47,12 @@ steps:
   - script: |
       git checkout ${{ parameters.release_branch }}
     displayName: 'Checkout release branch'
-
+  - task: JavaToolInstaller@0
+    displayName: 'Installing JDK'
+    inputs:
+      versionSpec: "17"
+      jdkArchitectureOption: x64
+      jdkSourceOption: 'PreInstalled'
   # bump version
   - ${{ if ne(parameters['semver'], 'none') }}:
       - task: Gradle@3
