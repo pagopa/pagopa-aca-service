@@ -50,14 +50,12 @@ steps:
 
   # bump version
   - ${{ if ne(parameters['semver'], 'none') }}:
-      - task: Bash@3
-        name: bump_version
+      - task: Gradle@3
         displayName: 'Bump version'
+        name: bump_version
         inputs:
-          targetType: "inline"
-          script: |
-            ./gradlew incrementVersion --versionIncrementType=${{ parameters.semver }}
-          failOnStderr: true
+          tasks: 'help'
+          options: 'incrementVersion --versionIncrementType=${{ parameters.semver }}'
       - task: Bash@3
         name: next_version_app
         displayName: 'Set release variables'
