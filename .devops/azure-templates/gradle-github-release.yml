@@ -55,15 +55,8 @@ steps:
         displayName: 'Bump version'
         inputs:
           targetType: "inline"
-        ${{ if eq(parameters.semver, 'patch') }}:
           script: |
-            ./gradlew incrementVersion --versionIncrementType=PATCH
-        ${{ if eq(parameters.semver, 'minor') }}:
-          script: |
-            ./gradlew incrementVersion --versionIncrementType=MINOR
-        ${{ if eq(parameters.semver, 'major') }}:
-          script: |
-            ./gradlew incrementVersion --versionIncrementType=MAJOR
+            ./gradlew incrementVersion --versionIncrementType=${{ parameters.semver }}
           failOnStderr: true
       - task: Bash@3
         name: next_version_app
