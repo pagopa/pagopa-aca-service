@@ -10,14 +10,14 @@ microservice-chart:
     httpGet:
       path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 30
     failureThreshold: 6
     periodSeconds: 10
   readinessProbe:
     httpGet:
       path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 90
+    initialDelaySeconds: 30
     failureThreshold: 6
     periodSeconds: 10
   deployment:
@@ -25,11 +25,13 @@ microservice-chart:
   service:
     create: true
     type: ClusterIP
-    port: 8080
+    ports:
+     - 8080
   ingress:
     create: true
     host: "weudev.aca.internal.dev.platform.pagopa.it"
     path: /pagopa-aca-service/(.*)
+    servicePort: 8080
   serviceAccount:
     create: false
     annotations: { }
@@ -43,10 +45,10 @@ microservice-chart:
   resources:
     requests:
       memory: "512Mi"
-      cpu: "0.25"
+      cpu: "300m"
     limits:
       memory: "512Mi"
-      cpu: "0.25"
+      cpu: "300m"
   autoscaling:
     enable: false
     minReplica: 1
@@ -63,7 +65,7 @@ microservice-chart:
     DEFAULT_LOGGING_LEVEL: "debug"
     APP_LOGGING_LEVEL: "debug"
     WEB_LOGGING_LEVEL: "debug"
-  envSecret: []
+  envSecret: {}
   keyvault:
     name: "pagopa-d-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"

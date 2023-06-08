@@ -28,7 +28,7 @@
 		},
 		{
 			"key": "PATH",
-			"value": "pagopa-aca-service/paCreatePosition",
+			"value": "aca/v1/paCreatePosition",
 			"type": "default",
 			"enabled": true
 		}
