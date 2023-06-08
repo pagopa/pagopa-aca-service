@@ -4,7 +4,7 @@ microservice-chart:
   fullnameOverride: ""
   image:
     repository: pagopadcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.0.1"
+    tag: "0.0.2-SNAPSHOT"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -26,7 +26,7 @@ microservice-chart:
     create: true
     type: ClusterIP
     ports:
-     - 8080
+      - 8080
   ingress:
     create: true
     host: "weudev.aca.internal.dev.platform.pagopa.it"
@@ -34,9 +34,9 @@ microservice-chart:
     servicePort: 8080
   serviceAccount:
     create: false
-    annotations: { }
+    annotations: {}
     name: ""
-  podAnnotations: { }
+  podAnnotations: {}
   podSecurityContext:
     seccompProfile:
       type: RuntimeDefault
@@ -69,8 +69,8 @@ microservice-chart:
   keyvault:
     name: "pagopa-d-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: { }
-  tolerations: [ ]
+  nodeSelector: {}
+  tolerations: []
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -84,4 +84,3 @@ microservice-chart:
     deployment:
       image:
         tag: ""
-
