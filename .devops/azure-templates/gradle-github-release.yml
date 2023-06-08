@@ -56,6 +56,7 @@ steps:
         inputs:
           tasks: 'help'
           options: 'incrementVersion --versionIncrementType=${{ parameters.semver }}'
+          jdkVersionOption: '1.17'
       - task: Bash@3
         name: next_version_app
         displayName: 'Set release variables'
