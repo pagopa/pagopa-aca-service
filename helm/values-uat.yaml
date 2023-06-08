@@ -83,7 +83,7 @@ microservice-chart:
   envConfig:
     DEFAULT_LOGGING_LEVEL: "info"
     APP_LOGGING_LEVEL: "info"
-    WEB_LOGGING_LEVEL: "none"
+    WEB_LOGGING_LEVEL: "off"
   envSecret: {}
   keyvault:
     name: "pagopa-u-aca-kv"
