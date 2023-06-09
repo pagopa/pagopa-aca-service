@@ -35,7 +35,7 @@
 		{
 			"key": "API_SUBSCRIPTION_KEY",
 			"value": "default-key",
-			"type": "default-key",
+			"type": "secret",
 			"enabled": true
 		}
 	],
