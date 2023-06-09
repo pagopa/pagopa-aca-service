@@ -34,6 +34,8 @@ dependencyManagement {
   imports { mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4") }
 }
 
+val mockWebServerVersion = "4.11.0"
+
 dependencies {
   implementation("io.projectreactor:reactor-core")
   implementation("io.projectreactor.netty:reactor-netty")
@@ -53,6 +55,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-aop")
   implementation("io.netty:netty-resolver-dns-native-macos:4.1.90.Final")
   implementation("com.diffplug.spotless:spotless-plugin-gradle:6.18.0")
+  implementation("javax.annotation:javax.annotation-api:1.3.2")
   // Kotlin dependencies
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -67,6 +70,8 @@ dependencies {
   // Kotlin dependencies
   testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
   testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+  testImplementation("com.squareup.okhttp3:mockwebserver:$mockWebServerVersion")
+  testImplementation("com.squareup.okhttp3:okhttp:$mockWebServerVersion")
 }
 
 configurations {
@@ -81,6 +86,7 @@ dependencyLocking { lockAllConfigurations() }
 
 sourceSets {
   main {
+    java { srcDirs("$buildDir/generated/src/main/java") }
     kotlin { srcDirs("src/main/kotlin", "$buildDir/generated/src/main/kotlin") }
     resources { srcDirs("src/resources") }
   }
@@ -125,8 +131,40 @@ tasks.register("aca", GenerateTask::class.java) {
   )
 }
 
+// Api Config client code generation
+tasks.register("apiConfigAPI", GenerateTask::class.java) {
+  generatorName.set("java")
+  remoteInputSpec.set(
+    "https://raw.githubusercontent.com/pagopa/pagopa-api-config/PAGOPA-963-Nuove-Interfacce-iban-selfcare/openapi/openapi.json"
+  )
+  outputDir.set("$buildDir/generated")
+  apiPackage.set("it.pagopa.generated.apiconfig.api")
+  modelPackage.set("it.pagopa.generated.apiconfig.model")
+  generateApiTests.set(false)
+  generateApiDocumentation.set(false)
+  generateApiTests.set(false)
+  generateModelTests.set(false)
+  library.set("webclient")
+  modelNameSuffix.set("Dto")
+  configOptions.set(
+    mapOf(
+      "swaggerAnnotations" to "false",
+      "openApiNullable" to "true",
+      "interfaceOnly" to "true",
+      "hideGenerationTimestamp" to "true",
+      "skipDefaultInterface" to "true",
+      "useSwaggerUI" to "false",
+      "reactive" to "true",
+      "useSpringBoot3" to "true",
+      "oas3" to "true",
+      "generateSupportingFiles" to "true",
+      "enumPropertyNaming" to "UPPERCASE"
+    )
+  )
+}
+
 tasks.withType<KotlinCompile> {
-  dependsOn("aca")
+  dependsOn("aca", "apiConfigAPI")
   kotlinOptions.jvmTarget = "17"
 }
 
