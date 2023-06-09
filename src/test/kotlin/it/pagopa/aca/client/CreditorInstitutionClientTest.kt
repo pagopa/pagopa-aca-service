@@ -2,9 +2,11 @@ package it.pagopa.aca.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
-import it.pagopa.aca.creditorInstitutionResponseBody
 import it.pagopa.aca.exceptions.ApiConfigException
+import it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi
+import java.nio.charset.StandardCharsets
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -15,14 +17,20 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.kotlin.given
+import org.mockito.kotlin.mock
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.web.reactive.function.client.WebClientResponseException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreditorInstitutionClientTest {
 
     companion object {
 
-        val creditorInstitutionCode = "123456"
+        const val creditorInstitutionCode = "123456"
+
+        const val requestId = "requestId"
 
         lateinit var mockWebServer: MockWebServer
 
@@ -94,7 +102,7 @@ class CreditorInstitutionClientTest {
     @Test
     fun `Should retrieve creditor institution iban successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = creditorInstitutionResponseBody()
+        val mockedResponse = AcaTestUtils.creditorInstitutionResponseBody()
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
@@ -103,7 +111,7 @@ class CreditorInstitutionClientTest {
         )
         // test
         val (iban, companyName) =
-            creditorInstitutionClient.getIban(creditorInstitutionCode, "requestId")
+            creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
         // assertions
         assertEquals(mockedResponse.ibans[0].iban, iban)
         assertEquals(mockedResponse.ibans[0].companyName, companyName)
@@ -126,9 +134,43 @@ class CreditorInstitutionClientTest {
         // test
         val exception =
             assertThrows<ApiConfigException> {
-                creditorInstitutionClient.getIban(creditorInstitutionCode, "requestId")
+                creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
             }
         assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
         assertEquals(expectedDescription, exception.toRestException().description)
+    }
+
+    @Test
+    fun `Should handle exception invoking api config`() = runTest {
+        // pre-conditions
+        val creditorInstitutionsApi = mock<CreditorInstitutionsApi>()
+        val creditorInstitutionClient = CreditorInstitutionClient(creditorInstitutionsApi)
+        val httpErrorStatusCode = HttpStatus.CONFLICT
+        given(
+                creditorInstitutionsApi.getCreditorInstitutionsIbans(
+                    creditorInstitutionCode,
+                    requestId,
+                    "ACA"
+                )
+            )
+            .willThrow(
+                WebClientResponseException.create(
+                    httpErrorStatusCode.value(),
+                    "Test exception",
+                    HttpHeaders.EMPTY,
+                    ByteArray(0),
+                    StandardCharsets.UTF_8
+                )
+            )
+        // test
+        val exception =
+            assertThrows<ApiConfigException> {
+                creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
+            }
+        assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
+        assertEquals(
+            "Api config error: $httpErrorStatusCode",
+            exception.toRestException().description
+        )
     }
 }

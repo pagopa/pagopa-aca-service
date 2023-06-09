@@ -131,6 +131,38 @@ tasks.register("aca", GenerateTask::class.java) {
   )
 }
 
+// Api Config client code generation
+tasks.register("apiConfigAPI", GenerateTask::class.java) {
+  generatorName.set("java")
+  remoteInputSpec.set(
+    "https://raw.githubusercontent.com/pagopa/pagopa-api-config/PAGOPA-963-Nuove-Interfacce-iban-selfcare/openapi/openapi.json"
+  )
+  outputDir.set("$buildDir/generated")
+  apiPackage.set("it.pagopa.generated.apiconfig.api")
+  modelPackage.set("it.pagopa.generated.apiconfig.model")
+  generateApiTests.set(false)
+  generateApiDocumentation.set(false)
+  generateApiTests.set(false)
+  generateModelTests.set(false)
+  library.set("webclient")
+  modelNameSuffix.set("Dto")
+  configOptions.set(
+    mapOf(
+      "swaggerAnnotations" to "false",
+      "openApiNullable" to "true",
+      "interfaceOnly" to "true",
+      "hideGenerationTimestamp" to "true",
+      "skipDefaultInterface" to "true",
+      "useSwaggerUI" to "false",
+      "reactive" to "true",
+      "useSpringBoot3" to "true",
+      "oas3" to "true",
+      "generateSupportingFiles" to "true",
+      "enumPropertyNaming" to "UPPERCASE"
+    )
+  )
+}
+
 tasks.register("gpdAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(
@@ -162,37 +194,6 @@ tasks.register("gpdAPI", GenerateTask::class.java) {
   )
 }
 
-// Api Config URL
-tasks.register("apiConfigAPI", GenerateTask::class.java) {
-  generatorName.set("java")
-  remoteInputSpec.set(
-    "https://raw.githubusercontent.com/pagopa/pagopa-api-config/PAGOPA-963-Nuove-Interfacce-iban-selfcare/openapi/openapi.json"
-  )
-  outputDir.set("$buildDir/generated")
-  apiPackage.set("it.pagopa.generated.apiconfig.api")
-  modelPackage.set("it.pagopa.generated.apiconfig.model")
-  generateApiTests.set(false)
-  generateApiDocumentation.set(false)
-  generateApiTests.set(false)
-  generateModelTests.set(false)
-  library.set("webclient")
-  modelNameSuffix.set("Dto")
-  configOptions.set(
-    mapOf(
-      "swaggerAnnotations" to "false",
-      "openApiNullable" to "true",
-      "interfaceOnly" to "true",
-      "hideGenerationTimestamp" to "true",
-      "skipDefaultInterface" to "true",
-      "useSwaggerUI" to "false",
-      "reactive" to "true",
-      "useSpringBoot3" to "true",
-      "oas3" to "true",
-      "generateSupportingFiles" to "true",
-      "enumPropertyNaming" to "UPPERCASE"
-    )
-  )
-}
 
 tasks.withType<KotlinCompile> {
   dependsOn("aca", "apiConfigAPI", "gpdAPI")
