@@ -54,7 +54,7 @@ class WebClientConfig {
                     )
                 }
         val webClient =
-            it.pagopa.generated.apiconfig.ApiClient.buildWebClientBuilder()
+            it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
                 .clientConnector(ReactorClientHttpConnector(httpClient))
                 .baseUrl(baseUrl)
                 .build()
