@@ -37,4 +37,29 @@ class WebClientConfig {
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi(apiClient)
     }
+
+    @Bean(name = ["gpdClient"])
+    fun gpdClient(
+        @Value("\${gpd.uri}") baseUrl: String,
+        @Value("\${gpd.readTimeout}") readTimeout: Int,
+        @Value("\${gpd.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${gpd.apiKey}") apiKey: String
+    ): it.pagopa.generated.gpd.api.DebtPositionsApiApi {
+        val httpClient =
+            HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
+                .doOnConnected { connection: Connection ->
+                    connection.addHandlerLast(
+                        ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
+                    )
+                }
+        val webClient =
+            it.pagopa.generated.apiconfig.ApiClient.buildWebClientBuilder()
+                .clientConnector(ReactorClientHttpConnector(httpClient))
+                .baseUrl(baseUrl)
+                .build()
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
+        apiClient.setApiKey(apiKey)
+        return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
+    }
 }
