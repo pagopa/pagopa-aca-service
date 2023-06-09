@@ -18,7 +18,7 @@ class WebClientConfig {
         @Value("\${apiConfig.creditorInstitutions.uri}") baseUrl: String,
         @Value("\${apiConfig.creditorInstitutions.readTimeout}") readTimeout: Int,
         @Value("\${apiConfig.creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${apiConfig.apiConfig.creditorInstitutions.apiKey}") apiKey: String
+        @Value("\${apiConfig.creditorInstitutions.apiKey}") apiKey: String
     ): it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi {
         val httpClient =
             HttpClient.create()
@@ -40,10 +40,10 @@ class WebClientConfig {
 
     @Bean(name = ["gpdClient"])
     fun gpdClient(
-        @Value("\${gpd.uri}") baseUrl: String,
-        @Value("\${gpd.readTimeout}") readTimeout: Int,
-        @Value("\${gpd.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${gpd.apiKey}") apiKey: String
+        @Value("\${gpd.debitPosition.uri}") baseUrl: String,
+        @Value("\${gpd.debitPosition.readTimeout}") readTimeout: Int,
+        @Value("\${gpd.debitPosition.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${gpd.debitPosition.apiKey}") apiKey: String
     ): it.pagopa.generated.gpd.api.DebtPositionsApiApi {
         val httpClient =
             HttpClient.create()
