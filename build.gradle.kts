@@ -194,7 +194,6 @@ tasks.register("gpdAPI", GenerateTask::class.java) {
   )
 }
 
-
 tasks.withType<KotlinCompile> {
   dependsOn("aca", "apiConfigAPI", "gpdAPI")
   kotlinOptions.jvmTarget = "17"
