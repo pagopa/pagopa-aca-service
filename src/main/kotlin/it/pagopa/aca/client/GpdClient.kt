@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono
 
 @Component
-class GpdClient(@Autowired @Qualifier("gpdClient") private val client: DebtPositionsApiApi) {
+class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPositionsApiApi) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 

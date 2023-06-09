@@ -90,7 +90,7 @@ class CreditorInstitutionClientTest {
 
     private val creditorInstitutionsApi =
         WebClientConfig()
-            .creditorInstitutionsClient(
+            .creditorInstitutionClient(
                 baseUrl = "http://${mockWebServer.hostName}:${mockWebServer.port}",
                 apiKey = "apiKey",
                 connectionTimeout = 1000,

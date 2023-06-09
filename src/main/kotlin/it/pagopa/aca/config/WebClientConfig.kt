@@ -13,8 +13,8 @@ import reactor.netty.http.client.HttpClient
 @Configuration
 class WebClientConfig {
 
-    @Bean(name = ["creditorInstitutionsClient"])
-    fun creditorInstitutionsClient(
+    @Bean(name = ["creditorInstitutionClientApiClient"])
+    fun creditorInstitutionClient(
         @Value("\${apiConfig.creditorInstitutions.uri}") baseUrl: String,
         @Value("\${apiConfig.creditorInstitutions.readTimeout}") readTimeout: Int,
         @Value("\${apiConfig.creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
@@ -38,7 +38,7 @@ class WebClientConfig {
         return it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi(apiClient)
     }
 
-    @Bean(name = ["gpdClient"])
+    @Bean(name = ["gpdApiClient"])
     fun gpdClient(
         @Value("\${gpd.debitPosition.uri}") baseUrl: String,
         @Value("\${gpd.debitPosition.readTimeout}") readTimeout: Int,
