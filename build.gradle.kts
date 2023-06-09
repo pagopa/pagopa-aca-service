@@ -131,7 +131,7 @@ tasks.register("aca", GenerateTask::class.java) {
   )
 }
 
-// Api Config URL
+// Api Config client code generation
 tasks.register("apiConfigAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(

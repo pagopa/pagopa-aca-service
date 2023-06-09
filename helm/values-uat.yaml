@@ -20,7 +20,11 @@ microservice-chart:
       DEFAULT_LOGGING_LEVEL: "debug"
       APP_LOGGING_LEVEL: "debug"
       WEB_LOGGING_LEVEL: "debug"
-    envSecret: {}
+      API_CONFIG_CREDITOR_INSTITUTIONS_URI: "http://localhost" #TODO set here the api config uri
+      API_CONFIG_CREDITOR_INSTITUTIONS_READ_TIMEOUT: "10000"
+      API_CONFIG_CREDITOR_INSTITUTIONS_CONNECTION_TIMEOUT: "10000"
+    envSecret:
+      API_CONFIG_CREDITOR_INSTITUTIONS_API_KEY: api-config-api-key
   image:
     repository: pagopaucommonacr.azurecr.io/pagopaacaservice
     tag: "0.0.3"
@@ -53,9 +57,9 @@ microservice-chart:
     servicePort: 8080
   serviceAccount:
     create: false
-    annotations: {}
+    annotations: { }
     name: ""
-  podAnnotations: {}
+  podAnnotations: { }
   podSecurityContext:
     seccompProfile:
       type: RuntimeDefault
@@ -84,12 +88,16 @@ microservice-chart:
     DEFAULT_LOGGING_LEVEL: "info"
     APP_LOGGING_LEVEL: "info"
     WEB_LOGGING_LEVEL: "off"
-  envSecret: {}
+    API_CONFIG_CREDITOR_INSTITUTIONS_URI: "http://localhost" #TODO set here the api config uri
+    API_CONFIG_CREDITOR_INSTITUTIONS_READ_TIMEOUT: "10000"
+    API_CONFIG_CREDITOR_INSTITUTIONS_CONNECTION_TIMEOUT: "10000"
+  envSecret:
+    API_CONFIG_CREDITOR_INSTITUTIONS_API_KEY: api-config-api-key
   keyvault:
     name: "pagopa-u-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: {}
-  tolerations: []
+  nodeSelector: { }
+  tolerations: [ ]
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:

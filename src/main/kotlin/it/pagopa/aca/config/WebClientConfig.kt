@@ -15,10 +15,10 @@ class WebClientConfig {
 
     @Bean(name = ["creditorInstitutionsClient"])
     fun creditorInstitutionsClient(
-        @Value("\${creditorInstitutions.uri}") baseUrl: String,
-        @Value("\${creditorInstitutions.readTimeout}") readTimeout: Int,
-        @Value("\${creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${creditorInstitutions.apiKey}") apiKey: String
+        @Value("\${apiConfig.creditorInstitutions.uri}") baseUrl: String,
+        @Value("\${apiConfig.creditorInstitutions.readTimeout}") readTimeout: Int,
+        @Value("\${apiConfig.creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${apiConfig.apiConfig.creditorInstitutions.apiKey}") apiKey: String
     ): it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi {
         val httpClient =
             HttpClient.create()
