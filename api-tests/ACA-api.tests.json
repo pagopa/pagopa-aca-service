@@ -32,7 +32,7 @@
 					{
 						"key": "Ocp-Apim-Subscription-Key",
 						"value": "{{API_SUBSCRIPTION_KEY}}",
-						"type": "text"
+						"type": "secret"
 					}
 				],
 				"body": {
