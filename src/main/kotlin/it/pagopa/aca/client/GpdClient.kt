@@ -1,6 +1,5 @@
 package it.pagopa.aca.client
 
-import it.pagopa.aca.exceptions.ApiConfigException
 import it.pagopa.aca.exceptions.GpdException
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
@@ -39,19 +38,19 @@ class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPo
                 )
                 when (it.statusCode) {
                     HttpStatus.UNAUTHORIZED ->
-                        ApiConfigException(
+                        GpdException(
                             description = "Error while call gpd unauthorized request",
                             httpStatusCode = HttpStatus.UNAUTHORIZED
                         )
                     HttpStatus.NOT_FOUND ->
-                        ApiConfigException(
+                        GpdException(
                             description =
                                 "No debt position found with Creditor institution code: $creditorInstitutionCode and iupd: $iupd",
                             httpStatusCode = HttpStatus.NOT_FOUND
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
-                        ApiConfigException(
-                            description = "Internal server error",
+                        GpdException(
+                            description = "Bad gateway, error while execute request",
                             httpStatusCode = HttpStatus.BAD_GATEWAY
                         )
                     else ->
@@ -84,24 +83,24 @@ class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPo
                 )
                 when (it.statusCode) {
                     HttpStatus.BAD_REQUEST ->
-                        ApiConfigException(
+                        GpdException(
                             description = "Bad request",
                             httpStatusCode = HttpStatus.BAD_REQUEST
                         )
                     HttpStatus.UNAUTHORIZED ->
-                        ApiConfigException(
+                        GpdException(
                             description = "Error while call gpd unauthorized request",
                             httpStatusCode = HttpStatus.UNAUTHORIZED
                         )
                     HttpStatus.CONFLICT ->
-                        ApiConfigException(
+                        GpdException(
                             description =
                                 "Error while create new debit position conflict into request",
                             httpStatusCode = HttpStatus.CONFLICT
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
-                        ApiConfigException(
-                            description = "Internal server error",
+                        GpdException(
+                            description = "Bad gateway, error while execute request",
                             httpStatusCode = HttpStatus.BAD_GATEWAY
                         )
                     else ->
@@ -135,30 +134,30 @@ class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPo
                 )
                 when (it.statusCode) {
                     HttpStatus.BAD_REQUEST ->
-                        ApiConfigException(
+                        GpdException(
                             description = "Bad request",
                             httpStatusCode = HttpStatus.BAD_REQUEST
                         )
                     HttpStatus.UNAUTHORIZED ->
-                        ApiConfigException(
+                        GpdException(
                             description = "Error while call gpd unauthorized request",
                             httpStatusCode = HttpStatus.UNAUTHORIZED
                         )
                     HttpStatus.NOT_FOUND ->
-                        ApiConfigException(
+                        GpdException(
                             description =
                                 "No debt position found with Creditor institution code: $creditorInstitutionCode and iupd: $iupd",
                             httpStatusCode = HttpStatus.NOT_FOUND
                         )
                     HttpStatus.CONFLICT ->
-                        ApiConfigException(
+                        GpdException(
                             description =
                                 "Error while create new debit position conflict into request",
                             httpStatusCode = HttpStatus.CONFLICT
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
-                        ApiConfigException(
-                            description = "Internal server error",
+                        GpdException(
+                            description = "Bad gateway, error while execute request",
                             httpStatusCode = HttpStatus.BAD_GATEWAY
                         )
                     else ->
