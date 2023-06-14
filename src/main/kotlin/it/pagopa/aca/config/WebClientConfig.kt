@@ -13,12 +13,12 @@ import reactor.netty.http.client.HttpClient
 @Configuration
 class WebClientConfig {
 
-    @Bean(name = ["creditorInstitutionsClient"])
-    fun creditorInstitutionsClient(
+    @Bean(name = ["creditorInstitutionClientApiClient"])
+    fun creditorInstitutionClient(
         @Value("\${apiConfig.creditorInstitutions.uri}") baseUrl: String,
         @Value("\${apiConfig.creditorInstitutions.readTimeout}") readTimeout: Int,
         @Value("\${apiConfig.creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${apiConfig.apiConfig.creditorInstitutions.apiKey}") apiKey: String
+        @Value("\${apiConfig.creditorInstitutions.apiKey}") apiKey: String
     ): it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi {
         val httpClient =
             HttpClient.create()
@@ -36,5 +36,30 @@ class WebClientConfig {
         val apiClient = it.pagopa.generated.apiconfig.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi(apiClient)
+    }
+
+    @Bean(name = ["gpdApiClient"])
+    fun gpdClient(
+        @Value("\${gpd.debitPosition.uri}") baseUrl: String,
+        @Value("\${gpd.debitPosition.readTimeout}") readTimeout: Int,
+        @Value("\${gpd.debitPosition.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${gpd.debitPosition.apiKey}") apiKey: String
+    ): it.pagopa.generated.gpd.api.DebtPositionsApiApi {
+        val httpClient =
+            HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
+                .doOnConnected { connection: Connection ->
+                    connection.addHandlerLast(
+                        ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
+                    )
+                }
+        val webClient =
+            it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
+                .clientConnector(ReactorClientHttpConnector(httpClient))
+                .baseUrl(baseUrl)
+                .build()
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
+        apiClient.setApiKey(apiKey)
+        return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
     }
 }

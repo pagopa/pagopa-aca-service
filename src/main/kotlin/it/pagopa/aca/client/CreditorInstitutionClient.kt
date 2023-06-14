@@ -14,7 +14,9 @@ import reactor.core.publisher.Mono
 
 @Component
 class CreditorInstitutionClient(
-    @Autowired @Qualifier("creditorInstitutionsClient") private val client: CreditorInstitutionsApi
+    @Autowired
+    @Qualifier("creditorInstitutionClientApiClient")
+    private val client: CreditorInstitutionsApi
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)

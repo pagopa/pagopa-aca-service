@@ -1,6 +1,5 @@
 package it.pagopa.aca.config
 
-import it.pagopa.generated.apiconfig.auth.ApiKeyAuth
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
@@ -17,7 +16,7 @@ class WebClientConfigTest {
     @Test
     fun `Should build Api config client successfully`() {
         val creditorInstitutionsApi =
-            webClientConfig.creditorInstitutionsClient(
+            webClientConfig.creditorInstitutionClient(
                 baseUrl = baseUrl,
                 apiKey = apiKey,
                 readTimeout = readTimeout,
@@ -25,7 +24,22 @@ class WebClientConfigTest {
             )
         val authKey = creditorInstitutionsApi.apiClient.getAuthentication("ApiKey")
         assertNotNull(authKey)
-        assertEquals(apiKey, (authKey as ApiKeyAuth).apiKey)
+        assertEquals(apiKey, (authKey as it.pagopa.generated.apiconfig.auth.ApiKeyAuth).apiKey)
         assertEquals(baseUrl, creditorInstitutionsApi.apiClient.basePath)
+    }
+
+    @Test
+    fun `Should build Gpd client successfully`() {
+        val gpdApi =
+            webClientConfig.gpdClient(
+                baseUrl = baseUrl,
+                apiKey = apiKey,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout
+            )
+        val authKey = gpdApi.apiClient.getAuthentication("ApiKey")
+        assertNotNull(authKey)
+        assertEquals(apiKey, (authKey as it.pagopa.generated.gpd.auth.ApiKeyAuth).apiKey)
+        assertEquals(baseUrl, gpdApi.apiClient.basePath)
     }
 }

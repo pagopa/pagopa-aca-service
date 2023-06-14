@@ -68,8 +68,12 @@ microservice-chart:
     API_CONFIG_CREDITOR_INSTITUTIONS_URI: "http://localhost" #TODO set here the api config uri
     API_CONFIG_CREDITOR_INSTITUTIONS_READ_TIMEOUT: "10000"
     API_CONFIG_CREDITOR_INSTITUTIONS_CONNECTION_TIMEOUT: "10000"
+    GPD_DEBIT_POSITION_URI: "http://localhost"
+    GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
+    GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
   envSecret:
     API_CONFIG_CREDITOR_INSTITUTIONS_API_KEY: api-config-api-key
+    GPD_DEBIT_POSITION_API_KEY: gpd-api-key
   keyvault:
     name: "pagopa-d-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"

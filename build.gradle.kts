@@ -163,8 +163,39 @@ tasks.register("apiConfigAPI", GenerateTask::class.java) {
   )
 }
 
+tasks.register("gpdAPI", GenerateTask::class.java) {
+  generatorName.set("java")
+  remoteInputSpec.set(
+    "https://raw.githubusercontent.com/pagopa/pagopa-debt-position/main/gpd/openapi/openapi_internal.json"
+  )
+  outputDir.set("$buildDir/generated")
+  apiPackage.set("it.pagopa.generated.gpd.api")
+  modelPackage.set("it.pagopa.generated.gpd.model")
+  generateApiTests.set(false)
+  generateApiDocumentation.set(false)
+  generateApiTests.set(false)
+  generateModelTests.set(false)
+  library.set("webclient")
+  modelNameSuffix.set("Dto")
+  configOptions.set(
+    mapOf(
+      "swaggerAnnotations" to "false",
+      "openApiNullable" to "true",
+      "interfaceOnly" to "true",
+      "hideGenerationTimestamp" to "true",
+      "skipDefaultInterface" to "true",
+      "useSwaggerUI" to "false",
+      "reactive" to "true",
+      "useSpringBoot3" to "true",
+      "oas3" to "true",
+      "generateSupportingFiles" to "true",
+      "enumPropertyNaming" to "UPPERCASE"
+    )
+  )
+}
+
 tasks.withType<KotlinCompile> {
-  dependsOn("aca", "apiConfigAPI")
+  dependsOn("aca", "apiConfigAPI", "gpdAPI")
   kotlinOptions.jvmTarget = "17"
 }
 
