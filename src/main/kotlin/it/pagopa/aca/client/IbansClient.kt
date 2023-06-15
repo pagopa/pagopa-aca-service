@@ -1,8 +1,8 @@
 package it.pagopa.aca.client
 
 import it.pagopa.aca.exceptions.ApiConfigException
-import it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi
-import it.pagopa.generated.apiconfig.model.IbansDto
+import it.pagopa.generated.apiconfig.api.IbansApi
+import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
 import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,11 +13,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono
 
 @Component
-class CreditorInstitutionClient(
-    @Autowired
-    @Qualifier("creditorInstitutionClientApiClient")
-    private val client: CreditorInstitutionsApi
-) {
+class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: IbansApi) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -25,13 +21,13 @@ class CreditorInstitutionClient(
         const val CREDITOR_INSTITUTION_LABEL = "ACA"
     }
 
-    suspend fun getIban(creditorInstitutionCode: String, requestId: String): Pair<String, String> {
-        val response: Mono<IbansDto> =
+    suspend fun getIban(creditorInstitutionCode: String, requestId: String): Pair<String, String?> {
+        val response: Mono<IbansEnhancedDto> =
             try {
                 logger.info(
                     "Querying api config to retrieve iban for creditorInstitutionCode: $creditorInstitutionCode, request id: $requestId"
                 )
-                client.getCreditorInstitutionsIbans(
+                client.getCreditorInstitutionsIbansEnhanced(
                     creditorInstitutionCode,
                     requestId,
                     CREDITOR_INSTITUTION_LABEL
@@ -42,7 +38,7 @@ class CreditorInstitutionClient(
         return response
             .map {
                 // TODO here we have to just take the first returned IbanDto object?
-                val ibanDto = it.ibans[0]
+                val ibanDto = it.ibansEnhanced[0]
                 Pair(ibanDto.iban, ibanDto.companyName)
             }
             .onErrorMap(WebClientResponseException::class.java) {
@@ -63,7 +59,7 @@ class CreditorInstitutionClient(
                     HttpStatus.FORBIDDEN ->
                         ApiConfigException(
                             description =
-                                "Bad gateway, api config forbidden getCreditorInstitutionsIbans method",
+                                "Bad gateway, api config forbidden getCreditorInstitutionsIbansEnhanced method",
                             httpStatusCode = HttpStatus.BAD_GATEWAY
                         )
                     HttpStatus.NOT_FOUND ->

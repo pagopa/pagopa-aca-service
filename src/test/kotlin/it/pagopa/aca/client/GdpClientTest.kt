@@ -142,8 +142,11 @@ class GdpClientTest {
         // test
         val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value())
         // assertions
-        Assertions.assertEquals(mockedResponse.iupd, iupd.value())
-        Assertions.assertEquals(mockedResponse.organizationFiscalCode, creditorInstitutionCode)
+        Assertions.assertEquals(mockedResponse.iupd, response.iupd)
+        Assertions.assertEquals(
+            mockedResponse.organizationFiscalCode,
+            response.organizationFiscalCode
+        )
     }
 
     @ParameterizedTest

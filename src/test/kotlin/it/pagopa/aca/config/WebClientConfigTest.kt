@@ -16,7 +16,7 @@ class WebClientConfigTest {
     @Test
     fun `Should build Api config client successfully`() {
         val creditorInstitutionsApi =
-            webClientConfig.creditorInstitutionClient(
+            webClientConfig.ibansApiClient(
                 baseUrl = baseUrl,
                 apiKey = apiKey,
                 readTimeout = readTimeout,

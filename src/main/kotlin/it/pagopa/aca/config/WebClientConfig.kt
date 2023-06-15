@@ -13,13 +13,13 @@ import reactor.netty.http.client.HttpClient
 @Configuration
 class WebClientConfig {
 
-    @Bean(name = ["creditorInstitutionClientApiClient"])
-    fun creditorInstitutionClient(
-        @Value("\${apiConfig.creditorInstitutions.uri}") baseUrl: String,
-        @Value("\${apiConfig.creditorInstitutions.readTimeout}") readTimeout: Int,
-        @Value("\${apiConfig.creditorInstitutions.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${apiConfig.creditorInstitutions.apiKey}") apiKey: String
-    ): it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi {
+    @Bean(name = ["ibansApiClient"])
+    fun ibansApiClient(
+        @Value("\${apiConfig.ibans.uri}") baseUrl: String,
+        @Value("\${apiConfig.ibans.readTimeout}") readTimeout: Int,
+        @Value("\${apiConfig.ibans.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${apiConfig.ibans.apiKey}") apiKey: String
+    ): it.pagopa.generated.apiconfig.api.IbansApi {
         val httpClient =
             HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
@@ -35,7 +35,7 @@ class WebClientConfig {
                 .build()
         val apiClient = it.pagopa.generated.apiconfig.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
-        return it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi(apiClient)
+        return it.pagopa.generated.apiconfig.api.IbansApi(apiClient)
     }
 
     @Bean(name = ["gpdApiClient"])
