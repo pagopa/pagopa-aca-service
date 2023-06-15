@@ -5,7 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.exceptions.ApiConfigException
-import it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi
+import it.pagopa.generated.apiconfig.api.IbansApi
 import java.nio.charset.StandardCharsets
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClientResponseException
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CreditorInstitutionClientTest {
+class IbansClientTest {
 
     companion object {
 
@@ -63,7 +63,7 @@ class CreditorInstitutionClientTest {
                 Arguments.of(
                     HttpStatus.FORBIDDEN,
                     HttpStatus.BAD_GATEWAY,
-                    "Bad gateway, api config forbidden getCreditorInstitutionsIbans method"
+                    "Bad gateway, api config forbidden getCreditorInstitutionsIbansEnhanced method"
                 ),
                 Arguments.of(
                     HttpStatus.NOT_FOUND,
@@ -90,14 +90,14 @@ class CreditorInstitutionClientTest {
 
     private val creditorInstitutionsApi =
         WebClientConfig()
-            .creditorInstitutionClient(
+            .ibansApiClient(
                 baseUrl = "http://${mockWebServer.hostName}:${mockWebServer.port}",
                 apiKey = "apiKey",
                 connectionTimeout = 1000,
                 readTimeout = 1000
             )
 
-    private val creditorInstitutionClient = CreditorInstitutionClient(creditorInstitutionsApi)
+    private val ibansClient = IbansClient(creditorInstitutionsApi)
 
     @Test
     fun `Should retrieve creditor institution iban successfully`() = runTest {
@@ -110,11 +110,10 @@ class CreditorInstitutionClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val (iban, companyName) =
-            creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
+        val (iban, companyName) = ibansClient.getIban(creditorInstitutionCode, requestId)
         // assertions
-        assertEquals(mockedResponse.ibans[0].iban, iban)
-        assertEquals(mockedResponse.ibans[0].companyName, companyName)
+        assertEquals(mockedResponse.ibansEnhanced[0].iban, iban)
+        assertEquals(mockedResponse.ibansEnhanced[0].companyName, companyName)
     }
 
     @ParameterizedTest
@@ -134,7 +133,7 @@ class CreditorInstitutionClientTest {
         // test
         val exception =
             assertThrows<ApiConfigException> {
-                creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
+                ibansClient.getIban(creditorInstitutionCode, requestId)
             }
         assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
         assertEquals(expectedDescription, exception.toRestException().description)
@@ -143,11 +142,11 @@ class CreditorInstitutionClientTest {
     @Test
     fun `Should handle exception invoking api config`() = runTest {
         // pre-conditions
-        val creditorInstitutionsApi = mock<CreditorInstitutionsApi>()
-        val creditorInstitutionClient = CreditorInstitutionClient(creditorInstitutionsApi)
+        val ibansApi = mock<IbansApi>()
+        val ibansClient = IbansClient(ibansApi)
         val httpErrorStatusCode = HttpStatus.CONFLICT
         given(
-                creditorInstitutionsApi.getCreditorInstitutionsIbans(
+                ibansApi.getCreditorInstitutionsIbansEnhanced(
                     creditorInstitutionCode,
                     requestId,
                     "ACA"
@@ -165,7 +164,7 @@ class CreditorInstitutionClientTest {
         // test
         val exception =
             assertThrows<ApiConfigException> {
-                creditorInstitutionClient.getIban(creditorInstitutionCode, requestId)
+                ibansClient.getIban(creditorInstitutionCode, requestId)
             }
         assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
         assertEquals(

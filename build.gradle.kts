@@ -135,7 +135,7 @@ tasks.register("aca", GenerateTask::class.java) {
 tasks.register("apiConfigAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(
-    "https://raw.githubusercontent.com/pagopa/pagopa-api-config/PAGOPA-963-Nuove-Interfacce-iban-selfcare/openapi/openapi.json"
+    "https://raw.githubusercontent.com/pagopa/pagopa-infra/main/src/domains/apiconfig-app/api/apiconfig-core/subkey/v1/_openapi.json.tpl"
   )
   outputDir.set("$buildDir/generated")
   apiPackage.set("it.pagopa.generated.apiconfig.api")

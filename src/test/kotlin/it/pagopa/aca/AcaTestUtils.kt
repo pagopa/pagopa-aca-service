@@ -2,9 +2,9 @@ package it.pagopa.aca
 
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.generated.aca.model.ProblemJsonDto
-import it.pagopa.generated.apiconfig.model.IbanDto
+import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
-import it.pagopa.generated.apiconfig.model.IbansDto
+import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
 import it.pagopa.generated.gpd.model.PaymentOptionModelResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
@@ -12,18 +12,16 @@ import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
 object AcaTestUtils {
-    fun creditorInstitutionResponseBody(): IbansDto =
-        IbansDto()
-            .ibans(
+    fun creditorInstitutionResponseBody(): IbansEnhancedDto =
+        IbansEnhancedDto()
+            .ibansEnhanced(
                 listOf(
-                    IbanDto("ciOwner", "companyName", 0L, OffsetDateTime.now())
+                    IbanEnhancedDto("ciOwner", "companyName", OffsetDateTime.now())
                         .description("ibanDtoDescription")
                         .isActive(true)
                         .iban("IT99C0222211111000000000000")
                         .addLabelsItem(
-                            IbanLabelDto()
-                                .description("IbanLabelDtoDescription")
-                                .name(IbanLabelDto.NameEnum.ACA)
+                            IbanLabelDto().description("IbanLabelDtoDescription").name("ACA")
                         )
                         .validityDate(OffsetDateTime.now())
                 )
