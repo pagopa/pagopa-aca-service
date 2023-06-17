@@ -42,4 +42,19 @@ class WebClientConfigTest {
         assertEquals(apiKey, (authKey as it.pagopa.generated.gpd.auth.ApiKeyAuth).apiKey)
         assertEquals(baseUrl, gpdApi.apiClient.basePath)
     }
+
+    @Test
+    fun `Should build Gpd client for invalidate successfully`() {
+        val gpdApi =
+            webClientConfig.gpdClientForInvalidate(
+                baseUrl = baseUrl,
+                apiKey = apiKey,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout
+            )
+        val authKey = gpdApi.apiClient.getAuthentication("ApiKey")
+        assertNotNull(authKey)
+        assertEquals(apiKey, (authKey as it.pagopa.generated.gpd.auth.ApiKeyAuth).apiKey)
+        assertEquals(baseUrl, gpdApi.apiClient.basePath)
+    }
 }

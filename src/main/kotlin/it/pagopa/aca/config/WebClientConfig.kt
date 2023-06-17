@@ -62,4 +62,29 @@ class WebClientConfig {
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
     }
+
+    @Bean(name = ["gpdApiClientForInvalidate"])
+    fun gpdClientForInvalidate(
+        @Value("\${gpd.debitPosition.uri}") baseUrl: String,
+        @Value("\${gpd.debitPosition.readTimeout}") readTimeout: Int,
+        @Value("\${gpd.debitPosition.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${gpd.debitPosition.apiKey}") apiKey: String
+    ): it.pagopa.generated.gpd.api.DebtPositionActionsApiApi {
+        val httpClient =
+            HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
+                .doOnConnected { connection: Connection ->
+                    connection.addHandlerLast(
+                        ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
+                    )
+                }
+        val webClient =
+            it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
+                .clientConnector(ReactorClientHttpConnector(httpClient))
+                .baseUrl(baseUrl)
+                .build()
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
+        apiClient.setApiKey(apiKey)
+        return it.pagopa.generated.gpd.api.DebtPositionActionsApiApi(apiClient)
+    }
 }
