@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  pagopa-wallet:
+  pagopa-aca:
     container_name: pagopa-aca
     build:
       dockerfile: Dockerfile
