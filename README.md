@@ -1,14 +1,14 @@
 # PagoPA ACA Service
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pagopa_pagopa-aca-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=pagopa_pagopa-ACA-service)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pagopa_pagopa-aca-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=pagopa_pagopa-aca-service)
 
 This microservice is responsible for keeping ACAs inside the PagoPA platform.
 
 - [PagoPA ACA Service](#pagopa-aca-service)
     * [Api Documentation 📖](#api-documentation-)
     * [Technology Stack](#technology-stack)
-    * [Start Project Locally 🚀](#start-project-locally-)
     * [Environment Variables 🛠️](#environment-variables-)
+    * [Start Project Locally 🚀](#start-project-locally-)
         + [Prerequisites](#prerequisites)
         + [Run docker container](#run-docker-container)
     * [Develop Locally 💻](#develop-locally-)
@@ -81,10 +81,7 @@ $ cp .env.example .env
 
 to get a good default configuration.
 
-If you want to customize the application environment, reference this table:
-
-| Variable name | Description | type | default |
-|---------------|-------------|------|---------|
+If you want to customize the application environment, reference [this table](#environment-variables-)
 
 ### Run docker container
 
