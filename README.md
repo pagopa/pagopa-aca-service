@@ -4,11 +4,11 @@
 
 This microservice is responsible for keeping ACAs inside the PagoPA platform.
 
-
 - [PagoPA ACA Service](#pagopa-aca-service)
     * [Api Documentation 📖](#api-documentation-)
     * [Technology Stack](#technology-stack)
     * [Start Project Locally 🚀](#start-project-locally-)
+    * [Environment Variables 🛠️](#environment-variables-)
         + [Prerequisites](#prerequisites)
         + [Run docker container](#run-docker-container)
     * [Develop Locally 💻](#develop-locally-)
@@ -43,6 +43,26 @@ the [OpenAPI 3 here.](https://editor.swagger.io/?url=https://raw.githubuserconte
 
 ---
 
+## Environment variables 🛠️
+
+There are all environment variables required by the application:
+
+| Variable name                         | Description                                | Type    | Default Value |
+|---------------------------------------|--------------------------------------------|---------|---------------|
+| DEFAULT_LOGGING_LEVEL                 | Root logger logging level                  | String  | INFO          |
+| APP_LOGGING_LEVEL                     | Application logging level                  | String  | INFO          |
+| WEB_LOGGING_LEVEL                     | Web logging level                          | String  | INFO          |
+| API_CONFIG_IBANS_URI                  | ApiConfig "Ibans" URI base path            | String  |               |
+| API_CONFIG_IBANS_READ_TIMEOUT         | ApiConfig "Ibans" HTTP read timeout        | Integer |               |
+| API_CONFIG_IBANS_CONNECTION_TIMEOUT   | ApiConfig "Ibans" HTTP connection timeout  | Integer |               |
+| API_CONFIG_IBANS_API_KEY              | ApiConfig "Ibans" API key                  | String  |               |
+| GPD_DEBIT_POSITION_URI                | GPD Debit Position URI base path           | String  |               | 
+| GPD_DEBIT_POSITION_READ_TIMEOUT       | GPD Debit Position HTTP read timeout       | Integer |               |
+| GPD_DEBIT_POSITION_CONNECTION_TIMEOUT | GPD Debit Position HTTP connection timeout | Integer |               |
+| GPD_DEBIT_POSITION_API_KEY            | GPD Debit Position API key                 | String  |               |
+
+---
+
 ## Start Project Locally 🚀
 
 ### Prerequisites
@@ -63,8 +83,8 @@ to get a good default configuration.
 
 If you want to customize the application environment, reference this table:
 
-| Variable name                  | Description                                                       | type              | default |
-|--------------------------------|-------------------------------------------------------------------|-------------------|---------|
+| Variable name | Description | type | default |
+|---------------|-------------|------|---------|
 
 ### Run docker container
 
@@ -214,6 +234,7 @@ Finally, you can add new dependencies both to gradle.lockfile writing verificati
 ```shell
  ./gradlew dependencies --write-locks --write-verification-metadata sha256
 ```
+
 For more information read the
 following [article](https://docs.gradle.org/8.1/userguide/dependency_verification.html#sec:checksum-verification)
 
