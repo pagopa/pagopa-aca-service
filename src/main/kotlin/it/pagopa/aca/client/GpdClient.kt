@@ -18,8 +18,8 @@ import reactor.core.publisher.Mono
 class GpdClient(
     @Autowired @Qualifier("gpdApiClient") private val client: DebtPositionsApiApi,
     @Autowired
-    @Qualifier("gpdApiClientForInvalidate")
-    private val clientForInvalidate: DebtPositionActionsApiApi
+    @Qualifier("gpdApiClientActions")
+    private val clientForActions: DebtPositionActionsApiApi
 ) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -183,7 +183,7 @@ class GpdClient(
         val response: Mono<PaymentPositionModelDto> =
             try {
                 logger.info("Querying gpd to invalidate debt position with iupd: $iupd")
-                clientForInvalidate.invalidatePosition(creditorInstitutionCode, iupd)
+                clientForActions.invalidatePosition(creditorInstitutionCode, iupd)
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }

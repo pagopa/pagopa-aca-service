@@ -63,7 +63,7 @@ class WebClientConfig {
         return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
     }
 
-    @Bean(name = ["gpdApiClientForInvalidate"])
+    @Bean(name = ["gpdApiClientActions"])
     fun gpdClientForInvalidate(
         @Value("\${gpd.debitPosition.uri}") baseUrl: String,
         @Value("\${gpd.debitPosition.readTimeout}") readTimeout: Int,
