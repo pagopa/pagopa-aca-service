@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
+import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.Connection
 import reactor.netty.http.client.HttpClient
 
@@ -20,19 +21,13 @@ class WebClientConfig {
         @Value("\${apiConfig.ibans.connectionTimeout}") connectionTimeout: Int,
         @Value("\${apiConfig.ibans.apiKey}") apiKey: String
     ): it.pagopa.generated.apiconfig.api.IbansApi {
-        val httpClient =
-            HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
-                .doOnConnected { connection: Connection ->
-                    connection.addHandlerLast(
-                        ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
-                    )
-                }
         val webClient =
-            it.pagopa.generated.apiconfig.ApiClient.buildWebClientBuilder()
-                .clientConnector(ReactorClientHttpConnector(httpClient))
-                .baseUrl(baseUrl)
-                .build()
+            buildWebClient(
+                baseUrl = baseUrl,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout,
+                it.pagopa.generated.apiconfig.ApiClient.buildWebClientBuilder()
+            )
         val apiClient = it.pagopa.generated.apiconfig.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.apiconfig.api.IbansApi(apiClient)
@@ -45,19 +40,14 @@ class WebClientConfig {
         @Value("\${gpd.debitPosition.connectionTimeout}") connectionTimeout: Int,
         @Value("\${gpd.debitPosition.apiKey}") apiKey: String
     ): it.pagopa.generated.gpd.api.DebtPositionsApiApi {
-        val httpClient =
-            HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
-                .doOnConnected { connection: Connection ->
-                    connection.addHandlerLast(
-                        ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
-                    )
-                }
         val webClient =
-            it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
-                .clientConnector(ReactorClientHttpConnector(httpClient))
-                .baseUrl(baseUrl)
-                .build()
+            buildWebClient(
+                baseUrl = baseUrl,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout,
+                it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
+            )
+
         val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
@@ -70,6 +60,24 @@ class WebClientConfig {
         @Value("\${gpd.debitPosition.connectionTimeout}") connectionTimeout: Int,
         @Value("\${gpd.debitPosition.apiKey}") apiKey: String
     ): it.pagopa.generated.gpd.api.DebtPositionActionsApiApi {
+        val webClient =
+            buildWebClient(
+                baseUrl = baseUrl,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout,
+                it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
+            )
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
+        apiClient.setApiKey(apiKey)
+        return it.pagopa.generated.gpd.api.DebtPositionActionsApiApi(apiClient)
+    }
+
+    private fun buildWebClient(
+        baseUrl: String,
+        readTimeout: Int,
+        connectionTimeout: Int,
+        webClientBuilder: WebClient.Builder
+    ): WebClient {
         val httpClient =
             HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connectionTimeout)
@@ -78,13 +86,9 @@ class WebClientConfig {
                         ReadTimeoutHandler(readTimeout.toLong(), TimeUnit.MILLISECONDS)
                     )
                 }
-        val webClient =
-            it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
-                .clientConnector(ReactorClientHttpConnector(httpClient))
-                .baseUrl(baseUrl)
-                .build()
-        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
-        apiClient.setApiKey(apiKey)
-        return it.pagopa.generated.gpd.api.DebtPositionActionsApiApi(apiClient)
+        return webClientBuilder
+            .clientConnector(ReactorClientHttpConnector(httpClient))
+            .baseUrl(baseUrl)
+            .build()
     }
 }
