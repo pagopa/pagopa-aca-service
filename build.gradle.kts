@@ -166,7 +166,7 @@ tasks.register("apiConfigAPI", GenerateTask::class.java) {
 tasks.register("gpdAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(
-    "https://raw.githubusercontent.com/pagopa/pagopa-infra/fix-gpd-openapi/src/domains/gps-app/api/gpd_api/debt-position-services/v1/_openapi.json.tpl"
+    "https://raw.githubusercontent.com/pagopa/pagopa-infra/main/src/domains/gps-app/api/gpd_api/debt-position-services/v1/_openapi.json.tpl"
   )
   outputDir.set("$buildDir/generated")
   apiPackage.set("it.pagopa.generated.gpd.api")
