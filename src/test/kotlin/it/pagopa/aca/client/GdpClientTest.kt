@@ -6,6 +6,7 @@ import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.exceptions.GpdException
+import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import java.nio.charset.StandardCharsets
 import java.util.stream.Stream
@@ -116,6 +117,31 @@ class GdpClientTest {
                     "Bad gateway, error while execute request"
                 ),
             )
+
+        @JvmStatic
+        private fun errorsProviderInvalidateDebtPosition() =
+            Stream.of(
+                Arguments.of(
+                    HttpStatus.UNAUTHORIZED,
+                    HttpStatus.UNAUTHORIZED,
+                    "Error while call gpd unauthorized request"
+                ),
+                Arguments.of(
+                    HttpStatus.NOT_FOUND,
+                    HttpStatus.NOT_FOUND,
+                    "Error while invalidate debit position. Debit position not found with iupd: ${iupd.value()}"
+                ),
+                Arguments.of(
+                    HttpStatus.CONFLICT,
+                    HttpStatus.CONFLICT,
+                    "Error while invalidate debit position conflict into request",
+                ),
+                Arguments.of(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    HttpStatus.BAD_GATEWAY,
+                    "Bad gateway, error while execute request"
+                ),
+            )
     }
 
     private val gpdApi =
@@ -127,7 +153,15 @@ class GdpClientTest {
                 readTimeout = 1000
             )
 
-    private val gpdClient = GpdClient(gpdApi)
+    private val gpdApiForInvalidate =
+        WebClientConfig()
+            .gpdClientForInvalidate(
+                baseUrl = "http://${mockWebServer.hostName}:${mockWebServer.port}",
+                apiKey = "apiKey",
+                connectionTimeout = 1000,
+                readTimeout = 1000
+            )
+    private val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
 
     @Test
     fun `Should retrieve debit position successfully`() = runTest {
@@ -176,7 +210,8 @@ class GdpClientTest {
     fun `Should handle exception invoking get debit position`() = runTest {
         // pre-conditions
         val gpdApi = mock<DebtPositionsApiApi>()
-        val gpdClient = GpdClient(gpdApi)
+        val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
+        val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
         given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value()))
             .willThrow(
@@ -247,7 +282,8 @@ class GdpClientTest {
     fun `Should handle exception invoking post create debit position`() = runTest {
         // pre-conditions
         val gpdApi = mock<DebtPositionsApiApi>()
-        val gpdClient = GpdClient(gpdApi)
+        val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
+        val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.NOT_FOUND
         given(
                 gpdApi.createPosition(
@@ -329,7 +365,8 @@ class GdpClientTest {
     fun `Should handle exception invoking updated of debit position`() = runTest {
         // pre-conditions
         val gpdApi = mock<DebtPositionsApiApi>()
-        val gpdClient = GpdClient(gpdApi)
+        val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
+        val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
         given(
                 gpdApi.updatePosition(
@@ -356,6 +393,75 @@ class GdpClientTest {
                     iupd.value(),
                     AcaTestUtils.debitPositionRequestBody(iupd)
                 )
+            }
+        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
+        Assertions.assertEquals(
+            "Gpd error: $httpErrorStatusCode",
+            exception.toRestException().description
+        )
+    }
+
+    @Test
+    fun `Should invalidate debit position successfully`() = runTest {
+        // pre-conditions
+        val mockedResponse = AcaTestUtils.debitPositionResponseBody()
+        val mockedRequest = AcaTestUtils.debitPositionRequestBody(iupd)
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody(objectMapper.writeValueAsString(mockedResponse))
+                .setResponseCode(200)
+                .addHeader("Content-Type", "application/json")
+        )
+        // test
+        val response = gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
+        // assertions
+        Assertions.assertEquals(response.iupd, mockedRequest.iupd)
+    }
+
+    @ParameterizedTest
+    @MethodSource("errorsProviderInvalidateDebtPosition")
+    fun `Should handle invalidate debit position errors`(
+        godErrorCode: HttpStatus,
+        expectedStatusCode: HttpStatus,
+        expectedDescription: String
+    ) = runTest {
+        // pre-conditions
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody("{}")
+                .setResponseCode(godErrorCode.value())
+                .addHeader("Content-Type", "application/json")
+        )
+        // test
+        val exception =
+            assertThrows<GpdException> {
+                gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
+            }
+        Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
+        Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+    }
+
+    @Test
+    fun `Should handle exception invoking invalidate action of debit position`() = runTest {
+        // pre-conditions
+        val gpdApi = mock<DebtPositionsApiApi>()
+        val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
+        val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
+        val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
+        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value()))
+            .willThrow(
+                WebClientResponseException.create(
+                    httpErrorStatusCode.value(),
+                    "Test exception",
+                    HttpHeaders.EMPTY,
+                    ByteArray(0),
+                    StandardCharsets.UTF_8
+                )
+            )
+        // test
+        val exception =
+            assertThrows<GpdException> {
+                gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
             }
         Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
         Assertions.assertEquals(

@@ -1,6 +1,7 @@
 package it.pagopa.aca.client
 
 import it.pagopa.aca.exceptions.GpdException
+import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
@@ -14,7 +15,12 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono
 
 @Component
-class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPositionsApiApi) {
+class GpdClient(
+    @Autowired @Qualifier("gpdApiClient") private val client: DebtPositionsApiApi,
+    @Autowired
+    @Qualifier("gpdApiClientActions")
+    private val clientForActions: DebtPositionActionsApiApi
+) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -153,6 +159,55 @@ class GpdClient(@Autowired @Qualifier("gpdApiClient") private val client: DebtPo
                         GpdException(
                             description =
                                 "Error while create new debit position conflict into request",
+                            httpStatusCode = HttpStatus.CONFLICT
+                        )
+                    HttpStatus.INTERNAL_SERVER_ERROR ->
+                        GpdException(
+                            description = "Bad gateway, error while execute request",
+                            httpStatusCode = HttpStatus.BAD_GATEWAY
+                        )
+                    else ->
+                        GpdException(
+                            description = "Gpd error: ${it.statusCode}",
+                            httpStatusCode = HttpStatus.BAD_GATEWAY
+                        )
+                }
+            }
+            .awaitSingle()
+    }
+
+    suspend fun invalidateDebtPosition(
+        creditorInstitutionCode: String,
+        iupd: String
+    ): PaymentPositionModelDto {
+        val response: Mono<PaymentPositionModelDto> =
+            try {
+                logger.info("Querying gpd to invalidate debt position with iupd: $iupd")
+                clientForActions.invalidatePosition(creditorInstitutionCode, iupd)
+            } catch (e: WebClientResponseException) {
+                Mono.error(e)
+            }
+        return response
+            .onErrorMap(WebClientResponseException::class.java) {
+                logger.error(
+                    "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                )
+                when (it.statusCode) {
+                    HttpStatus.UNAUTHORIZED ->
+                        GpdException(
+                            description = "Error while call gpd unauthorized request",
+                            httpStatusCode = HttpStatus.UNAUTHORIZED
+                        )
+                    HttpStatus.NOT_FOUND ->
+                        GpdException(
+                            description =
+                                "Error while invalidate debit position. Debit position not found with iupd: $iupd",
+                            httpStatusCode = HttpStatus.NOT_FOUND
+                        )
+                    HttpStatus.CONFLICT ->
+                        GpdException(
+                            description =
+                                "Error while invalidate debit position conflict into request",
                             httpStatusCode = HttpStatus.CONFLICT
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
