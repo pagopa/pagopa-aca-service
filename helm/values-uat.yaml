@@ -31,7 +31,7 @@ microservice-chart:
       GPD_DEBIT_POSITION_API_KEY: gpd-api-key
   image:
     repository: pagopaucommonacr.azurecr.io/pagopaacaservice
-    tag: "0.0.4"
+    tag: "0.0.5"
     pullPolicy: Always
   livenessProbe:
     httpGet:
