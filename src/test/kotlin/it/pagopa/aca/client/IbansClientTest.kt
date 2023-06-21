@@ -110,7 +110,7 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val (iban, companyName) = ibansClient.getIban(creditorInstitutionCode, requestId)
+        val (iban, companyName) = ibansClient.getIban(creditorInstitutionCode, requestId).block()!!
         // assertions
         assertEquals(mockedResponse.ibansEnhanced[0].iban, iban)
         assertEquals(mockedResponse.ibansEnhanced[0].companyName, companyName)
@@ -133,7 +133,7 @@ class IbansClientTest {
         // test
         val exception =
             assertThrows<ApiConfigException> {
-                ibansClient.getIban(creditorInstitutionCode, requestId)
+                ibansClient.getIban(creditorInstitutionCode, requestId).block()
             }
         assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
         assertEquals(expectedDescription, exception.toRestException().description)
@@ -164,7 +164,7 @@ class IbansClientTest {
         // test
         val exception =
             assertThrows<ApiConfigException> {
-                ibansClient.getIban(creditorInstitutionCode, requestId)
+                ibansClient.getIban(creditorInstitutionCode, requestId).block()
             }
         assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
         assertEquals(

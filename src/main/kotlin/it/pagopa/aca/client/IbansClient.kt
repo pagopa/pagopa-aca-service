@@ -3,7 +3,6 @@ package it.pagopa.aca.client
 import it.pagopa.aca.exceptions.ApiConfigException
 import it.pagopa.generated.apiconfig.api.IbansApi
 import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
-import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -21,7 +20,7 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
         const val CREDITOR_INSTITUTION_LABEL = "ACA"
     }
 
-    suspend fun getIban(creditorInstitutionCode: String, requestId: String): Pair<String, String?> {
+    fun getIban(creditorInstitutionCode: String, requestId: String): Mono<Pair<String, String?>> {
         val response: Mono<IbansEnhancedDto> =
             try {
                 logger.info(
@@ -85,6 +84,5 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
                         )
                 }
             }
-            .awaitSingle()
     }
 }
