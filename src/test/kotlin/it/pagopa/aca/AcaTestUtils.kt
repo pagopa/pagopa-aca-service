@@ -1,6 +1,7 @@
 package it.pagopa.aca
 
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import it.pagopa.generated.aca.model.ProblemJsonDto
 import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
@@ -8,6 +9,7 @@ import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
 import it.pagopa.generated.gpd.model.PaymentOptionModelResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import it.pagopa.generated.gpd.model.TransferModelResponseDto
 import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
@@ -63,4 +65,37 @@ object AcaTestUtils {
             .fiscalCode("XXXYYY00X11Y123Z")
             .type(PaymentPositionModelDto.TypeEnum.F)
             .fullName("Entity Test")
+
+    fun createPositionRequestBody(iupd: Iupd, amount: Int): NewDebtPositionRequestDto =
+        NewDebtPositionRequestDto(
+            iupd.fiscalCode,
+            NewDebtPositionRequestDto.EntityType.F,
+            "XXXYYY00X11Y123Z",
+            "entityFullName",
+            iupd.iuv,
+            amount,
+            "description",
+            OffsetDateTime.now()
+        )
+
+    fun responseGetPosition(
+        iupd: Iupd,
+        amount: Int,
+        iban: String
+    ): PaymentPositionModelBaseResponseDto =
+        PaymentPositionModelBaseResponseDto()
+            .iupd(iupd.value())
+            .validityDate(OffsetDateTime.now())
+            .type(PaymentPositionModelBaseResponseDto.TypeEnum.F)
+            .paymentOption(
+                listOf(
+                    PaymentOptionModelResponseDto()
+                        .amount(amount.toLong())
+                        .organizationFiscalCode("XXXYYY00X11Y123Z")
+                        .isPartialPayment(false)
+                        .transfer(
+                            listOf(TransferModelResponseDto().amount(amount.toLong()).iban(iban))
+                        )
+                )
+            )
 }

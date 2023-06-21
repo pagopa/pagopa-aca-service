@@ -66,6 +66,7 @@ class AcaUtils {
         companyName: String?
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
+            .iupd(oldDebitPosition.iupd)
             .fiscalCode(newDebtPositionRequestDto.entityFiscalCode)
             .officeName(oldDebitPosition.officeName)
             .validityDate(null)
@@ -89,11 +90,7 @@ class AcaUtils {
                                     ?.map { transfer ->
                                         TransferModelDto()
                                             .amount(newDebtPositionRequestDto.amount.toLong())
-                                            .idTransfer(
-                                                transfer.idTransfer?.let { it1 ->
-                                                    TransferModelDto.IdTransferEnum.valueOf(it1)
-                                                }
-                                            )
+                                            .idTransfer(TransferModelDto.IdTransferEnum._1)
                                             .category(transfer.category)
                                             .iban(transfer.iban)
                                     }

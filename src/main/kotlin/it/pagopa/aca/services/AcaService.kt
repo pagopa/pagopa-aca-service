@@ -6,6 +6,7 @@ import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
+import java.util.UUID
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,6 +27,7 @@ class AcaService(
         logger.info(
             "Handle debit position for amount: ${newDebtPositionRequestDto.amount} and iuv: ${newDebtPositionRequestDto.iuv}"
         )
+        val requestId = UUID.randomUUID().toString()
         val iupd = Iupd(newDebtPositionRequestDto.entityFiscalCode, newDebtPositionRequestDto.iuv)
         val entityFiscalCode = newDebtPositionRequestDto.entityFiscalCode
         gpdClient
@@ -45,7 +47,7 @@ class AcaService(
                     } else {
                         logger.info("Create new debit position with iupd: ${iupd.value()}")
                         ibansClient
-                            .getIban(entityFiscalCode, "")
+                            .getIban(entityFiscalCode, requestId)
                             .map {
                                 acaUtils.newDebitPositionObject(
                                     newDebtPositionRequestDto,
@@ -78,7 +80,7 @@ class AcaService(
                 } else {
                     logger.info("Update debit position with iupd: ${iupd.value()}")
                     ibansClient
-                        .getIban(entityFiscalCode, "")
+                        .getIban(entityFiscalCode, requestId)
                         .map {
                             acaUtils.updateOldDebitPositionObject(
                                 oldDebitPosition,
