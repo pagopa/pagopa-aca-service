@@ -1,6 +1,6 @@
 package it.pagopa.aca.exceptionhandler
 
-import it.pagopa.aca.AcaTestUtils
+import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.exceptions.ApiConfigException
 import it.pagopa.aca.exceptions.RestApiException
 import jakarta.xml.bind.ValidationException
@@ -23,7 +23,7 @@ class ExceptionHandlerTest {
                 )
             )
         assertEquals(
-            AcaTestUtils.buildProblemJson(
+            ObjectTestUtils.buildProblemJson(
                 httpStatus = HttpStatus.UNAUTHORIZED,
                 title = "title",
                 description = "description"
@@ -42,7 +42,7 @@ class ExceptionHandlerTest {
             )
         val response = exceptionHandler.handleException(exception)
         assertEquals(
-            AcaTestUtils.buildProblemJson(
+            ObjectTestUtils.buildProblemJson(
                 httpStatus = HttpStatus.UNAUTHORIZED,
                 title = "ApiConfig Invocation exception",
                 description = "description"
@@ -57,7 +57,7 @@ class ExceptionHandlerTest {
         val exception = ValidationException("Invalid request")
         val response = exceptionHandler.handleRequestValidationException(exception)
         assertEquals(
-            AcaTestUtils.buildProblemJson(
+            ObjectTestUtils.buildProblemJson(
                 httpStatus = HttpStatus.BAD_REQUEST,
                 title = "Bad request",
                 description = "Invalid request"
@@ -72,7 +72,7 @@ class ExceptionHandlerTest {
         val exception = NullPointerException("Nullpointer exception")
         val response = exceptionHandler.handleGenericException(exception)
         assertEquals(
-            AcaTestUtils.buildProblemJson(
+            ObjectTestUtils.buildProblemJson(
                 httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
                 title = "Error processing the request",
                 description = "Nullpointer exception"

@@ -2,7 +2,7 @@ package it.pagopa.aca.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import it.pagopa.aca.AcaTestUtils
+import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.exceptions.ApiConfigException
 import it.pagopa.generated.apiconfig.api.IbansApi
@@ -102,7 +102,7 @@ class IbansClientTest {
     @Test
     fun `Should retrieve creditor institution iban successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = AcaTestUtils.creditorInstitutionResponseBody()
+        val mockedResponse = ObjectTestUtils.creditorInstitutionResponseBody()
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))

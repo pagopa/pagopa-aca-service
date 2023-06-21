@@ -13,7 +13,7 @@ import it.pagopa.generated.gpd.model.TransferModelResponseDto
 import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
-object AcaTestUtils {
+object ObjectTestUtils {
     fun creditorInstitutionResponseBody(): IbansEnhancedDto =
         IbansEnhancedDto()
             .ibansEnhanced(

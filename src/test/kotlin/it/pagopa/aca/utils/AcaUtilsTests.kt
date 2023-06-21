@@ -1,6 +1,6 @@
 package it.pagopa.aca.utils
 
-import it.pagopa.aca.AcaTestUtils
+import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import kotlinx.coroutines.test.runTest
@@ -43,7 +43,7 @@ class AcaUtilsTests {
 
     @Test
     fun `new debit position create successfully`() = runTest {
-        val apiRequestBody = AcaTestUtils.createPositionRequestBody(iupd, 10)
+        val apiRequestBody = ObjectTestUtils.createPositionRequestBody(iupd, 10)
         val newDebitPosition =
             acaUtils.newDebitPositionObject(apiRequestBody, iupd, "ITRUYRIITHYDSD", "CompanyName")
         Assertions.assertEquals(iupd.value(), newDebitPosition.iupd)
@@ -61,8 +61,8 @@ class AcaUtilsTests {
 
     @Test
     fun `update old debit position successfully`() = runTest {
-        val responseGetPosition = AcaTestUtils.responseGetPosition(iupd, 10, "ITRUYRIITHYDSD")
-        val apiRequestBody = AcaTestUtils.createPositionRequestBody(iupd, 10)
+        val responseGetPosition = ObjectTestUtils.responseGetPosition(iupd, 10, "ITRUYRIITHYDSD")
+        val apiRequestBody = ObjectTestUtils.createPositionRequestBody(iupd, 10)
         val objectUpdated =
             acaUtils.updateOldDebitPositionObject(
                 responseGetPosition,
