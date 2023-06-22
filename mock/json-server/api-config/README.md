@@ -1,5 +1,4 @@
 # pagopa-api-config json server mock
-
 ## Overview
 
 A simple `json-server` used to mock api config.
