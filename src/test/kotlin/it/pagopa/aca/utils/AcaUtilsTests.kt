@@ -3,11 +3,14 @@ package it.pagopa.aca.utils
 import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
+import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
@@ -19,13 +22,19 @@ class AcaUtilsTests {
         const val creditorInstitutionCode = "77777777777"
         const val iuv = "302001069073736640"
         val iupd = Iupd(creditorInstitutionCode, iuv)
+
+        @JvmStatic
+        private fun validStatusForExecuteOperation() =
+            Stream.of(
+                PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED,
+                PaymentPositionModelBaseResponseDto.StatusEnum.VALID,
+                PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT
+            )
     }
-    @Test
-    fun `check status ok`() = runTest {
-        Assertions.assertEquals(
-            false,
-            acaUtils.checkStatus(PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED)
-        )
+    @ParameterizedTest
+    @MethodSource("validStatusForExecuteOperation")
+    fun `check status ok`(status: PaymentPositionModelBaseResponseDto.StatusEnum) = runTest {
+        Assertions.assertEquals(false, acaUtils.checkStatus(status))
     }
 
     @Test
