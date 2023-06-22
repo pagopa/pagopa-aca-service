@@ -169,7 +169,8 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
+        val response =
+            gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
         // assertions
         Assertions.assertEquals(mockedResponse.iupd, response?.iupd)
         Assertions.assertEquals(

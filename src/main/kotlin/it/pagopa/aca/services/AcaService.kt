@@ -7,12 +7,12 @@ import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import java.util.UUID
+import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.switchIfEmpty
 
 @Service
 class AcaService(
@@ -28,12 +28,13 @@ class AcaService(
             "Handle debit position for amount: ${newDebtPositionRequestDto.amount} and iuv: ${newDebtPositionRequestDto.iuv}"
         )
         val requestId = UUID.randomUUID().toString()
-        val iupd = Iupd(newDebtPositionRequestDto.entityFiscalCode, newDebtPositionRequestDto.iuv)
-        val entityFiscalCode = newDebtPositionRequestDto.entityFiscalCode
+        val iupd = Iupd(newDebtPositionRequestDto.paFiscalCode, newDebtPositionRequestDto.iuv)
+        val paFiscalCode = newDebtPositionRequestDto.paFiscalCode
         gpdClient
-            .getDebtPosition(entityFiscalCode, iupd.value())
-            .map {oldDebitPosition ->
-                oldDebitPosition.filter { acaUtils.checkStatus(it.status) }
+            .getDebtPosition(paFiscalCode, iupd.value())
+            .map { oldDebitPosition ->
+                oldDebitPosition
+                    .filter { acaUtils.checkStatus(it.status) }
                     .switchIfEmpty(
                         Mono.error(
                             RestApiException(
@@ -46,11 +47,11 @@ class AcaService(
                     .flatMap { debitPosition ->
                         if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
                             logger.info("Invalidate debit position with iupd: ${iupd.value()}")
-                            gpdClient.invalidateDebtPosition(entityFiscalCode, iupd.value())
+                            gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
                         } else {
                             logger.info("Update debit position with iupd: ${iupd.value()}")
                             ibansClient
-                                .getIban(entityFiscalCode, requestId)
+                                .getIban(paFiscalCode, requestId)
                                 .map {
                                     acaUtils.updateOldDebitPositionObject(
                                         debitPosition,
@@ -61,7 +62,7 @@ class AcaService(
                                 }
                                 .flatMap { updatedDebitPosition ->
                                     gpdClient.updateDebtPosition(
-                                        entityFiscalCode,
+                                        paFiscalCode,
                                         iupd.value(),
                                         updatedDebitPosition
                                     )
@@ -80,7 +81,9 @@ class AcaService(
                     )
                 } else {
                     ibansClient
-                        .getIban(entityFiscalCode, requestId)
+                        .getIban(paFiscalCode, requestId)
+                        .doOnError { logger.info("error") }
+                        .doOnSuccess { logger.info("success") }
                         .map { response ->
                             acaUtils.newDebitPositionObject(
                                 newDebtPositionRequestDto,
@@ -91,9 +94,10 @@ class AcaService(
                         }
                         .flatMap { newDebitPosition ->
                             logger.info("Create new debit position with iupd: ${iupd.value()}")
-                            gpdClient.createDebtPosition(entityFiscalCode, newDebitPosition)
+                            gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
                         }
                 }
             )
+            .awaitSingle()
     }
 }
