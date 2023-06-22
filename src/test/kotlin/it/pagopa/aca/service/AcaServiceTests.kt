@@ -4,6 +4,7 @@ import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.client.GpdClient
 import it.pagopa.aca.client.IbansClient
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.services.AcaService
 import it.pagopa.aca.utils.AcaUtils
@@ -40,7 +41,8 @@ class AcaServiceTests {
         val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 10)
         val responseCreate = ObjectTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
-        given(gpdClient.getDebtPosition(any(), any())).willReturn(Optional.empty())
+        given(gpdClient.getDebtPosition(any(), any()))
+            .willReturn(Mono.error(GpdPositionNotFoundException()))
         given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
         given(gpdClient.createDebtPosition(any(), any())).willReturn(Mono.just(responseCreate))
         /* tests */
@@ -61,7 +63,8 @@ class AcaServiceTests {
     fun `create position amount error`() = runTest {
         val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 0)
         /* preconditions */
-        given(gpdClient.getDebtPosition(any(), any())).willReturn(Optional.empty())
+        given(gpdClient.getDebtPosition(any(), any()))
+            .willReturn(Mono.error(GpdPositionNotFoundException()))
         /* Asserts */
         assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
         verify(gpdClient, Mockito.times(1))
@@ -81,8 +84,7 @@ class AcaServiceTests {
                 PaymentPositionModelBaseResponseDto.StatusEnum.PAID
             )
         /* preconditions */
-        given(gpdClient.getDebtPosition(any(), any()))
-            .willReturn(Optional.of(Mono.just(responseGetPosition)))
+        given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         /* Asserts */
         assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
         verify(gpdClient, Mockito.times(1))
@@ -103,8 +105,7 @@ class AcaServiceTests {
             )
         val responseInvalidate = ObjectTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
-        given(gpdClient.getDebtPosition(any(), any()))
-            .willReturn(Optional.of(Mono.just(responseGetPosition)))
+        given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(gpdClient.invalidateDebtPosition(any(), any()))
             .willReturn(Mono.just(responseInvalidate))
         /* tests */
@@ -134,8 +135,7 @@ class AcaServiceTests {
             )
         val responseCreate = ObjectTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
-        given(gpdClient.getDebtPosition(any(), any()))
-            .willReturn(Optional.of(Mono.just(responseGetPosition)))
+        given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
         given(gpdClient.updateDebtPosition(any(), any(), any()))
             .willReturn(Mono.just(responseCreate))

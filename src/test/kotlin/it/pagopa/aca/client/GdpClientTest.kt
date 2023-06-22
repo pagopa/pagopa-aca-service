@@ -6,6 +6,7 @@ import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.exceptions.GpdException
+import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import java.nio.charset.StandardCharsets
@@ -169,8 +170,7 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response =
-            gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
+        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
         // assertions
         Assertions.assertEquals(mockedResponse.iupd, response?.iupd)
         Assertions.assertEquals(
@@ -196,10 +196,28 @@ class GdpClientTest {
         // test
         val exception =
             assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
             }
         Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
         Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+    }
+
+    @Test
+    fun `Should handle get debit position errors 404`() = runTest {
+        // pre-conditions
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody("{}")
+                .setResponseCode(HttpStatus.NOT_FOUND.value())
+                .addHeader("Content-Type", "application/json")
+        )
+        // test
+        val exception =
+            assertThrows<GpdPositionNotFoundException> {
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
+            }
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.toRestException().httpStatus)
+        Assertions.assertEquals("Debit position not found", exception.toRestException().description)
     }
 
     @Test
@@ -222,7 +240,7 @@ class GdpClientTest {
         // test
         val exception =
             assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
             }
         Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
         Assertions.assertEquals(

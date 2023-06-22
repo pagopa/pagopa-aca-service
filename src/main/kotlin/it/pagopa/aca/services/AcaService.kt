@@ -3,6 +3,7 @@ package it.pagopa.aca.services
 import it.pagopa.aca.client.GpdClient
 import it.pagopa.aca.client.IbansClient
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
@@ -32,46 +33,44 @@ class AcaService(
         val paFiscalCode = newDebtPositionRequestDto.paFiscalCode
         gpdClient
             .getDebtPosition(paFiscalCode, iupd.value())
-            .map { oldDebitPosition ->
-                oldDebitPosition
-                    .filter { !acaUtils.checkStatus(it.status) }
-                    .switchIfEmpty(
-                        Mono.error(
-                            RestApiException(
-                                HttpStatus.CONFLICT,
-                                "Unauthorized action",
-                                "Unauthorized action on debt position with iuv: ${newDebtPositionRequestDto.iuv}"
-                            )
-                        )
+            .filter { !acaUtils.checkStatus(it.status) }
+            .switchIfEmpty(
+                Mono.error(
+                    RestApiException(
+                        HttpStatus.CONFLICT,
+                        "Unauthorized action",
+                        "Unauthorized action on debt position with iuv: ${newDebtPositionRequestDto.iuv}"
                     )
-                    .flatMap { debitPosition ->
-                        if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
-                            logger.info("Invalidate debit position with iupd: ${iupd.value()}")
-                            gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
-                        } else {
-                            logger.info("Update debit position with iupd: ${iupd.value()}")
-                            ibansClient
-                                .getIban(paFiscalCode, requestId)
-                                .map {
-                                    acaUtils.updateOldDebitPositionObject(
-                                        debitPosition,
-                                        newDebtPositionRequestDto,
-                                        iupd,
-                                        it.second
-                                    )
-                                }
-                                .flatMap { updatedDebitPosition ->
-                                    gpdClient.updateDebtPosition(
-                                        paFiscalCode,
-                                        iupd.value(),
-                                        updatedDebitPosition
-                                    )
-                                }
-                        }
-                    }
-            }
-            .orElseGet {
+                )
+            )
+            .flatMap { debitPosition ->
                 if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+                    logger.info("Invalidate debit position with iupd: ${iupd.value()}")
+                    gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
+                } else {
+                    logger.info("Update debit position with iupd: ${iupd.value()}")
+                    ibansClient
+                        .getIban(paFiscalCode, requestId)
+                        .map {
+                            acaUtils.updateOldDebitPositionObject(
+                                debitPosition,
+                                newDebtPositionRequestDto,
+                                iupd,
+                                it.second
+                            )
+                        }
+                        .flatMap { updatedDebitPosition ->
+                            gpdClient.updateDebtPosition(
+                                paFiscalCode,
+                                iupd.value(),
+                                updatedDebitPosition
+                            )
+                        }
+                }
+            }
+            .onErrorResume(GpdPositionNotFoundException::class.java) {
+                if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+                    logger.debug("Amount not compatible with the creation request")
                     Mono.error(
                         RestApiException(
                             HttpStatus.BAD_REQUEST,
