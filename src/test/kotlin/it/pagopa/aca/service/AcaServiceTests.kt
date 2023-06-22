@@ -54,7 +54,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
-                acaUtils.newDebitPositionObject(requestCreatePosition, iupd, ibanTest, companyName)
+                acaUtils.toPaymentPositionModelDto(requestCreatePosition, iupd, ibanTest, companyName)
             )
         assertEquals(iupd.value(), responseCreate.iupd)
     }
@@ -119,7 +119,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(0))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
-                acaUtils.newDebitPositionObject(requestCreatePosition, iupd, ibanTest, companyName)
+                acaUtils.toPaymentPositionModelDto(requestCreatePosition, iupd, ibanTest, companyName)
             )
     }
 

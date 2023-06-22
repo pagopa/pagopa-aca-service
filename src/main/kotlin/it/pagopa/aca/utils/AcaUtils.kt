@@ -24,7 +24,7 @@ class AcaUtils {
         return amount == 0
     }
 
-    fun newDebitPositionObject(
+    fun toPaymentPositionModelDto(
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
         iban: String,

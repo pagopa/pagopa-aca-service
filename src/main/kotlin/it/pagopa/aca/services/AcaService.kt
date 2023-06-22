@@ -82,7 +82,7 @@ class AcaService(
                     ibansClient
                         .getIban(paFiscalCode, requestId)
                         .map { response ->
-                            acaUtils.newDebitPositionObject(
+                            acaUtils.toPaymentPositionModelDto(
                                 newDebtPositionRequestDto,
                                 iupd,
                                 response.first,

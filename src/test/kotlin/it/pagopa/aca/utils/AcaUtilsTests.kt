@@ -59,7 +59,7 @@ class AcaUtilsTests {
     fun `new debit position create successfully`() = runTest {
         val apiRequestBody = ObjectTestUtils.createPositionRequestBody(iupd, 10)
         val newDebitPosition =
-            acaUtils.newDebitPositionObject(apiRequestBody, iupd, "ITRUYRIITHYDSD", "CompanyName")
+            acaUtils.toPaymentPositionModelDto(apiRequestBody, iupd, "ITRUYRIITHYDSD", "CompanyName")
         Assertions.assertEquals(iupd.value(), newDebitPosition.iupd)
         Assertions.assertEquals(
             apiRequestBody.amount.toLong(),
