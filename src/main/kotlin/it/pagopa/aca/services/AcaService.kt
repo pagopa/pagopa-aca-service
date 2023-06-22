@@ -32,71 +32,68 @@ class AcaService(
         val entityFiscalCode = newDebtPositionRequestDto.entityFiscalCode
         gpdClient
             .getDebtPosition(entityFiscalCode, iupd.value())
-            .filterWhen { oldDebtPosition ->
-                if (oldDebtPosition !== null) {
-                    Mono.just(false)
-                } else {
-                    if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+            .map {oldDebitPosition ->
+                oldDebitPosition.filter { acaUtils.checkStatus(it.status) }
+                    .switchIfEmpty(
                         Mono.error(
                             RestApiException(
-                                HttpStatus.BAD_REQUEST,
+                                HttpStatus.CONFLICT,
                                 "Unauthorized action",
-                                "Amount not compatible with the creation request"
+                                "Unauthorized action on debt position with iuv: ${newDebtPositionRequestDto.iuv}"
                             )
                         )
-                    } else {
-                        logger.info("Create new debit position with iupd: ${iupd.value()}")
-                        ibansClient
-                            .getIban(entityFiscalCode, requestId)
-                            .map {
-                                acaUtils.newDebitPositionObject(
-                                    newDebtPositionRequestDto,
-                                    iupd,
-                                    it.first,
-                                    it.second
-                                )
-                            }
-                            .flatMap { newDebitPosition ->
-                                gpdClient.createDebtPosition(entityFiscalCode, newDebitPosition)
-                            }
-                        Mono.just(true)
-                    }
-                }
-            }
-            .filter { acaUtils.checkStatus(it.status) }
-            .switchIfEmpty(
-                Mono.error(
-                    RestApiException(
-                        HttpStatus.CONFLICT,
-                        "Unauthorized action",
-                        "Unauthorized action on debt position with iuv: ${newDebtPositionRequestDto.iuv}"
                     )
-                )
-            )
-            .flatMap { oldDebitPosition ->
+                    .flatMap { debitPosition ->
+                        if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+                            logger.info("Invalidate debit position with iupd: ${iupd.value()}")
+                            gpdClient.invalidateDebtPosition(entityFiscalCode, iupd.value())
+                        } else {
+                            logger.info("Update debit position with iupd: ${iupd.value()}")
+                            ibansClient
+                                .getIban(entityFiscalCode, requestId)
+                                .map {
+                                    acaUtils.updateOldDebitPositionObject(
+                                        debitPosition,
+                                        newDebtPositionRequestDto,
+                                        iupd,
+                                        it.second
+                                    )
+                                }
+                                .flatMap { updatedDebitPosition ->
+                                    gpdClient.updateDebtPosition(
+                                        entityFiscalCode,
+                                        iupd.value(),
+                                        updatedDebitPosition
+                                    )
+                                }
+                        }
+                    }
+            }
+            .orElse(
                 if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
-                    logger.info("Invalidate debit position with iupd: ${iupd.value()}")
-                    gpdClient.invalidateDebtPosition(entityFiscalCode, iupd.value())
+                    Mono.error(
+                        RestApiException(
+                            HttpStatus.BAD_REQUEST,
+                            "Unauthorized action",
+                            "Amount not compatible with the creation request"
+                        )
+                    )
                 } else {
-                    logger.info("Update debit position with iupd: ${iupd.value()}")
                     ibansClient
                         .getIban(entityFiscalCode, requestId)
-                        .map {
-                            acaUtils.updateOldDebitPositionObject(
-                                oldDebitPosition,
+                        .map { response ->
+                            acaUtils.newDebitPositionObject(
                                 newDebtPositionRequestDto,
                                 iupd,
-                                it.second
+                                response.first,
+                                response.second
                             )
                         }
                         .flatMap { newDebitPosition ->
-                            gpdClient.updateDebtPosition(
-                                entityFiscalCode,
-                                iupd.value(),
-                                newDebitPosition
-                            )
+                            logger.info("Create new debit position with iupd: ${iupd.value()}")
+                            gpdClient.createDebtPosition(entityFiscalCode, newDebitPosition)
                         }
                 }
-            }
+            )
     }
 }

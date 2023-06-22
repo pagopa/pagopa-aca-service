@@ -5,6 +5,7 @@ import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import java.util.Optional
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -26,7 +27,7 @@ class GpdClient(
     fun getDebtPosition(
         creditorInstitutionCode: String,
         iupd: String
-    ): Mono<PaymentPositionModelBaseResponseDto> {
+    ): Optional<Mono<PaymentPositionModelBaseResponseDto>> {
         val response: Mono<PaymentPositionModelBaseResponseDto> =
             try {
                 logger.info(
@@ -35,33 +36,35 @@ class GpdClient(
                 client.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd)
             } catch (e: WebClientResponseException) {
                 if (e.statusCode.equals(HttpStatus.NOT_FOUND)) {
-                    Mono.empty()
+                    return Optional.empty()
                 } else {
                     Mono.error(e)
                 }
             }
-        return response.onErrorMap(WebClientResponseException::class.java) {
-            logger.error(
-                "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
-            )
-            when (it.statusCode) {
-                HttpStatus.UNAUTHORIZED ->
-                    GpdException(
-                        description = "Error while call gpd unauthorized request",
-                        httpStatusCode = HttpStatus.UNAUTHORIZED
-                    )
-                HttpStatus.INTERNAL_SERVER_ERROR ->
-                    GpdException(
-                        description = "Bad gateway, error while execute request",
-                        httpStatusCode = HttpStatus.BAD_GATEWAY
-                    )
-                else ->
-                    GpdException(
-                        description = "Gpd error: ${it.statusCode}",
-                        httpStatusCode = HttpStatus.BAD_GATEWAY
-                    )
+        return Optional.of(
+            response.onErrorMap(WebClientResponseException::class.java) {
+                logger.error(
+                    "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                )
+                when (it.statusCode) {
+                    HttpStatus.UNAUTHORIZED ->
+                        GpdException(
+                            description = "Error while call gpd unauthorized request",
+                            httpStatusCode = HttpStatus.UNAUTHORIZED
+                        )
+                    HttpStatus.INTERNAL_SERVER_ERROR ->
+                        GpdException(
+                            description = "Bad gateway, error while execute request",
+                            httpStatusCode = HttpStatus.BAD_GATEWAY
+                        )
+                    else ->
+                        GpdException(
+                            description = "Gpd error: ${it.statusCode}",
+                            httpStatusCode = HttpStatus.BAD_GATEWAY
+                        )
+                }
             }
-        }
+        )
     }
 
     fun createDebtPosition(

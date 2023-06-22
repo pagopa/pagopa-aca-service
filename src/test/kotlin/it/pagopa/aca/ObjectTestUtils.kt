@@ -6,10 +6,7 @@ import it.pagopa.generated.aca.model.ProblemJsonDto
 import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
 import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
-import it.pagopa.generated.gpd.model.PaymentOptionModelResponseDto
-import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
-import it.pagopa.generated.gpd.model.PaymentPositionModelDto
-import it.pagopa.generated.gpd.model.TransferModelResponseDto
+import it.pagopa.generated.gpd.model.*
 import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
@@ -53,6 +50,20 @@ object ObjectTestUtils {
                     PaymentOptionModelResponseDto()
                         .iuv("302001069073736640")
                         .organizationFiscalCode("77777777777")
+                        .amount(100)
+                        .isPartialPayment(false)
+                )
+            )
+
+    fun debitPositionModelResponse(iupd: Iupd): PaymentPositionModelDto =
+        PaymentPositionModelDto()
+            .iupd(iupd.value())
+            .companyName("companyName")
+            .type(PaymentPositionModelDto.TypeEnum.F)
+            .paymentOption(
+                listOf(
+                    PaymentOptionModelDto()
+                        .iuv("302001069073736640")
                         .amount(100)
                         .isPartialPayment(false)
                 )

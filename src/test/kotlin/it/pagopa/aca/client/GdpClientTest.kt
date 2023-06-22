@@ -169,7 +169,7 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
+        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
         // assertions
         Assertions.assertEquals(mockedResponse.iupd, response?.iupd)
         Assertions.assertEquals(
@@ -195,7 +195,7 @@ class GdpClientTest {
         // test
         val exception =
             assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
             }
         Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
         Assertions.assertEquals(expectedDescription, exception.toRestException().description)
@@ -221,7 +221,7 @@ class GdpClientTest {
         // test
         val exception =
             assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).get().block()
             }
         Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
         Assertions.assertEquals(
