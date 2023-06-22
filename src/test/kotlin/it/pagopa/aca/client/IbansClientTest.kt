@@ -22,6 +22,7 @@ import org.mockito.kotlin.mock
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import reactor.test.StepVerifier
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class IbansClientTest {
@@ -131,12 +132,13 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val exception =
-            assertThrows<ApiConfigException> {
-                ibansClient.getIban(creditorInstitutionCode, requestId).block()
+        StepVerifier.create(ibansClient.getIban(creditorInstitutionCode, requestId))
+            .expectErrorMatches {
+                it as ApiConfigException
+                it.toRestException().description == expectedDescription
+                it.toRestException().httpStatus == expectedStatusCode
             }
-        assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
-        assertEquals(expectedDescription, exception.toRestException().description)
+            .verify()
     }
 
     @Test
@@ -162,14 +164,12 @@ class IbansClientTest {
                 )
             )
         // test
-        val exception =
-            assertThrows<ApiConfigException> {
-                ibansClient.getIban(creditorInstitutionCode, requestId).block()
+        StepVerifier.create(ibansClient.getIban(creditorInstitutionCode, requestId))
+            .expectErrorMatches {
+                it as ApiConfigException
+                it.toRestException().description == "Api config error: $httpErrorStatusCode"
+                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
             }
-        assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
-        assertEquals(
-            "Api config error: $httpErrorStatusCode",
-            exception.toRestException().description
-        )
+            .verify()
     }
 }
