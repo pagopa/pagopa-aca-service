@@ -1,6 +1,6 @@
 package it.pagopa.aca.service
 
-import it.pagopa.aca.ObjectTestUtils
+import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.client.GpdClient
 import it.pagopa.aca.client.IbansClient
 import it.pagopa.aca.domain.Iupd
@@ -38,8 +38,8 @@ class AcaServiceTests {
     }
     @Test
     fun `create position successfully`() = runTest {
-        val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 10)
-        val responseCreate = ObjectTestUtils.debitPositionModelResponse(iupd)
+        val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 10)
+        val responseCreate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any()))
             .willReturn(Mono.error(GpdPositionNotFoundException()))
@@ -61,7 +61,7 @@ class AcaServiceTests {
 
     @Test
     fun `create position amount error`() = runTest {
-        val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 0)
+        val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 0)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any()))
             .willReturn(Mono.error(GpdPositionNotFoundException()))
@@ -75,9 +75,9 @@ class AcaServiceTests {
 
     @Test
     fun `exception position status error`() = runTest {
-        val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 10)
+        val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 10)
         val responseGetPosition =
-            ObjectTestUtils.responseGetPosition(
+            AcaTestUtils.responseGetPosition(
                 iupd,
                 10,
                 ibanTest,
@@ -95,15 +95,15 @@ class AcaServiceTests {
 
     @Test
     fun `invalidate position successfully`() = runTest {
-        val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 0)
+        val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 0)
         val responseGetPosition =
-            ObjectTestUtils.responseGetPosition(
+            AcaTestUtils.responseGetPosition(
                 iupd,
                 10,
                 ibanTest,
                 PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT
             )
-        val responseInvalidate = ObjectTestUtils.debitPositionModelResponse(iupd)
+        val responseInvalidate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(gpdClient.invalidateDebtPosition(any(), any()))
@@ -125,15 +125,15 @@ class AcaServiceTests {
 
     @Test
     fun `update position successfully`() = runTest {
-        val requestCreatePosition = ObjectTestUtils.createPositionRequestBody(iupd, 10)
+        val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 10)
         val responseGetPosition =
-            ObjectTestUtils.responseGetPosition(
+            AcaTestUtils.responseGetPosition(
                 iupd,
                 10,
                 ibanTest,
                 PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT
             )
-        val responseCreate = ObjectTestUtils.debitPositionModelResponse(iupd)
+        val responseCreate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))

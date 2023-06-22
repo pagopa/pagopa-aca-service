@@ -2,7 +2,7 @@ package it.pagopa.aca.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import it.pagopa.aca.ObjectTestUtils
+import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.exceptions.GpdException
@@ -163,7 +163,7 @@ class GdpClientTest {
     @Test
     fun `Should retrieve debit position successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = ObjectTestUtils.debitPositionResponseBody()
+        val mockedResponse = AcaTestUtils.debitPositionResponseBody()
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
@@ -253,8 +253,8 @@ class GdpClientTest {
     @Test
     fun `Should create debit position successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = ObjectTestUtils.debitPositionResponseBody()
-        val mockedRequest = ObjectTestUtils.debitPositionRequestBody(iupd)
+        val mockedResponse = AcaTestUtils.debitPositionResponseBody()
+        val mockedRequest = AcaTestUtils.debitPositionRequestBody(iupd)
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
@@ -285,7 +285,7 @@ class GdpClientTest {
         StepVerifier.create(
                 gpdClient.createDebtPosition(
                     creditorInstitutionCode,
-                    ObjectTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd)
                 )
             )
             .expectErrorMatches {
@@ -306,7 +306,7 @@ class GdpClientTest {
         given(
                 gpdApi.createPosition(
                     creditorInstitutionCode,
-                    ObjectTestUtils.debitPositionRequestBody(iupd),
+                    AcaTestUtils.debitPositionRequestBody(iupd),
                     true
                 )
             )
@@ -323,7 +323,7 @@ class GdpClientTest {
         StepVerifier.create(
                 gpdClient.createDebtPosition(
                     creditorInstitutionCode,
-                    ObjectTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd)
                 )
             )
             .expectErrorMatches {
@@ -337,8 +337,8 @@ class GdpClientTest {
     @Test
     fun `Should update debit position successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = ObjectTestUtils.debitPositionResponseBody()
-        val mockedRequest = ObjectTestUtils.debitPositionRequestBody(iupd)
+        val mockedResponse = AcaTestUtils.debitPositionResponseBody()
+        val mockedRequest = AcaTestUtils.debitPositionRequestBody(iupd)
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
@@ -373,7 +373,7 @@ class GdpClientTest {
                 gpdClient.updateDebtPosition(
                     creditorInstitutionCode,
                     iupd.value(),
-                    ObjectTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd)
                 )
             )
             .expectErrorMatches {
@@ -395,7 +395,7 @@ class GdpClientTest {
                 gpdApi.updatePosition(
                     creditorInstitutionCode,
                     iupd.value(),
-                    ObjectTestUtils.debitPositionRequestBody(iupd),
+                    AcaTestUtils.debitPositionRequestBody(iupd),
                     true
                 )
             )
@@ -413,7 +413,7 @@ class GdpClientTest {
                 gpdClient.updateDebtPosition(
                     creditorInstitutionCode,
                     iupd.value(),
-                    ObjectTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd)
                 )
             )
             .expectErrorMatches {
@@ -427,8 +427,8 @@ class GdpClientTest {
     @Test
     fun `Should invalidate debit position successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = ObjectTestUtils.debitPositionResponseBody()
-        val mockedRequest = ObjectTestUtils.debitPositionRequestBody(iupd)
+        val mockedResponse = AcaTestUtils.debitPositionResponseBody()
+        val mockedRequest = AcaTestUtils.debitPositionRequestBody(iupd)
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
