@@ -33,7 +33,7 @@ class AcaService(
         val paFiscalCode = newDebtPositionRequestDto.paFiscalCode
         gpdClient
             .getDebtPosition(paFiscalCode, iupd.value())
-            .filter { !acaUtils.checkStatus(it.status) }
+            .filter { !acaUtils.isValidStatusForExecuteOperation(it.status) }
             .switchIfEmpty(
                 Mono.error(
                     RestApiException(

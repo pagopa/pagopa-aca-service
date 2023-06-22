@@ -34,14 +34,14 @@ class AcaUtilsTests {
     @ParameterizedTest
     @MethodSource("validStatusForExecuteOperation")
     fun `check status ok`(status: PaymentPositionModelBaseResponseDto.StatusEnum) = runTest {
-        Assertions.assertEquals(false, acaUtils.checkStatus(status))
+        Assertions.assertEquals(false, acaUtils.isValidStatusForExecuteOperation(status))
     }
 
     @Test
     fun `check status ko`() = runTest {
         Assertions.assertEquals(
             true,
-            acaUtils.checkStatus(PaymentPositionModelBaseResponseDto.StatusEnum.PAID)
+            acaUtils.isValidStatusForExecuteOperation(PaymentPositionModelBaseResponseDto.StatusEnum.PAID)
         )
     }
 
