@@ -34,7 +34,7 @@ class AcaService(
             .getDebtPosition(paFiscalCode, iupd.value())
             .map { oldDebitPosition ->
                 oldDebitPosition
-                    .filter { acaUtils.checkStatus(it.status) }
+                    .filter { !acaUtils.checkStatus(it.status) }
                     .switchIfEmpty(
                         Mono.error(
                             RestApiException(
@@ -70,7 +70,7 @@ class AcaService(
                         }
                     }
             }
-            .orElse(
+            .orElseGet {
                 if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
                     Mono.error(
                         RestApiException(
@@ -82,8 +82,6 @@ class AcaService(
                 } else {
                     ibansClient
                         .getIban(paFiscalCode, requestId)
-                        .doOnError { logger.info("error") }
-                        .doOnSuccess { logger.info("success") }
                         .map { response ->
                             acaUtils.newDebitPositionObject(
                                 newDebtPositionRequestDto,
@@ -97,7 +95,7 @@ class AcaService(
                             gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
                         }
                 }
-            )
+            }
             .awaitSingle()
     }
 }

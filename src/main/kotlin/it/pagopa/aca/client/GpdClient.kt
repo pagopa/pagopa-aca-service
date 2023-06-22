@@ -35,7 +35,7 @@ class GpdClient(
                 )
                 client.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd)
             } catch (e: WebClientResponseException) {
-                if (e.statusCode.equals(HttpStatus.NOT_FOUND)) {
+                if (e.statusCode == HttpStatus.NOT_FOUND) {
                     return Optional.empty()
                 } else {
                     Mono.error(e)

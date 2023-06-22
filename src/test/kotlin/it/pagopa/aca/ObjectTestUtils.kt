@@ -92,12 +92,14 @@ object ObjectTestUtils {
     fun responseGetPosition(
         iupd: Iupd,
         amount: Int,
-        iban: String
+        iban: String,
+        status: PaymentPositionModelBaseResponseDto.StatusEnum
     ): PaymentPositionModelBaseResponseDto =
         PaymentPositionModelBaseResponseDto()
             .iupd(iupd.value())
             .validityDate(OffsetDateTime.now())
             .type(PaymentPositionModelBaseResponseDto.TypeEnum.F)
+            .status(status)
             .paymentOption(
                 listOf(
                     PaymentOptionModelResponseDto()

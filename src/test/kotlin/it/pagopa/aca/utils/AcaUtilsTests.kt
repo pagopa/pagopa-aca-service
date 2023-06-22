@@ -3,10 +3,15 @@ package it.pagopa.aca.utils
 import it.pagopa.aca.ObjectTestUtils
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.junit.jupiter.MockitoExtension
 
+@ExtendWith(MockitoExtension::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class AcaUtilsTests {
 
     companion object {
@@ -61,7 +66,13 @@ class AcaUtilsTests {
 
     @Test
     fun `update old debit position successfully`() = runTest {
-        val responseGetPosition = ObjectTestUtils.responseGetPosition(iupd, 10, "ITRUYRIITHYDSD")
+        val responseGetPosition =
+            ObjectTestUtils.responseGetPosition(
+                iupd,
+                10,
+                "ITRUYRIITHYDSD",
+                PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT
+            )
         val apiRequestBody = ObjectTestUtils.createPositionRequestBody(iupd, 10)
         val objectUpdated =
             acaUtils.updateOldDebitPositionObject(
