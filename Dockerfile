@@ -6,6 +6,7 @@ COPY gradle gradle
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 COPY gradle.lockfile .
+COPY gradle.properties .
 
 COPY eclipse-style.xml eclipse-style.xml
 COPY src src
