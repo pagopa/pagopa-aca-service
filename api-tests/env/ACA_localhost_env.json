@@ -1,5 +1,5 @@
 {
-	"id": "a1f1e56e-6b12-439b-83f9-0c7566ed6ff9",
+	"id": "84d43167-b12d-4e7d-a58d-ff439504d59a",
 	"name": "ACA localhost",
 	"values": [
 		{
@@ -15,8 +15,8 @@
 			"enabled": true
 		},
 		{
-			"key": "UNKNOWN_FISCAL_CODE",
-			"value": "77777777779",
+			"key": "IUV",
+			"value": "302001069073736640",
 			"type": "default",
 			"enabled": true
 		},
@@ -25,39 +25,9 @@
 			"value": "paCreatePosition",
 			"type": "default",
 			"enabled": true
-		},
-		{
-			"key": "IUV_NOT_PRESENT",
-			"value": "88888888888888888",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "IUV_PRESENT_DRAFT_STATUS",
-			"value": "88888888888888880",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "IUV_PRESENT_PAID_STATUS",
-			"value": "88888888888888886",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "AMOUNT",
-			"value": "10",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "AMOUNT_INVALIDATE",
-			"value": "0",
-			"type": "default",
-			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-06-23T14:48:07.596Z",
-	"_postman_exported_using": "Postman/10.15.1"
+	"_postman_exported_at": "2023-06-07T07:30:44.974Z",
+	"_postman_exported_using": "Postman/10.14.9"
 }
