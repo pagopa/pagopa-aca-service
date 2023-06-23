@@ -39,7 +39,7 @@ class GpdClient(
             }
         return response.onErrorMap(WebClientResponseException::class.java) {
             logger.error(
-                "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                "Error communicating with gpd during get debit position. Received response code: ${it.statusCode} and response: ${it.responseBodyAsString}"
             )
             when (it.statusCode) {
                 HttpStatus.UNAUTHORIZED ->
@@ -77,7 +77,7 @@ class GpdClient(
             }
         return response.onErrorMap(WebClientResponseException::class.java) {
             logger.error(
-                "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                "Error communicating with gpd during create debit position. Received response code: ${it.statusCode} and response: ${it.responseBodyAsString}"
             )
             when (it.statusCode) {
                 HttpStatus.BAD_REQUEST ->
@@ -125,7 +125,7 @@ class GpdClient(
             }
         return response.onErrorMap(WebClientResponseException::class.java) {
             logger.error(
-                "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                "Error communicating with gpd during update debit position. Received response code: ${it.statusCode} and response: ${it.responseBodyAsString}"
             )
             when (it.statusCode) {
                 HttpStatus.BAD_REQUEST ->
@@ -176,7 +176,7 @@ class GpdClient(
             }
         return response.onErrorMap(WebClientResponseException::class.java) {
             logger.error(
-                "Error communicating with gpd. Received response: ${it.responseBodyAsString}"
+                "Error communicating with gpd during invalidate debit position. Received response code: ${it.statusCode} and response: ${it.responseBodyAsString}"
             )
             when (it.statusCode) {
                 HttpStatus.UNAUTHORIZED ->

@@ -42,7 +42,7 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
             }
             .onErrorMap(WebClientResponseException::class.java) {
                 logger.error(
-                    "Error communicating with api config. Received response: ${it.responseBodyAsString}"
+                    "Error communicating with api config during get iban. Received response code: ${it.statusCode} and response: ${it.responseBodyAsString}"
                 )
                 when (it.statusCode) {
                     HttpStatus.BAD_REQUEST ->
