@@ -34,9 +34,9 @@ microservice-chart:
     servicePort: 8080
   serviceAccount:
     create: false
-    annotations: {}
+    annotations: { }
     name: ""
-  podAnnotations: {}
+  podAnnotations: { }
   podSecurityContext:
     seccompProfile:
       type: RuntimeDefault
@@ -71,14 +71,16 @@ microservice-chart:
     GPD_DEBIT_POSITION_URI: "http://localhost"
     GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
     GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
+    ECS_SERVICE_NAME: "pagopa-aca-service"
+    ECS_SERVICE_ENVIRONMENT: "dev"
   envSecret:
     API_CONFIG_IBANS_API_KEY: api-config-api-key
     GPD_DEBIT_POSITION_API_KEY: gpd-api-key
   keyvault:
     name: "pagopa-d-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: {}
-  tolerations: []
+  nodeSelector: { }
+  tolerations: [ ]
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
