@@ -34,7 +34,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -88,7 +88,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -142,7 +142,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -196,7 +196,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -250,7 +250,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -304,7 +304,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -358,7 +358,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -412,7 +412,7 @@
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "remittanceInformation": "remittanceInformations",
             "category": "category",
@@ -460,7 +460,7 @@
         "fee": 100,
         "transfer": [
           {
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "organizationFiscalCode": "77777777777",
             "remittanceInformation": "remittanceInformations",
@@ -509,7 +509,7 @@
         "notificationFee": 200,
         "transfer": [
           {
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "organizationFiscalCode": "77777777777",
             "remittanceInformation": "remittanceInformations",
