@@ -14,7 +14,9 @@ class AcaUtils {
     companion object {
         const val STAND_IN_CONSTANT: String = "STAND-IN"
     }
-    fun isValidStatusForExecuteOperation(status: PaymentPositionModelBaseResponseDto.StatusEnum?): Boolean {
+    fun isInvalidStatusForExecuteOperation(
+        status: PaymentPositionModelBaseResponseDto.StatusEnum?
+    ): Boolean {
         return status != PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT &&
             status != PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED &&
             status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID

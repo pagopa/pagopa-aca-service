@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.junit.jupiter.MockitoExtension
 
@@ -26,24 +27,22 @@ class AcaUtilsTests {
         @JvmStatic
         private fun validStatusForExecuteOperation() =
             Stream.of(
-                PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED,
-                PaymentPositionModelBaseResponseDto.StatusEnum.VALID,
-                PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED, false),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.VALID, false),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT, false),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.PAID, true),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.INVALID, true),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.EXPIRED, true),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.PARTIALLY_PAID, true),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.REPORTED, true),
             )
     }
     @ParameterizedTest
     @MethodSource("validStatusForExecuteOperation")
-    fun `check status ok`(status: PaymentPositionModelBaseResponseDto.StatusEnum) = runTest {
-        Assertions.assertEquals(false, acaUtils.isValidStatusForExecuteOperation(status))
-    }
-
-    @Test
-    fun `check status ko`() = runTest {
-        Assertions.assertEquals(
-            true,
-            acaUtils.isValidStatusForExecuteOperation(PaymentPositionModelBaseResponseDto.StatusEnum.PAID)
-        )
-    }
+    fun `check status ok`(status: PaymentPositionModelBaseResponseDto.StatusEnum, result: Boolean) =
+        runTest {
+            Assertions.assertEquals(result, acaUtils.isInvalidStatusForExecuteOperation(status))
+        }
 
     @Test
     fun `check invalidate amount ko`() = runTest {
@@ -59,7 +58,12 @@ class AcaUtilsTests {
     fun `new debit position create successfully`() = runTest {
         val apiRequestBody = AcaTestUtils.createPositionRequestBody(iupd, 10)
         val newDebitPosition =
-            acaUtils.toPaymentPositionModelDto(apiRequestBody, iupd, "ITRUYRIITHYDSD", "CompanyName")
+            acaUtils.toPaymentPositionModelDto(
+                apiRequestBody,
+                iupd,
+                "ITRUYRIITHYDSD",
+                "CompanyName"
+            )
         Assertions.assertEquals(iupd.value(), newDebitPosition.iupd)
         Assertions.assertEquals(
             apiRequestBody.amount.toLong(),
