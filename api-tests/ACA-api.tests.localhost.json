@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "f1c2a4b0-659b-44cc-90f3-93d47b1501f0",
+		"name": "ACA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24209240"
+	},
+	"item": [
+		{
+			"name": "Create new debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA creation debit position - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_NOT_PRESENT}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA update debit position - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalidate debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA invalidate debit position - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KO Invalid fiscal code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA invalid fiscal code - Status code is 404 with json error response\", function () {",
+							"    pm.response.to.have.status(404);",
+							"    const response = pm.response.json();",
+							"    const unknownFiscalCode = pm.environment.get(\"UNKNOWN_FISCAL_CODE\");",
+							"    pm.expect(response.status).eql(404);",
+							"    pm.expect(response.detail).eql(`Creditor institution code: ${unknownFiscalCode} not found`);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{UNKNOWN_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KO Invalid amount for debit position creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA invalid amount for debit position creation - Status code is 400 with json error response\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.status).eql(400);",
+							"    pm.expect(response.detail).eql(`Amount not compatible with the creation request`);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_NOT_PRESENT}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "KO Invalid status for debit position update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA invalid status for debit position update action - Status code is 409 with json error response\", function () {",
+							"    pm.response.to.have.status(409);",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.status).eql(409);",
+							"    const iuvDebitPositionWithPaidStatus = pm.environment.get(\"IUV_PRESENT_PAID_STATUS\");",
+							"    pm.expect(response.detail).eql(`Unauthorized action on debt position with iuv: ${iuvDebitPositionWithPaidStatus}`);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_PAID_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
