@@ -21,6 +21,15 @@ services:
       - "8081:3000"
     networks:
       - pagopa-aca-net
+  pagopa-gpd-mock:
+    container_name: pagopa-gpd-mock
+    build:
+      context: mock/json-server/gpd/
+      dockerfile: Dockerfile.gpd-mock
+    ports:
+      - "8082:3000"
+    networks:
+      - pagopa-aca-net
 
 networks:
   pagopa-aca-net:
