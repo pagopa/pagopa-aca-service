@@ -19,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
+import org.springframework.http.HttpStatus
 import reactor.core.publisher.Mono
 
 @ExtendWith(MockitoExtension::class)
@@ -54,7 +55,12 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
-                acaUtils.toPaymentPositionModelDto(requestCreatePosition, iupd, ibanTest, companyName)
+                acaUtils.toPaymentPositionModelDto(
+                    requestCreatePosition,
+                    iupd,
+                    ibanTest,
+                    companyName
+                )
             )
         assertEquals(iupd.value(), responseCreate.iupd)
     }
@@ -66,7 +72,9 @@ class AcaServiceTests {
         given(gpdClient.getDebtPosition(any(), any()))
             .willReturn(Mono.error(GpdPositionNotFoundException()))
         /* Asserts */
-        assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
+        val exception =
+            assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
+        assertEquals(HttpStatus.BAD_REQUEST, exception.httpStatus)
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())
@@ -86,7 +94,9 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         /* Asserts */
-        assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
+        val exception =
+            assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
+        assertEquals(HttpStatus.CONFLICT, exception.httpStatus)
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())
@@ -119,7 +129,12 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(0))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
-                acaUtils.toPaymentPositionModelDto(requestCreatePosition, iupd, ibanTest, companyName)
+                acaUtils.toPaymentPositionModelDto(
+                    requestCreatePosition,
+                    iupd,
+                    ibanTest,
+                    companyName
+                )
             )
     }
 
