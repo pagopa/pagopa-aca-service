@@ -44,7 +44,7 @@ class AcaService(
                 )
             )
             .flatMap { debitPosition ->
-                if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+                if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
                     logger.info("Invalidate debit position with iupd: ${iupd.value()}")
                     gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
                 } else {
@@ -69,7 +69,7 @@ class AcaService(
                 }
             }
             .onErrorResume(GpdPositionNotFoundException::class.java) {
-                if (acaUtils.checkInvalidateAmount(newDebtPositionRequestDto.amount)) {
+                if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
                     logger.debug("Amount not compatible with the creation request")
                     Mono.error(
                         RestApiException(

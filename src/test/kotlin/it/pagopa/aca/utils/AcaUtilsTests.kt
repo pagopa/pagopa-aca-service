@@ -47,12 +47,12 @@ class AcaUtilsTests {
 
     @Test
     fun `check invalidate amount ko`() = runTest {
-        Assertions.assertEquals(false, acaUtils.checkInvalidateAmount(10))
+        Assertions.assertEquals(false, acaUtils.isInvalidateAmount(10))
     }
 
     @Test
     fun `check invalidate amount ok`() = runTest {
-        Assertions.assertEquals(true, acaUtils.checkInvalidateAmount(0))
+        Assertions.assertEquals(true, acaUtils.isInvalidateAmount(0))
     }
 
     @Test

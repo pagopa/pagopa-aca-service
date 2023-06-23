@@ -20,7 +20,7 @@ class AcaUtils {
             status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID
     }
 
-    fun checkInvalidateAmount(amount: Int): Boolean {
+    fun isInvalidateAmount(amount: Int): Boolean {
         return amount == 0
     }
 
