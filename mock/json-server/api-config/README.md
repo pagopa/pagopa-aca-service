@@ -10,9 +10,7 @@ The mocked services are:
 
 ### /creditorinstitutions/{creditorinstitutioncode}/ibans/enhanced?label={label}
 
-The mock return a statically configured response.
-The only handled `{creditorinstitutioncode}` is 77777777777 and label is ACA, all other calls with different results in
-a 404 being returned
+The mock return responses based on input fiscal code as explained in table below:
 
 | Organization fiscal code | Iban response             |
 |--------------------------|---------------------------|
