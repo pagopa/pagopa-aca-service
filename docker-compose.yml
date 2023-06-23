@@ -12,6 +12,15 @@ services:
       - "8080:8080"
     networks:
       - pagopa-aca-net
+  pagopa-api-config-mock:
+    container_name: pagopa-api-config-mock
+    build:
+      context: mock/json-server/api-config/
+      dockerfile: Dockerfile.api-config-mock
+    ports:
+      - "8081:3000"
+    networks:
+      - pagopa-aca-net
 
 networks:
   pagopa-aca-net:

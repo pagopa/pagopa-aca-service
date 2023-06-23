@@ -1,0 +1,11 @@
+{
+  "name": "pagopa-api-config-mock",
+  "version": "1.0.0",
+  "description": "pagopa api config mock",
+  "dependencies": {
+    "json-server": "^0.17.3"
+  },
+  "scripts": {
+    "start": "json-server --watch ./src/db.json --routes ./src/routes.json --middlewares ./src/middleware.js --port 3000 --host 0.0.0.0"
+  }
+}
