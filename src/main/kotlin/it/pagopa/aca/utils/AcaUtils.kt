@@ -94,7 +94,9 @@ class AcaUtils {
                                     ?.map { transfer ->
                                         TransferModelDto()
                                             .amount(newDebtPositionRequestDto.amount.toLong())
-                                            .remittanceInformation(newDebtPositionRequestDto.description)
+                                            .remittanceInformation(
+                                                newDebtPositionRequestDto.description
+                                            )
                                             .organizationFiscalCode(iupd.fiscalCode)
                                             .idTransfer(TransferModelDto.IdTransferEnum._1)
                                             .category(transfer.category)
