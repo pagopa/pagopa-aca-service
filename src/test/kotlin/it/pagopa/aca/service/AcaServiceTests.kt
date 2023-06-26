@@ -74,7 +74,7 @@ class AcaServiceTests {
         /* Asserts */
         val exception =
             assertThrows<RestApiException> { acaService.handleDebitPosition(requestCreatePosition) }
-        assertEquals(HttpStatus.BAD_REQUEST, exception.httpStatus)
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, exception.httpStatus)
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())

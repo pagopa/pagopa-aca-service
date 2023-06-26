@@ -73,9 +73,9 @@ class AcaService(
                     logger.debug("Amount not compatible with the creation request")
                     Mono.error(
                         RestApiException(
-                            HttpStatus.BAD_REQUEST,
-                            "Unauthorized action",
-                            "Amount not compatible with the creation request"
+                            HttpStatus.UNPROCESSABLE_ENTITY,
+                            "Unprocessable request",
+                            "Can not perform the requested action on debit position"
                         )
                     )
                 } else {
