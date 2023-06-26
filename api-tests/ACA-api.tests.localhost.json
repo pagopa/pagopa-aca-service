@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_NOT_PRESENT}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,7 +87,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -137,61 +137,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{HOSTNAME}}/{{PATH}}",
-					"host": [
-						"{{HOSTNAME}}"
-					],
-					"path": [
-						"{{PATH}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "KO Invalid fiscal code",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"ACA invalid fiscal code - Status code is 404 with json error response\", function () {",
-							"    pm.response.to.have.status(404);",
-							"    const response = pm.response.json();",
-							"    const unknownFiscalCode = pm.environment.get(\"UNKNOWN_FISCAL_CODE\");",
-							"    pm.expect(response.status).eql(404);",
-							"    pm.expect(response.detail).eql(`Creditor institution code: ${unknownFiscalCode} not found`);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "deployment",
-						"value": "{{DEPLOYMENT}}",
-						"type": "text"
-					},
-					{
-						"key": "Ocp-Apim-Subscription-Key",
-						"value": "{{API_SUBSCRIPTION_KEY}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{UNKNOWN_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,7 +190,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_NOT_PRESENT}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
