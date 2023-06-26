@@ -17,6 +17,7 @@ This microservice is responsible for keeping ACAs inside the PagoPA platform.
         + [Testing 🧪](#testing-)
             - [Unit testing](#unit-testing)
             - [Integration testing](#integration-testing)
+            - [Local test with mocks](#local-test-with-mock)
             - [Performance testing](#performance-testing)
     * [Dependency management 🔧](#dependency-management-)
         + [Dependency lock](#dependency-lock)
@@ -118,6 +119,16 @@ $ ./gradlew test
 #### Integration testing
 
 TODO
+
+#### Local test with mock
+
+Project docker compose starts two json-server mocks for external services:
+
+- [api-config](./mock/json-server/api-config/README.md)
+- [gpd](./mock/json-server/gpd/README.md)
+
+Those are the downstream dependency of ACA service.
+Refers to their README files (links above) for how to mock any particular response starting from request parameters.
 
 #### Performance testing
 
