@@ -12,15 +12,17 @@ The mocked services are:
 
 The mock return responses based on input fiscal code as explained in table below:
 
-| Organization fiscal code | Iban response             |
-|--------------------------|---------------------------|
-| 77777777777              | 200 OK                    |
-| 00000000000              | 400 BAD request           |
-| 11111111111              | 401 Unauthorized          |
-| 22222222222              | 403 Forbidden             |
-| 33333333333              | 429 Too many requests     |
-| 44444444444              | 500 Internal server error |
-| any other value          | 404 Not found             |
+| Organization fiscal code                  | Iban response             |
+|-------------------------------------------|---------------------------|
+| 77777777777                               | 200 OK                    |
+| 77777777770                               | 400 BAD request           |
+| 77777777771                               | 401 Unauthorized          |
+| 77777777772                               | 403 Forbidden             |
+| 77777777773                               | 429 Too many requests     |
+| 77777777774                               | 500 Internal server error |
+| 66666666666 (used for creation test flow) | 200 OK                    |
+
+Other values than the above ones will result in a 500 internal server response error
 
 ## Notes
 

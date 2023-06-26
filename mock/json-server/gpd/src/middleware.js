@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
         handleGetDebtPositionResponse(req, res, next, organizationFiscalCode);
         break;
       case "POST":
-        handleCreateDebtPositionResponse(res, organizationFiscalCode);
+        handleCreateDebtPositionResponse(req, res, next, organizationFiscalCode);
         break;
       case "PUT":
         handleUpdateDebtPositionResponse(req, res, next, organizationFiscalCode);
@@ -36,6 +36,10 @@ function handleGetDebtPositionResponse(req, res, next, organizationFiscalCode) {
         "title": "Internal error"
       });
       break;
+    case "66666666666":
+      console.log("Returning 404 not found (creation flow)");
+      res.sendStatus(404);
+      break;
     case "77777777777":
       req.method = 'GET';
       next();
@@ -49,7 +53,7 @@ function handleGetDebtPositionResponse(req, res, next, organizationFiscalCode) {
 }
 
 
-function handleCreateDebtPositionResponse(res, organizationFiscalCode) {
+function handleCreateDebtPositionResponse(req, res, next, organizationFiscalCode) {
   console.log("Handling create debt position");
   switch (organizationFiscalCode) {
     case "77777777770":
@@ -73,8 +77,10 @@ function handleCreateDebtPositionResponse(res, organizationFiscalCode) {
       });
       break;
     case "77777777777":
-      console.log("Returning 201 response");
-      res.sendStatus(201);
+    case "66666666666":
+      req.method = 'GET';
+      next();
+      res.status(201);
       break;
     default:
       res.status(500).jsonp({
