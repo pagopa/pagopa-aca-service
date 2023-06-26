@@ -506,7 +506,7 @@
         "fee": 100,
         "transfer": [
           {
-            "idTransfer": "idTransfer",
+            "idTransfer": "1",
             "amount": 500,
             "organizationFiscalCode": "66666666666",
             "remittanceInformation": "remittanceInformations",
