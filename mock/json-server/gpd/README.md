@@ -14,19 +14,20 @@ The mocked services are:
 
 Mock returns statically configured responses based on `organizationfiscalcode` and `iupd` path parameters.
 
-| Organization fiscal code | IUPD                              | Debt position status | Response code | 
-|--------------------------|-----------------------------------|----------------------|---------------|
-| 77777777777              | ACA_77777777777_88888888888888880 | DRAFT                | 200           |
-| 77777777777              | ACA_77777777777_88888888888888881 | PUBLISHED            | 200           |
-| 77777777777              | ACA_77777777777_88888888888888882 | VALID                | 200           |
-| 77777777777              | ACA_77777777777_88888888888888883 | INVALID              | 200           |
-| 77777777777              | ACA_77777777777_88888888888888884 | EXPIRED              | 200           |
-| 77777777777              | ACA_77777777777_88888888888888885 | PARTIALLY_PAID       | 200           |
-| 77777777777              | ACA_77777777777_88888888888888886 | PAID                 | 200           |
-| 77777777777              | ACA_77777777777_88888888888888887 | REPORTED             | 200           |
-| 77777777777              | any other then above              | -                    | 404           |
-| 77777777770              | any                               | -                    | 401           |
-| 77777777771              | any                               | -                    | 500           |
+| Organization fiscal code                  | IUPD                              | Debt position status | Response code | 
+|-------------------------------------------|-----------------------------------|----------------------|---------------|
+| 77777777777                               | ACA_77777777777_88888888888888880 | DRAFT                | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888881 | PUBLISHED            | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888882 | VALID                | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888883 | INVALID              | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888884 | EXPIRED              | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888885 | PARTIALLY_PAID       | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888886 | PAID                 | 200           |
+| 77777777777                               | ACA_77777777777_88888888888888887 | REPORTED             | 200           |
+| 77777777777                               | any other then above              | -                    | 404           |
+| 77777777770                               | any                               | -                    | 401           |
+| 77777777771                               | any                               | -                    | 500           |
+| 66666666666 (used for creation test flow) | any                               | -                    | 404           |
 
 Other values than the above ones will result in 500 internal server error response
 
@@ -36,13 +37,28 @@ Other values than the above ones will result in 500 internal server error respon
 
 Mock returns statically configured responses based on `organizationfiscalcode` and `iupd` path parameters.
 
-| Organization fiscal code | IUPD | Debt position status | Response code | 
-|--------------------------|------|----------------------|---------------|
-| 77777777777              | any  | -                    | 201           |
-| 77777777770              | any  | -                    | 400           |
-| 77777777771              | any  | -                    | 401           |
-| 77777777772              | any  | -                    | 409           |
-| 77777777773              | any  | -                    | 500           |
+| Organization fiscal code | IUPD                              | Debt position status | Response code | 
+|--------------------------|-----------------------------------|----------------------|---------------|
+| 77777777777              | ACA_77777777777_88888888888888880 | DRAFT                | 201           |
+| 77777777777              | ACA_77777777777_88888888888888881 | PUBLISHED            | 201           |
+| 77777777777              | ACA_77777777777_88888888888888882 | VALID                | 201           |
+| 77777777777              | ACA_77777777777_88888888888888883 | INVALID              | 201           |
+| 77777777777              | ACA_77777777777_88888888888888884 | EXPIRED              | 201           |
+| 77777777777              | ACA_77777777777_88888888888888885 | PARTIALLY_PAID       | 201           |
+| 77777777777              | ACA_77777777777_88888888888888886 | PAID                 | 201           |
+| 77777777777              | ACA_77777777777_88888888888888887 | REPORTED             | 201           |
+| 77777777770              | any                               | -                    | 400           |
+| 77777777771              | any                               | -                    | 401           |
+| 77777777772              | any                               | -                    | 409           |
+| 77777777773              | any                               | -                    | 500           |
+| 66666666666              | ACA_66666666666_88888888888888880 | DRAFT                | 201           |
+| 66666666666              | ACA_66666666666_88888888888888881 | PUBLISHED            | 201           |
+| 66666666666              | ACA_66666666666_88888888888888882 | VALID                | 201           |
+| 66666666666              | ACA_66666666666_88888888888888883 | INVALID              | 201           |
+| 66666666666              | ACA_66666666666_88888888888888884 | EXPIRED              | 201           |
+| 66666666666              | ACA_66666666666_88888888888888885 | PARTIALLY_PAID       | 201           |
+| 66666666666              | ACA_66666666666_88888888888888886 | PAID                 | 201           |
+| 66666666666              | ACA_66666666666_88888888888888887 | REPORTED             | 201           |
 
 Other values than the above ones will result in a 500 internal server response error
 
