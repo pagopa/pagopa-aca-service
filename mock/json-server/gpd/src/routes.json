@@ -1,5 +1,5 @@
 {
   "*/organizations/:organizationfiscalcode/debtpositions/:iupd/invalidate": "/debit-position-invalidate-:organizationfiscalcode",
   "*/organizations/:organizationfiscalcode/debtpositions/:iupd": "/debit-position-:organizationfiscalcode-:iupd",
-  "*/organizations/:organizationfiscalcode/debtpositions": "/debit-position-creation-:organizationfiscalcode"
+  "*/organizations/:organizationfiscalcode/debtpositions\\?toPublish=true": "/debit-position-creation-:organizationfiscalcode"
 }

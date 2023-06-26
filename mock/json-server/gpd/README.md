@@ -37,28 +37,14 @@ Other values than the above ones will result in 500 internal server error respon
 
 Mock returns statically configured responses based on `organizationfiscalcode` and `iupd` path parameters.
 
-| Organization fiscal code | IUPD                              | Debt position status | Response code | 
-|--------------------------|-----------------------------------|----------------------|---------------|
-| 77777777777              | ACA_77777777777_88888888888888880 | DRAFT                | 201           |
-| 77777777777              | ACA_77777777777_88888888888888881 | PUBLISHED            | 201           |
-| 77777777777              | ACA_77777777777_88888888888888882 | VALID                | 201           |
-| 77777777777              | ACA_77777777777_88888888888888883 | INVALID              | 201           |
-| 77777777777              | ACA_77777777777_88888888888888884 | EXPIRED              | 201           |
-| 77777777777              | ACA_77777777777_88888888888888885 | PARTIALLY_PAID       | 201           |
-| 77777777777              | ACA_77777777777_88888888888888886 | PAID                 | 201           |
-| 77777777777              | ACA_77777777777_88888888888888887 | REPORTED             | 201           |
-| 77777777770              | any                               | -                    | 400           |
-| 77777777771              | any                               | -                    | 401           |
-| 77777777772              | any                               | -                    | 409           |
-| 77777777773              | any                               | -                    | 500           |
-| 66666666666              | ACA_66666666666_88888888888888880 | DRAFT                | 201           |
-| 66666666666              | ACA_66666666666_88888888888888881 | PUBLISHED            | 201           |
-| 66666666666              | ACA_66666666666_88888888888888882 | VALID                | 201           |
-| 66666666666              | ACA_66666666666_88888888888888883 | INVALID              | 201           |
-| 66666666666              | ACA_66666666666_88888888888888884 | EXPIRED              | 201           |
-| 66666666666              | ACA_66666666666_88888888888888885 | PARTIALLY_PAID       | 201           |
-| 66666666666              | ACA_66666666666_88888888888888886 | PAID                 | 201           |
-| 66666666666              | ACA_66666666666_88888888888888887 | REPORTED             | 201           |
+| Organization fiscal code | IUPD | Debt position status | Response code | 
+|--------------------------|------|----------------------|---------------|
+| 77777777777              | any  | DRAFT                | 201           |
+| 66666666666              | any  | DRAFT                | 201           |
+| 77777777770              | any  | -                    | 400           |
+| 77777777771              | any  | -                    | 401           |
+| 77777777772              | any  | -                    | 409           |
+| 77777777773              | any  | -                    | 500           |
 
 Other values than the above ones will result in a 500 internal server response error
 
