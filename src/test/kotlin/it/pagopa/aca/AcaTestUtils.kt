@@ -1,13 +1,12 @@
 package it.pagopa.aca
 
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import it.pagopa.generated.aca.model.ProblemJsonDto
 import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
 import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
-import it.pagopa.generated.gpd.model.PaymentOptionModelResponseDto
-import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
-import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import it.pagopa.generated.gpd.model.*
 import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
@@ -56,6 +55,20 @@ object AcaTestUtils {
                 )
             )
 
+    fun debitPositionModelResponse(iupd: Iupd): PaymentPositionModelDto =
+        PaymentPositionModelDto()
+            .iupd(iupd.value())
+            .companyName("companyName")
+            .type(PaymentPositionModelDto.TypeEnum.F)
+            .paymentOption(
+                listOf(
+                    PaymentOptionModelDto()
+                        .iuv("302001069073736640")
+                        .amount(100)
+                        .isPartialPayment(false)
+                )
+            )
+
     fun debitPositionRequestBody(iupd: Iupd): PaymentPositionModelDto =
         PaymentPositionModelDto()
             .iupd(iupd.value())
@@ -63,4 +76,39 @@ object AcaTestUtils {
             .fiscalCode("XXXYYY00X11Y123Z")
             .type(PaymentPositionModelDto.TypeEnum.F)
             .fullName("Entity Test")
+
+    fun createPositionRequestBody(iupd: Iupd, amount: Int): NewDebtPositionRequestDto =
+        NewDebtPositionRequestDto(
+            iupd.fiscalCode,
+            NewDebtPositionRequestDto.EntityType.F,
+            "XXXYYY00X11Y123Z",
+            "entityFullName",
+            iupd.iuv,
+            amount,
+            "description",
+            OffsetDateTime.now()
+        )
+
+    fun responseGetPosition(
+        iupd: Iupd,
+        amount: Int,
+        iban: String,
+        status: PaymentPositionModelBaseResponseDto.StatusEnum
+    ): PaymentPositionModelBaseResponseDto =
+        PaymentPositionModelBaseResponseDto()
+            .iupd(iupd.value())
+            .validityDate(OffsetDateTime.now())
+            .type(PaymentPositionModelBaseResponseDto.TypeEnum.F)
+            .status(status)
+            .paymentOption(
+                listOf(
+                    PaymentOptionModelResponseDto()
+                        .amount(amount.toLong())
+                        .organizationFiscalCode("XXXYYY00X11Y123Z")
+                        .isPartialPayment(false)
+                        .transfer(
+                            listOf(TransferModelResponseDto().amount(amount.toLong()).iban(iban))
+                        )
+                )
+            )
 }

@@ -76,5 +76,5 @@ stages:
           - template: azure-templates/api-tests.yml
             parameters:
               ENV_FILE: "api-tests/env/ACA_localhost_env.json"
-              API_TEST_FILE: "api-tests/ACA-api.tests.json"
+              API_TEST_FILE: "api-tests/ACA-api.tests.localhost.json"
               TEST_FILE_PREFIX: "aca-api-test"

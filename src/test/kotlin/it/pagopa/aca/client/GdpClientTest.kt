@@ -6,6 +6,7 @@ import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.exceptions.GpdException
+import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import java.nio.charset.StandardCharsets
@@ -23,6 +24,7 @@ import org.mockito.kotlin.mock
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClientResponseException
+import reactor.test.StepVerifier
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GdpClientTest {
@@ -58,11 +60,6 @@ class GdpClientTest {
                     HttpStatus.UNAUTHORIZED,
                     HttpStatus.UNAUTHORIZED,
                     "Error while call gpd unauthorized request"
-                ),
-                Arguments.of(
-                    HttpStatus.NOT_FOUND,
-                    HttpStatus.NOT_FOUND,
-                    "No debt position found with Creditor institution code: $creditorInstitutionCode and iupd: ${iupd.value()}"
                 ),
                 Arguments.of(
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -174,12 +171,12 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value())
+        val response = gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()).block()
         // assertions
-        Assertions.assertEquals(mockedResponse.iupd, response.iupd)
+        Assertions.assertEquals(mockedResponse.iupd, response?.iupd)
         Assertions.assertEquals(
             mockedResponse.organizationFiscalCode,
-            response.organizationFiscalCode
+            response?.organizationFiscalCode
         )
     }
 
@@ -198,12 +195,32 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val exception =
-            assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value())
+        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()))
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == expectedDescription
+                it.toRestException().httpStatus == expectedStatusCode
             }
-        Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
-        Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+            .verify()
+    }
+
+    @Test
+    fun `Should handle get debit position errors 404`() = runTest {
+        // pre-conditions
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody("{}")
+                .setResponseCode(HttpStatus.NOT_FOUND.value())
+                .addHeader("Content-Type", "application/json")
+        )
+        // test
+        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()))
+            .expectErrorMatches {
+                it as GpdPositionNotFoundException
+                it.toRestException().description == "Debit position not found"
+                it.toRestException().httpStatus == HttpStatus.NOT_FOUND
+            }
+            .verify()
     }
 
     @Test
@@ -224,15 +241,13 @@ class GdpClientTest {
                 )
             )
         // test
-        val exception =
-            assertThrows<GpdException> {
-                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value())
+        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()))
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == "Gpd error: $httpErrorStatusCode"
+                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
             }
-        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
-        Assertions.assertEquals(
-            "Gpd error: $httpErrorStatusCode",
-            exception.toRestException().description
-        )
+            .verify()
     }
 
     @Test
@@ -247,9 +262,9 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response = gpdClient.createDebtPosition(creditorInstitutionCode, mockedRequest)
+        val response = gpdClient.createDebtPosition(creditorInstitutionCode, mockedRequest).block()
         // assertions
-        Assertions.assertEquals(response.iupd, mockedRequest.iupd)
+        Assertions.assertEquals(response?.iupd, mockedRequest.iupd)
     }
 
     @ParameterizedTest
@@ -267,15 +282,18 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val exception =
-            assertThrows<GpdException> {
+        StepVerifier.create(
                 gpdClient.createDebtPosition(
                     creditorInstitutionCode,
                     AcaTestUtils.debitPositionRequestBody(iupd)
                 )
+            )
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == expectedDescription
+                it.toRestException().httpStatus == expectedStatusCode
             }
-        Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
-        Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+            .verify()
     }
 
     @Test
@@ -302,18 +320,18 @@ class GdpClientTest {
                 )
             )
         // test
-        val exception =
-            assertThrows<GpdException> {
+        StepVerifier.create(
                 gpdClient.createDebtPosition(
                     creditorInstitutionCode,
                     AcaTestUtils.debitPositionRequestBody(iupd)
                 )
+            )
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == "Gpd error: $httpErrorStatusCode"
+                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
             }
-        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
-        Assertions.assertEquals(
-            "Gpd error: $httpErrorStatusCode",
-            exception.toRestException().description
-        )
+            .verify()
     }
 
     @Test
@@ -329,9 +347,11 @@ class GdpClientTest {
         )
         // test
         val response =
-            gpdClient.updateDebtPosition(creditorInstitutionCode, iupd.value(), mockedRequest)
+            gpdClient
+                .updateDebtPosition(creditorInstitutionCode, iupd.value(), mockedRequest)
+                .block()
         // assertions
-        Assertions.assertEquals(response.iupd, mockedRequest.iupd)
+        Assertions.assertEquals(response?.iupd, mockedRequest.iupd)
     }
 
     @ParameterizedTest
@@ -349,16 +369,19 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val exception =
-            assertThrows<GpdException> {
+        StepVerifier.create(
                 gpdClient.updateDebtPosition(
                     creditorInstitutionCode,
                     iupd.value(),
                     AcaTestUtils.debitPositionRequestBody(iupd)
                 )
+            )
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == expectedDescription
+                it.toRestException().httpStatus == expectedStatusCode
             }
-        Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
-        Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+            .verify()
     }
 
     @Test
@@ -386,19 +409,19 @@ class GdpClientTest {
                 )
             )
         // test
-        val exception =
-            assertThrows<GpdException> {
+        StepVerifier.create(
                 gpdClient.updateDebtPosition(
                     creditorInstitutionCode,
                     iupd.value(),
                     AcaTestUtils.debitPositionRequestBody(iupd)
                 )
+            )
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == "Gpd error: $httpErrorStatusCode"
+                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
             }
-        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
-        Assertions.assertEquals(
-            "Gpd error: $httpErrorStatusCode",
-            exception.toRestException().description
-        )
+            .verify()
     }
 
     @Test
@@ -413,9 +436,10 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val response = gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
+        val response =
+            gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value()).block()
         // assertions
-        Assertions.assertEquals(response.iupd, mockedRequest.iupd)
+        Assertions.assertEquals(response?.iupd, mockedRequest.iupd)
     }
 
     @ParameterizedTest
@@ -433,12 +457,13 @@ class GdpClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val exception =
-            assertThrows<GpdException> {
-                gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
+        StepVerifier.create(gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value()))
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == expectedDescription
+                it.toRestException().httpStatus == expectedStatusCode
             }
-        Assertions.assertEquals(expectedStatusCode, exception.toRestException().httpStatus)
-        Assertions.assertEquals(expectedDescription, exception.toRestException().description)
+            .verify()
     }
 
     @Test
@@ -458,15 +483,12 @@ class GdpClientTest {
                     StandardCharsets.UTF_8
                 )
             )
-        // test
-        val exception =
-            assertThrows<GpdException> {
-                gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value())
+        StepVerifier.create(gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value()))
+            .expectErrorMatches {
+                it as GpdException
+                it.toRestException().description == "Gpd error: $httpErrorStatusCode"
+                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
             }
-        Assertions.assertEquals(HttpStatus.BAD_GATEWAY, exception.toRestException().httpStatus)
-        Assertions.assertEquals(
-            "Gpd error: $httpErrorStatusCode",
-            exception.toRestException().description
-        )
+            .verify()
     }
 }

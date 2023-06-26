@@ -33,6 +33,9 @@ services:
 
 networks:
   pagopa-aca-net:
+    name: pagopa-aca-net
     driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
 
 
