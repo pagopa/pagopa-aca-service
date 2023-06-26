@@ -52,6 +52,8 @@ class AcaUtils {
                             listOf(
                                 TransferModelDto()
                                     .amount(newDebtPositionRequestDto.amount.toLong())
+                                    .organizationFiscalCode(iupd.fiscalCode)
+                                    .remittanceInformation(newDebtPositionRequestDto.description)
                                     .idTransfer(TransferModelDto.IdTransferEnum._1)
                                     .category(STAND_IN_CONSTANT)
                                     .iban(iban)
@@ -92,6 +94,8 @@ class AcaUtils {
                                     ?.map { transfer ->
                                         TransferModelDto()
                                             .amount(newDebtPositionRequestDto.amount.toLong())
+                                            .remittanceInformation(newDebtPositionRequestDto.description)
+                                            .organizationFiscalCode(iupd.fiscalCode)
                                             .idTransfer(TransferModelDto.IdTransferEnum._1)
                                             .category(transfer.category)
                                             .iban(transfer.iban)
