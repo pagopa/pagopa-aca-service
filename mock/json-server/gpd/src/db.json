@@ -431,6 +431,438 @@
       }
     ]
   },
+  "debit-position-66666666666-ACA_66666666666_88888888888888880": {
+    "iupd": "66666666666_88888888888888880",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "DRAFT",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888880",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_UNPAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888881": {
+    "iupd": "66666666666_88888888888888881",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "PUBLISHED",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888881",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_UNPAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888882": {
+    "iupd": "66666666666_88888888888888882",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "VALID",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888882",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_UNPAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888883": {
+    "iupd": "66666666666_88888888888888883",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "INVALID",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888883",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_UNPAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888884": {
+    "iupd": "66666666666_88888888888888884",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "EXPIRED",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888884",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_UNPAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888885": {
+    "iupd": "66666666666_88888888888888885",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "PARTIALLY_PAID",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888885",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": true,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_PAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888886": {
+    "iupd": "66666666666_88888888888888886",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "PAID",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888886",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_PAID",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_UNREPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
+  "debit-position-66666666666-ACA_66666666666_88888888888888887": {
+    "iupd": "66666666666_88888888888888887",
+    "organizationFiscalCode": "66666666666",
+    "type": "F",
+    "companyName": "company name",
+    "officeName": "office name",
+    "insertedDate": "2099-12-31T23:59:59.999Z",
+    "publishDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999Z",
+    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "status": "REPORTED",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "paymentOption": [
+      {
+        "iuv": "88888888888888887",
+        "organizationFiscalCode": "66666666666",
+        "amount": 500,
+        "description": "Payment option description",
+        "isPartialPayment": false,
+        "dueDate": "2099-12-31T23:59:59.999Z",
+        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "paymentDate": "2099-12-31T23:59:59.999Z",
+        "reportingDate": "2099-12-31T23:59:59.999Z",
+        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "paymentMethod": "paymentMethod",
+        "fee": 100,
+        "notificationFee": 200,
+        "pspCompany": "pspCompany",
+        "idReceipt": "idReceipt",
+        "idFlowReporting": "string",
+        "status": "PO_REPORTED",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "transfer": [
+          {
+            "organizationFiscalCode": "66666666666",
+            "idTransfer": "idTransfer",
+            "amount": 500,
+            "remittanceInformation": "remittanceInformations",
+            "category": "category",
+            "iban": " IT99C1234567890123456789012",
+            "postalIban": "IT99C0760167890123456789012",
+            "stamp": {
+              "hashDocument": "hashDocument",
+              "stampType": "st",
+              "provincialResidence": "RM"
+            },
+            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "status": "T_REPORTED",
+            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+          }
+        ]
+      }
+    ]
+  },
   "debit-position-creation-77777777777": {
     "iupd": "77777777777_88888888888888887",
     "type": "F",
