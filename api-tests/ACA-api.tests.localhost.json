@@ -163,11 +163,11 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"ACA invalid amount for debit position creation - Status code is 400 with json error response\", function () {",
-							"    pm.response.to.have.status(400);",
+							"pm.test(\"ACA invalid amount for debit position creation - Status code is 422 with json error response\", function () {",
+							"    pm.response.to.have.status(422);",
 							"    const response = pm.response.json();",
-							"    pm.expect(response.status).eql(400);",
-							"    pm.expect(response.detail).eql(`Amount not compatible with the creation request`);",
+							"    pm.expect(response.status).eql(422);",
+							"    pm.expect(response.detail).eql(`Can not perform the requested action on debit position`);",
 							"});"
 						],
 						"type": "text/javascript"
