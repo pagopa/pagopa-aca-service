@@ -7,6 +7,7 @@ import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
 import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
 import it.pagopa.generated.gpd.model.*
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
@@ -39,12 +40,12 @@ object AcaTestUtils {
             .companyName("companyName")
             .organizationFiscalCode("77777777777")
             .type(PaymentPositionModelBaseResponseDto.TypeEnum.F)
-            .insertedDate(OffsetDateTime.now())
-            .publishDate(OffsetDateTime.now())
-            .validityDate(OffsetDateTime.now())
-            .paymentDate(OffsetDateTime.now())
+            .insertedDate(LocalDateTime.now())
+            .publishDate(LocalDateTime.now())
+            .validityDate(LocalDateTime.now())
+            .paymentDate(LocalDateTime.now())
             .status(PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED)
-            .lastUpdatedDate(OffsetDateTime.now())
+            .lastUpdatedDate(LocalDateTime.now())
             .paymentOption(
                 listOf(
                     PaymentOptionModelResponseDto()
@@ -97,7 +98,7 @@ object AcaTestUtils {
     ): PaymentPositionModelBaseResponseDto =
         PaymentPositionModelBaseResponseDto()
             .iupd(iupd.value())
-            .validityDate(OffsetDateTime.now())
+            .validityDate(LocalDateTime.now())
             .type(PaymentPositionModelBaseResponseDto.TypeEnum.F)
             .status(status)
             .paymentOption(

@@ -14,12 +14,13 @@ class AcaUtils {
     companion object {
         const val STAND_IN_CONSTANT: String = "STAND-IN"
     }
+
     fun isInvalidStatusForExecuteOperation(
         status: PaymentPositionModelBaseResponseDto.StatusEnum?
     ): Boolean {
         return status != PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT &&
-            status != PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED &&
-            status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID
+                status != PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED &&
+                status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID
     }
 
     fun isInvalidateAmount(amount: Int): Boolean {
@@ -47,7 +48,7 @@ class AcaUtils {
                         .amount(newDebtPositionRequestDto.amount.toLong())
                         .description(newDebtPositionRequestDto.description)
                         .isPartialPayment(false)
-                        .dueDate(newDebtPositionRequestDto.expirationDate)
+                        .dueDate(newDebtPositionRequestDto.expirationDate.toLocalDateTime())
                         .transfer(
                             listOf(
                                 TransferModelDto()
@@ -87,7 +88,7 @@ class AcaUtils {
                             .iuv(newDebtPositionRequestDto.iuv)
                             .amount(newDebtPositionRequestDto.amount.toLong())
                             .description(newDebtPositionRequestDto.description)
-                            .dueDate(newDebtPositionRequestDto.expirationDate)
+                            .dueDate(newDebtPositionRequestDto.expirationDate.toLocalDateTime())
                             .transfer(
                                 it.transfer
                                     ?.stream()
