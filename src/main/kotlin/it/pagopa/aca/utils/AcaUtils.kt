@@ -88,6 +88,7 @@ class AcaUtils {
                             .iuv(newDebtPositionRequestDto.iuv)
                             .amount(newDebtPositionRequestDto.amount.toLong())
                             .description(newDebtPositionRequestDto.description)
+                            .isPartialPayment(false)
                             .dueDate(newDebtPositionRequestDto.expirationDate.toLocalDateTime())
                             .transfer(
                                 it.transfer
