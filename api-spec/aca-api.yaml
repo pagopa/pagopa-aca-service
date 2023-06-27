@@ -36,22 +36,30 @@ paths:
                 $ref: '#/components/schemas/ProblemJson'
               example:
                 value:
-                  type: https://example.com/problem/
-                  title: string
-                  status: 400
-                  detail: Formally invalid input
+                  invalidInput:
+                    type: https://example.com/problem/
+                    title: string
+                    status: 400
+                    detail: Formally invalid input
         '404':
-          description: Creditor institution code not found
+          description: Entity not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemJson'
-              example:
-                value:
-                  type: https://example.com/problem/
-                  title: string
-                  status: 404
-                  detail: Creditor institution code not found
+              examples:
+                iupd_not_found:
+                  value:
+                    type: https://example.com/problem/
+                    title: Gpd Invocation exception
+                    status: 404
+                    detail: Error while invalidate debit position. Debit position not found with {iupd}
+                pa_fiscal_code_not_found:
+                  value:
+                    type: https://example.com/problem/
+                    title: Gpd Invocation exception
+                    status: 404
+                    detail: No debt position found with Creditor institution code {creditorInstitutionCode} and {iupd}
         '422':
           description: Can not perform the requested action on debit position
           content:
@@ -61,11 +69,42 @@ paths:
               example:
                 value:
                   type: https://example.com/problem/
-                  title: string
+                  title: Unprocessable request
                   status: 422
-                  detail: Error while create/invalidate/update new debit position conflict into request
+                  detail: Can not perform the requested action on debit position
         '409':
-          description: Can not perform the requested action on debit position
+          description: Conflict into requested action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              examples:
+                create:
+                  value:
+                    type: https://example.com/problem/
+                    title: Gpd Invocation exception
+                    status: 409
+                    detail: Error while create new debit position conflict into request
+                update:
+                  value:
+                    type: https://example.com/problem/
+                    title: Gpd Invocation exception
+                    status: 409
+                    detail: Error while update debit position conflict into request
+                invalidate:
+                  value:
+                    type: https://example.com/problem/
+                    title: Gpd Invocation exception
+                    status: 409
+                    detail: Error while invalidate debit position conflict into request
+                unauthorized_action:
+                  value:
+                    type: https://example.com/problem/
+                    title: Unauthorized action
+                    status: 409
+                    detail: Unauthorized action on debt position with iuv {newDebtPositionRequestDto.iuv}
+        '502':
+          description: Bad gateway
           content:
             application/json:
               schema:
@@ -74,8 +113,8 @@ paths:
                 value:
                   type: https://example.com/problem/
                   title: string
-                  status: 422
-                  detail: Can not perform the requested action on debit position
+                  status: 502
+                  detail: Bad gateway, error while execute request
         '500':
           description: Internal server error
           content:

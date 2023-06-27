@@ -44,8 +44,8 @@ class GpdClient(
             when (it.statusCode) {
                 HttpStatus.UNAUTHORIZED ->
                     GpdException(
-                        description = "Error while call gpd unauthorized request",
-                        httpStatusCode = HttpStatus.UNAUTHORIZED
+                        description = "Internal server error",
+                        httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 HttpStatus.NOT_FOUND -> GpdPositionNotFoundException()
                 HttpStatus.INTERNAL_SERVER_ERROR ->
@@ -87,8 +87,8 @@ class GpdClient(
                     )
                 HttpStatus.UNAUTHORIZED ->
                     GpdException(
-                        description = "Error while call gpd unauthorized request",
-                        httpStatusCode = HttpStatus.UNAUTHORIZED
+                        description = "Internal server error",
+                        httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 HttpStatus.CONFLICT ->
                     GpdException(
@@ -135,8 +135,8 @@ class GpdClient(
                     )
                 HttpStatus.UNAUTHORIZED ->
                     GpdException(
-                        description = "Error while call gpd unauthorized request",
-                        httpStatusCode = HttpStatus.UNAUTHORIZED
+                        description = "Internal server error",
+                        httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 HttpStatus.NOT_FOUND ->
                     GpdException(
@@ -146,7 +146,7 @@ class GpdClient(
                     )
                 HttpStatus.CONFLICT ->
                     GpdException(
-                        description = "Error while update new debit position conflict into request",
+                        description = "Error while update debit position conflict into request",
                         httpStatusCode = HttpStatus.CONFLICT
                     )
                 HttpStatus.INTERNAL_SERVER_ERROR ->
@@ -181,8 +181,8 @@ class GpdClient(
             when (it.statusCode) {
                 HttpStatus.UNAUTHORIZED ->
                     GpdException(
-                        description = "Error while call gpd unauthorized request",
-                        httpStatusCode = HttpStatus.UNAUTHORIZED
+                        description = "Internal server error",
+                        httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 HttpStatus.NOT_FOUND ->
                     GpdException(
