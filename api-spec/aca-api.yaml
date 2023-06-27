@@ -41,7 +41,7 @@ paths:
                   status: 400
                   detail: Formally invalid input
         '404':
-          description: PA or IBAN not found
+          description: Creditor institution code not found
           content:
             application/json:
               schema:
@@ -51,9 +51,9 @@ paths:
                   type: https://example.com/problem/
                   title: string
                   status: 404
-                  detail: PA or IBAN not found
-        '409':
-          description: Conflict during the debt position census
+                  detail: Creditor institution code not found
+        '422':
+          description: Can not perform the requested action on debit position
           content:
             application/json:
               schema:
@@ -62,8 +62,20 @@ paths:
                 value:
                   type: https://example.com/problem/
                   title: string
-                  status: 409
-                  detail: Conflict during the debt position census
+                  status: 422
+                  detail: Error while create/invalidate/update new debit position conflict into request
+        '409':
+          description: Can not perform the requested action on debit position
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJson'
+              example:
+                value:
+                  type: https://example.com/problem/
+                  title: string
+                  status: 422
+                  detail: Can not perform the requested action on debit position
         '500':
           description: Internal server error
           content:
@@ -93,6 +105,8 @@ components:
       properties:
         paFiscalCode:
           type: string
+          minLength: 11
+          maxLength: 11
         entityType:
           type: string
           enum:
@@ -104,6 +118,8 @@ components:
           type: string
         iuv:
           type: string
+          minLength: 18
+          maxLength: 18
         amount:
           $ref: '#/components/schemas/AmountEuroCents'
         description:

@@ -146,7 +146,7 @@ class GpdClient(
                     )
                 HttpStatus.CONFLICT ->
                     GpdException(
-                        description = "Error while create new debit position conflict into request",
+                        description = "Error while update new debit position conflict into request",
                         httpStatusCode = HttpStatus.CONFLICT
                     )
                 HttpStatus.INTERNAL_SERVER_ERROR ->
