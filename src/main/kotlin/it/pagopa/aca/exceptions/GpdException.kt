@@ -8,6 +8,6 @@ class GpdException(private val description: String, private val httpStatusCode: 
         RestApiException(
             httpStatus = httpStatusCode,
             description = description,
-            title = "Gpd Invocation exception"
+            title = "Invocation exception"
         )
 }

@@ -58,8 +58,8 @@ class GdpClientTest {
             Stream.of(
                 Arguments.of(
                     HttpStatus.UNAUTHORIZED,
-                    HttpStatus.UNAUTHORIZED,
-                    "Error while call gpd unauthorized request"
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -73,8 +73,8 @@ class GdpClientTest {
             Stream.of(
                 Arguments.of(
                     HttpStatus.UNAUTHORIZED,
-                    HttpStatus.UNAUTHORIZED,
-                    "Error while call gpd unauthorized request"
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST, "Bad request"),
                 Arguments.of(
@@ -94,8 +94,8 @@ class GdpClientTest {
             Stream.of(
                 Arguments.of(
                     HttpStatus.UNAUTHORIZED,
-                    HttpStatus.UNAUTHORIZED,
-                    "Error while call gpd unauthorized request"
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST, "Bad request"),
                 Arguments.of(
@@ -120,8 +120,8 @@ class GdpClientTest {
             Stream.of(
                 Arguments.of(
                     HttpStatus.UNAUTHORIZED,
-                    HttpStatus.UNAUTHORIZED,
-                    "Error while call gpd unauthorized request"
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(
                     HttpStatus.NOT_FOUND,

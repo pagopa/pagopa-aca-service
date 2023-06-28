@@ -69,8 +69,8 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
                         )
                     HttpStatus.TOO_MANY_REQUESTS ->
                         ApiConfigException(
-                            description = "Too many requests",
-                            httpStatusCode = HttpStatus.TOO_MANY_REQUESTS
+                            description = "Internal server error",
+                            httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
                         ApiConfigException(
