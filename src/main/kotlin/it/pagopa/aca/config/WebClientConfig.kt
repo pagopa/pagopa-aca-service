@@ -2,7 +2,6 @@ package it.pagopa.aca.config
 
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
-import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -14,10 +13,6 @@ import reactor.netty.http.client.HttpClient
 
 @Configuration
 class WebClientConfig {
-
-    companion object {
-        const val GPD_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-    }
 
     @Bean(name = ["ibansApiClient"])
     fun ibansApiClient(
@@ -52,15 +47,7 @@ class WebClientConfig {
                 connectionTimeout = connectionTimeout,
                 it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
             )
-        val dateFormat = SimpleDateFormat(GPD_DATE_FORMAT)
-        val apiClient =
-            it.pagopa.generated.gpd
-                .ApiClient(
-                    webClient,
-                    it.pagopa.generated.gpd.ApiClient.createDefaultObjectMapper(dateFormat),
-                    dateFormat
-                )
-                .setBasePath(baseUrl)
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
 
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
@@ -80,15 +67,7 @@ class WebClientConfig {
                 connectionTimeout = connectionTimeout,
                 it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
             )
-        val dateFormat = SimpleDateFormat(GPD_DATE_FORMAT)
-        val apiClient =
-            it.pagopa.generated.gpd
-                .ApiClient(
-                    webClient,
-                    it.pagopa.generated.gpd.ApiClient.createDefaultObjectMapper(dateFormat),
-                    dateFormat
-                )
-                .setBasePath(baseUrl)
+        val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.gpd.api.DebtPositionActionsApiApi(apiClient)
     }
