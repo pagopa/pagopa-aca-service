@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "f1c2a4b0-659b-44cc-90f3-93d47b1501f0",
-		"name": "ACA",
+		"name": "ACA localhost",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24209240"
 	},
@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,7 +87,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -137,7 +137,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_DRAFT_STATUS}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -190,7 +190,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{CREATION_FLOW_FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{VALID_IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,7 +244,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"MRNFJHHTIYEHD\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_PAID_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"F\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"Mario Rossi\",\n  \"iuv\": {{IUV_PRESENT_PAID_STATUS}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
