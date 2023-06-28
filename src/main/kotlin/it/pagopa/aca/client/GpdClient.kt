@@ -102,7 +102,7 @@ class GpdClient(
                     )
                 else ->
                     GpdException(
-                        description = "Gpd error: ${it.statusCode}",
+                        description = "Generic error",
                         httpStatusCode = HttpStatus.BAD_GATEWAY
                     )
             }
@@ -156,7 +156,7 @@ class GpdClient(
                     )
                 else ->
                     GpdException(
-                        description = "Gpd error: ${it.statusCode}",
+                        description = "Generic error",
                         httpStatusCode = HttpStatus.BAD_GATEWAY
                     )
             }
@@ -202,7 +202,7 @@ class GpdClient(
                     )
                 else ->
                     GpdException(
-                        description = "Gpd error: ${it.statusCode}",
+                        description = "Generic error",
                         httpStatusCode = HttpStatus.BAD_GATEWAY
                     )
             }
