@@ -73,8 +73,8 @@ class IbansClientTest {
                 ),
                 Arguments.of(
                     HttpStatus.TOO_MANY_REQUESTS,
-                    HttpStatus.TOO_MANY_REQUESTS,
-                    "Too many requests"
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(
                     HttpStatus.INTERNAL_SERVER_ERROR,
