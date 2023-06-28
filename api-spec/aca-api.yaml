@@ -102,7 +102,7 @@ paths:
                     type: https://example.com/problem/
                     title: Unauthorized action
                     status: 409
-                    detail: Unauthorized action on debt position with iuv {newDebtPositionRequestDto.iuv}
+                    detail: Unauthorized action on debt position with iuv {iuv}
         '502':
           description: Bad gateway
           content:
