@@ -1,5 +1,5 @@
 {
-	"id": "84d43167-b12d-4e7d-a58d-ff439504d59a",
+	"id": "97946a2c-e73e-49b5-8033-b1c0708b20ca",
 	"name": "ACA dev",
 	"values": [
 		{
@@ -11,6 +11,24 @@
 		{
 			"key": "FISCAL_CODE",
 			"value": "77777777777",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "AMOUNT_INVALIDATE",
+			"value": "0",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "AMOUNT",
+			"value": "100",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ENTITY_FISCAL_CODE",
+			"value": "RYGFHDDDYR7FDFTR",
 			"type": "default",
 			"enabled": true
 		},
@@ -40,6 +58,6 @@
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-06-07T07:30:44.974Z",
-	"_postman_exported_using": "Postman/10.14.9"
+	"_postman_exported_at": "2023-06-28T13:28:00.530Z",
+	"_postman_exported_using": "Postman/10.15.4"
 }

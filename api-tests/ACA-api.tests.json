@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1c2a4b0-659b-44cc-90f3-93d47b1501f0",
+		"_postman_id": "8b2e2f94-cee5-4a54-8fe2-14fd7ba66d2b",
 		"name": "ACA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24209240"
@@ -16,6 +16,18 @@
 							"pm.test(\"ACA creation - Status code is 200 with valid json response\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const min = Number(\"10000000000000\");",
+							"const max = Number(\"19999999999999\");",
+							"const randomNoticeCode = _.random(min, max);",
+							"pm.environment.set(\"IUV\", randomNoticeCode);"
 						],
 						"type": "text/javascript"
 					}
@@ -37,7 +49,107 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": \"867568757498\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": {{FISCAL_CODE}},\n  \"entityFullName\": \"entity test\",\n  \"iuv\": {{IUV}},\n  \"amount\": 100,\n  \"description\": \"description test\",\n  \"expirationDate\": \"2023-06-07T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA update debit position - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOSTNAME}}/{{PATH}}",
+					"host": [
+						"{{HOSTNAME}}"
+					],
+					"path": [
+						"{{PATH}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalidate debit position",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ACA invalidate debit position - Status code is 200 with valid json response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "deployment",
+						"value": "{{DEPLOYMENT}}",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{API_SUBSCRIPTION_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
