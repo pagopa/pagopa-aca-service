@@ -153,16 +153,22 @@ components:
             - G
         entityFiscalCode:
           type: string
+          minLength: 16
+          maxLength: 16
         entityFullName:
           type: string
+          minLength: 1
+          maxLength: 255
         iuv:
           type: string
-          minLength: 18
-          maxLength: 18
+          minLength: 1
+          maxLength: 255
         amount:
           $ref: '#/components/schemas/AmountEuroCents'
         description:
           type: string
+          minLength: 1
+          maxLength: 255
         expirationDate:
           type: string
           format: date-time
