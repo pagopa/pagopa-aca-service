@@ -182,6 +182,8 @@ tasks.register("gpdAPI", GenerateTask::class.java) {
   generateModelTests.set(false)
   library.set("webclient")
   modelNameSuffix.set("Dto")
+  typeMappings.set(mapOf("OffsetDateTime" to "LocalDateTime"))
+  importMappings.set(mapOf("java.time.OffsetDateTime" to "java.time.LocalDateTime"))
   configOptions.set(
     mapOf(
       "swaggerAnnotations" to "false",
