@@ -51,13 +51,13 @@ paths:
                 iupd_not_found:
                   value:
                     type: https://example.com/problem/
-                    title: Gpd Invocation exception
+                    title: Invocation exception
                     status: 404
                     detail: Error while invalidate debit position. Debit position not found with {iupd}
                 pa_fiscal_code_not_found:
                   value:
                     type: https://example.com/problem/
-                    title: Gpd Invocation exception
+                    title: Invocation exception
                     status: 404
                     detail: No debt position found with Creditor institution code {creditorInstitutionCode} and {iupd}
         '422':
@@ -82,19 +82,19 @@ paths:
                 create:
                   value:
                     type: https://example.com/problem/
-                    title: Gpd Invocation exception
+                    title: Invocation exception
                     status: 409
                     detail: Error while create new debit position conflict into request
                 update:
                   value:
                     type: https://example.com/problem/
-                    title: Gpd Invocation exception
+                    title: Invocation exception
                     status: 409
                     detail: Error while update debit position conflict into request
                 invalidate:
                   value:
                     type: https://example.com/problem/
-                    title: Gpd Invocation exception
+                    title: Invocation exception
                     status: 409
                     detail: Error while invalidate debit position conflict into request
                 unauthorized_action:
