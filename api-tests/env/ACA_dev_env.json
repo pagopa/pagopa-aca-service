@@ -1,45 +1,63 @@
 {
-	"id": "84d43167-b12d-4e7d-a58d-ff439504d59a",
-	"name": "ACA dev",
-	"values": [
-		{
-			"key": "HOSTNAME",
-			"value": "https://api.dev.platform.pagopa.it",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "FISCAL_CODE",
-			"value": "77777777777",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "IUV",
-			"value": "302001069073736640",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "DEPLOYMENT",
-			"value": "green",
-			"type": "green",
-			"enabled": true
-		},
-		{
-			"key": "PATH",
-			"value": "aca/v1/paCreatePosition",
-			"type": "default",
-			"enabled": true
-		},
-		{
-			"key": "API_SUBSCRIPTION_KEY",
-			"value": "default-key",
-			"type": "secret",
-			"enabled": true
-		}
-	],
-	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-06-07T07:30:44.974Z",
-	"_postman_exported_using": "Postman/10.14.9"
+  "id": "d35f02b2-0f64-4d41-8a6f-8771d4cfcbb5",
+  "name": "ACA dev",
+  "values": [
+    {
+      "key": "HOSTNAME",
+      "value": "https://api.dev.platform.pagopa.it",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "FISCAL_CODE",
+      "value": "77777777777",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "AMOUNT_INVALIDATE",
+      "value": "0",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "AMOUNT",
+      "value": "100",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "ENTITY_FISCAL_CODE",
+      "value": "RYGFHDDDYR7FDFTR",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "IUV",
+      "value": "302001069073736640",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "DEPLOYMENT",
+      "value": "green",
+      "type": "green",
+      "enabled": true
+    },
+    {
+      "key": "PATH",
+      "value": "aca/v1/paCreatePosition",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "API_SUBSCRIPTION_KEY",
+      "value": "default-key",
+      "type": "secret",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2023-06-28T13:19:06.899Z",
+  "_postman_exported_using": "Postman/10.15.4"
 }
