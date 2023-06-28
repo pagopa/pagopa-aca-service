@@ -5,12 +5,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "DRAFT",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888880",
@@ -18,11 +18,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -30,7 +30,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_UNPAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -45,9 +45,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -59,12 +59,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "PUBLISHED",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888881",
@@ -72,11 +72,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -84,7 +84,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_UNPAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -99,9 +99,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -113,12 +113,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "VALID",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888882",
@@ -126,11 +126,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -138,7 +138,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_UNPAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -153,9 +153,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -167,12 +167,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "INVALID",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888883",
@@ -180,11 +180,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -192,7 +192,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_UNPAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -207,9 +207,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -221,12 +221,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "EXPIRED",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888884",
@@ -234,11 +234,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -246,7 +246,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_UNPAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -261,9 +261,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -275,12 +275,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "PARTIALLY_PAID",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888885",
@@ -288,11 +288,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": true,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -300,7 +300,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_PAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -315,9 +315,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -329,12 +329,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "PAID",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888886",
@@ -342,11 +342,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -354,7 +354,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_PAID",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -369,9 +369,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_UNREPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -383,12 +383,12 @@
     "type": "F",
     "companyName": "company name",
     "officeName": "office name",
-    "insertedDate": "2099-12-31T23:59:59.999Z",
-    "publishDate": "2099-12-31T23:59:59.999Z",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "insertedDate": "2099-12-31T23:59:59.999999",
+    "publishDate": "2099-12-31T23:59:59.999999",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "REPORTED",
-    "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+    "lastUpdatedDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888887",
@@ -396,11 +396,11 @@
         "amount": 500,
         "description": "Payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
-        "paymentDate": "2099-12-31T23:59:59.999Z",
-        "reportingDate": "2099-12-31T23:59:59.999Z",
-        "insertedDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
+        "paymentDate": "2099-12-31T23:59:59.999999",
+        "reportingDate": "2099-12-31T23:59:59.999999",
+        "insertedDate": "2099-12-31T23:59:59.999999",
         "paymentMethod": "paymentMethod",
         "fee": 100,
         "notificationFee": 200,
@@ -408,7 +408,7 @@
         "idReceipt": "idReceipt",
         "idFlowReporting": "string",
         "status": "PO_REPORTED",
-        "lastUpdatedDate": "2099-12-31T23:59:59.999Z",
+        "lastUpdatedDate": "2099-12-31T23:59:59.999999",
         "transfer": [
           {
             "organizationFiscalCode": "77777777777",
@@ -423,9 +423,9 @@
               "stampType": "st",
               "provincialResidence": "RM"
             },
-            "insertedDate": "2099-12-31T23:59:59.999Z",
+            "insertedDate": "2099-12-31T23:59:59.999999",
             "status": "T_REPORTED",
-            "lastUpdatedDate": "2099-12-31T23:59:59.999Z"
+            "lastUpdatedDate": "2099-12-31T23:59:59.999999"
           }
         ]
       }
@@ -448,15 +448,15 @@
     "switchToExpired": false,
     "companyName": "company name",
     "officeName": "office name",
-    "validityDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888887",
         "amount": 500,
         "description": "payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
         "fee": 100,
         "transfer": [
           {
@@ -494,15 +494,15 @@
     "switchToExpired": false,
     "companyName": "company name",
     "officeName": "office name",
-    "validityDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999999",
     "paymentOption": [
       {
         "iuv": "88888888888888887",
         "amount": 500,
         "description": "payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
         "fee": 100,
         "transfer": [
           {
@@ -540,8 +540,8 @@
     "switchToExpired": false,
     "companyName": "company name",
     "officeName": "office name",
-    "validityDate": "2099-12-31T23:59:59.999Z",
-    "paymentDate": "2099-12-31T23:59:59.999Z",
+    "validityDate": "2099-12-31T23:59:59.999999",
+    "paymentDate": "2099-12-31T23:59:59.999999",
     "status": "DRAFT",
     "paymentOption": [
       {
@@ -549,8 +549,8 @@
         "amount": 500,
         "description": "payment option description",
         "isPartialPayment": false,
-        "dueDate": "2099-12-31T23:59:59.999Z",
-        "retentionDate": "2099-12-31T23:59:59.999Z",
+        "dueDate": "2099-12-31T23:59:59.999999",
+        "retentionDate": "2099-12-31T23:59:59.999999",
         "fee": 100,
         "notificationFee": 200,
         "transfer": [

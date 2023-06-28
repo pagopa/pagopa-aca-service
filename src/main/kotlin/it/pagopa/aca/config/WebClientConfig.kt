@@ -47,8 +47,8 @@ class WebClientConfig {
                 connectionTimeout = connectionTimeout,
                 it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
             )
-
         val apiClient = it.pagopa.generated.gpd.ApiClient(webClient).setBasePath(baseUrl)
+
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.gpd.api.DebtPositionsApiApi(apiClient)
     }
