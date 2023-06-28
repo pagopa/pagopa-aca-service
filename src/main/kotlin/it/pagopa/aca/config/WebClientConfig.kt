@@ -3,7 +3,6 @@ package it.pagopa.aca.config
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
 import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.TimeUnit
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -17,7 +16,7 @@ import reactor.netty.http.client.HttpClient
 class WebClientConfig {
 
     companion object {
-        const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+        const val GPD_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
     }
 
     @Bean(name = ["ibansApiClient"])
@@ -53,7 +52,7 @@ class WebClientConfig {
                 connectionTimeout = connectionTimeout,
                 it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
             )
-        val dateFormat = SimpleDateFormat(DATE_FORMAT)
+        val dateFormat = SimpleDateFormat(GPD_DATE_FORMAT)
         val apiClient =
             it.pagopa.generated.gpd
                 .ApiClient(
@@ -81,7 +80,7 @@ class WebClientConfig {
                 connectionTimeout = connectionTimeout,
                 it.pagopa.generated.gpd.ApiClient.buildWebClientBuilder()
             )
-        val dateFormat = SimpleDateFormat(DATE_FORMAT)
+        val dateFormat = SimpleDateFormat(GPD_DATE_FORMAT)
         val apiClient =
             it.pagopa.generated.gpd
                 .ApiClient(
