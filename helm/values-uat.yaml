@@ -28,9 +28,14 @@ microservice-chart:
       GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
       ECS_SERVICE_NAME: "pagopa-aca-service-blue"
       ECS_SERVICE_ENVIRONMENT: "uat"
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=pagopa-aca-service-blue,deployment.environment=uat"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+      OTEL_LOGS_EXPORTER: none
+      OTEL_TRACES_SAMPLER: "always_on"
     envSecret:
       API_CONFIG_IBANS_API_KEY: api-config-api-key
       GPD_DEBIT_POSITION_API_KEY: gpd-api-key
+      OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopaucommonacr.azurecr.io/pagopaacaservice
     tag: "0.1.2"
@@ -102,9 +107,14 @@ microservice-chart:
     GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
     ECS_SERVICE_NAME: "pagopa-aca-service"
     ECS_SERVICE_ENVIRONMENT: "uat"
+    OTEL_RESOURCE_ATTRIBUTES: "service.name=pagopa-aca-service,deployment.environment=uat"
+    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+    OTEL_LOGS_EXPORTER: none
+    OTEL_TRACES_SAMPLER: "always_on"
   envSecret:
     API_CONFIG_IBANS_API_KEY: api-config-api-key
     GPD_DEBIT_POSITION_API_KEY: gpd-api-key
+    OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   keyvault:
     name: "pagopa-u-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
