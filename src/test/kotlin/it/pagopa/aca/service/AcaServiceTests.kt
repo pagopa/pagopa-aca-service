@@ -152,7 +152,8 @@ class AcaServiceTests {
         val responseCreate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
+        given(ibansClient.getIban(any(), any()))
+            .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
         given(gpdClient.updateDebtPosition(any(), any(), any()))
             .willReturn(Mono.just(responseCreate))
         /* tests */

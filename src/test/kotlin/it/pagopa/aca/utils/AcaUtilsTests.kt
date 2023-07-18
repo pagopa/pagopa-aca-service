@@ -97,7 +97,10 @@ class AcaUtilsTests {
                 creditorInstitutionCode
             )
         Assertions.assertEquals(iupd.value(), objectUpdated.iupd)
-        Assertions.assertEquals(ibanUpdated, objectUpdated.paymentOption?.get(0)?.transfer?.get(0)?.iban)
+        Assertions.assertEquals(
+            ibanUpdated,
+            objectUpdated.paymentOption?.get(0)?.transfer?.get(0)?.iban
+        )
         Assertions.assertEquals(null, objectUpdated.validityDate)
         Assertions.assertEquals(apiRequestBody.entityType.value, objectUpdated.type.value)
     }
