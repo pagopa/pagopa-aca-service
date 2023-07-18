@@ -32,6 +32,7 @@ class AcaServiceTests {
     private val ibansClient: IbansClient = mock()
     private val acaUtils = AcaUtils()
     private val acaService = AcaService(gpdClient, ibansClient, acaUtils)
+    @Captor private lateinit var paymentPositionModelDtoCaptor: ArgumentCaptor<PaymentPositionModelDto>
 
     companion object {
         private const val paFiscalCode = "77777777777"
@@ -41,8 +42,6 @@ class AcaServiceTests {
         const val ibanTestUpdate = "IT66666666666666"
         const val companyName = "companyNameTests"
     }
-    @Captor
-    private lateinit var paymentPositionModelDtoCaptor: ArgumentCaptor<PaymentPositionModelDto>
     @Test
     fun `create position successfully`() = runTest {
         val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 10)
@@ -159,11 +158,10 @@ class AcaServiceTests {
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(ibansClient.getIban(any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
-        given(gpdClient.updateDebtPosition(any(), any(), paymentPositionModelDtoCaptor.capture()))
+        given(gpdClient.updateDebtPosition(any(), any(), capture(paymentPositionModelDtoCaptor)))
             .willReturn(Mono.just(responseCreate))
         /* tests */
         acaService.handleDebitPosition(requestCreatePosition)
-        System.out.println(paymentPositionModelDtoCaptor.value.paymentOption?.get(0)?.transfer?.get(0)?.iban)
         /* Asserts */
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
@@ -183,5 +181,6 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())
         verify(gpdClient, Mockito.times(0))
             .invalidateDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
+        assertEquals(ibanTestUpdate, paymentPositionModelDtoCaptor.value.paymentOption?.get(0)?.transfer?.get(0)?.iban)
     }
 }
