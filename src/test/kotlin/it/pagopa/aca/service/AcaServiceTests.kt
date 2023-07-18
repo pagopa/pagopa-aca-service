@@ -35,6 +35,7 @@ class AcaServiceTests {
         private const val iuv = "302001069073736640"
         val iupd = Iupd(paFiscalCode, iuv)
         const val ibanTest = "IT55555555555555"
+        const val ibanTestUpdate = "IT66666666666666"
         const val companyName = "companyNameTests"
     }
     @Test
@@ -151,7 +152,7 @@ class AcaServiceTests {
         val responseCreate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
+        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
         given(gpdClient.updateDebtPosition(any(), any(), any()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
@@ -168,6 +169,7 @@ class AcaServiceTests {
                     responseGetPosition,
                     requestCreatePosition,
                     iupd,
+                    ibanTestUpdate,
                     companyName
                 )
             )
