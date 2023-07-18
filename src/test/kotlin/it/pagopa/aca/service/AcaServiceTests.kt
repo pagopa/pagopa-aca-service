@@ -10,15 +10,12 @@ import it.pagopa.aca.services.AcaService
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
-import java.util.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
@@ -32,7 +29,8 @@ class AcaServiceTests {
     private val ibansClient: IbansClient = mock()
     private val acaUtils = AcaUtils()
     private val acaService = AcaService(gpdClient, ibansClient, acaUtils)
-    @Captor private lateinit var paymentPositionModelDtoCaptor: ArgumentCaptor<PaymentPositionModelDto>
+    private val paymentPositionModelDtoCaptor: KArgumentCaptor<PaymentPositionModelDto> =
+        argumentCaptor<PaymentPositionModelDto>()
 
     companion object {
         private const val paFiscalCode = "77777777777"
@@ -158,7 +156,7 @@ class AcaServiceTests {
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(ibansClient.getIban(any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
-        given(gpdClient.updateDebtPosition(any(), any(), capture(paymentPositionModelDtoCaptor)))
+        given(gpdClient.updateDebtPosition(any(), any(), paymentPositionModelDtoCaptor.capture()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
         acaService.handleDebitPosition(requestCreatePosition)
@@ -181,6 +179,9 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())
         verify(gpdClient, Mockito.times(0))
             .invalidateDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
-        assertEquals(ibanTestUpdate, paymentPositionModelDtoCaptor.value.paymentOption?.get(0)?.transfer?.get(0)?.iban)
+        assertEquals(
+            ibanTestUpdate,
+            paymentPositionModelDtoCaptor.firstValue.paymentOption?.get(0)?.transfer?.get(0)?.iban
+        )
     }
 }
