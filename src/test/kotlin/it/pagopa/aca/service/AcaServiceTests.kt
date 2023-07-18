@@ -9,6 +9,7 @@ import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.services.AcaService
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import java.util.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.*
@@ -38,6 +41,8 @@ class AcaServiceTests {
         const val ibanTestUpdate = "IT66666666666666"
         const val companyName = "companyNameTests"
     }
+    @Captor
+    private lateinit var paymentPositionModelDtoCaptor: ArgumentCaptor<PaymentPositionModelDto>
     @Test
     fun `create position successfully`() = runTest {
         val requestCreatePosition = AcaTestUtils.createPositionRequestBody(iupd, 10)
@@ -154,10 +159,11 @@ class AcaServiceTests {
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
         given(ibansClient.getIban(any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
-        given(gpdClient.updateDebtPosition(any(), any(), any()))
+        given(gpdClient.updateDebtPosition(any(), any(), paymentPositionModelDtoCaptor.capture()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
         acaService.handleDebitPosition(requestCreatePosition)
+        System.out.println(paymentPositionModelDtoCaptor.value.paymentOption?.get(0)?.transfer?.get(0)?.iban)
         /* Asserts */
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
