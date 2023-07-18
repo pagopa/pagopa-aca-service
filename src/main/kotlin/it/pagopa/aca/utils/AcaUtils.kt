@@ -68,6 +68,7 @@ class AcaUtils {
         oldDebitPosition: PaymentPositionModelBaseResponseDto,
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
+        iban: String,
         companyName: String?
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
@@ -102,7 +103,7 @@ class AcaUtils {
                                             .organizationFiscalCode(iupd.fiscalCode)
                                             .idTransfer(TransferModelDto.IdTransferEnum._1)
                                             .category(transfer.category)
-                                            .iban(transfer.iban)
+                                            .iban(iban)
                                     }
                                     ?.toList()
                             )
