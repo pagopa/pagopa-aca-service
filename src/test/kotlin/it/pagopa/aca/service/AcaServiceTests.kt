@@ -9,7 +9,7 @@ import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.services.AcaService
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
-import java.util.*
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -29,12 +29,15 @@ class AcaServiceTests {
     private val ibansClient: IbansClient = mock()
     private val acaUtils = AcaUtils()
     private val acaService = AcaService(gpdClient, ibansClient, acaUtils)
+    private val paymentPositionModelDtoCaptor: KArgumentCaptor<PaymentPositionModelDto> =
+        argumentCaptor<PaymentPositionModelDto>()
 
     companion object {
         private const val paFiscalCode = "77777777777"
         private const val iuv = "302001069073736640"
         val iupd = Iupd(paFiscalCode, iuv)
         const val ibanTest = "IT55555555555555"
+        const val ibanTestUpdate = "IT66666666666666"
         const val companyName = "companyNameTests"
     }
     @Test
@@ -151,8 +154,9 @@ class AcaServiceTests {
         val responseCreate = AcaTestUtils.debitPositionModelResponse(iupd)
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any())).willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
-        given(gpdClient.updateDebtPosition(any(), any(), any()))
+        given(ibansClient.getIban(any(), any()))
+            .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
+        given(gpdClient.updateDebtPosition(any(), any(), paymentPositionModelDtoCaptor.capture()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
         acaService.handleDebitPosition(requestCreatePosition)
@@ -168,11 +172,16 @@ class AcaServiceTests {
                     responseGetPosition,
                     requestCreatePosition,
                     iupd,
+                    ibanTestUpdate,
                     companyName
                 )
             )
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any())
         verify(gpdClient, Mockito.times(0))
             .invalidateDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
+        assertEquals(
+            ibanTestUpdate,
+            paymentPositionModelDtoCaptor.firstValue.paymentOption?.get(0)?.transfer?.get(0)?.iban
+        )
     }
 }

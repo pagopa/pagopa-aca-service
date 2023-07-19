@@ -79,6 +79,7 @@ class AcaUtilsTests {
 
     @Test
     fun `update old debit position successfully`() = runTest {
+        val ibanUpdated = "ITRU0123456789"
         val responseGetPosition =
             AcaTestUtils.responseGetPosition(
                 iupd,
@@ -92,9 +93,14 @@ class AcaUtilsTests {
                 responseGetPosition,
                 apiRequestBody,
                 iupd,
+                ibanUpdated,
                 creditorInstitutionCode
             )
         Assertions.assertEquals(iupd.value(), objectUpdated.iupd)
+        Assertions.assertEquals(
+            ibanUpdated,
+            objectUpdated.paymentOption?.get(0)?.transfer?.get(0)?.iban
+        )
         Assertions.assertEquals(null, objectUpdated.validityDate)
         Assertions.assertEquals(apiRequestBody.entityType.value, objectUpdated.type.value)
     }
