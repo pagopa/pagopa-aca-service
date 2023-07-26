@@ -7,14 +7,10 @@ import java.time.OffsetDateTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito
 import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.times
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.given
-import org.mockito.kotlin.verify
+import org.mockito.kotlin.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -38,7 +34,7 @@ class AcaControllerTests {
     @Mock private lateinit var responseSpec: WebClient.ResponseSpec
 
     @Test
-    fun `post cart succeeded`() = runTest {
+    fun `post paCreatePosition succeeded`() = runTest {
         val request =
             NewDebtPositionRequestDto(
                 iuv = "302001069073736640",
@@ -50,7 +46,7 @@ class AcaControllerTests {
                 expirationDate = OffsetDateTime.now(),
                 paFiscalCode = "77777777777"
             )
-        BDDMockito.given(acaService.handleDebitPosition(request)).willReturn(Unit)
+        given(acaService.handleDebitPosition(request)).willReturn(Unit)
         webClient
             .post()
             .uri("/paCreatePosition")
