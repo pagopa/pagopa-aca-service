@@ -4,8 +4,9 @@ import it.pagopa.aca.controllers.AcaController
 import it.pagopa.aca.services.AcaService
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import java.time.OffsetDateTime
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito
 import org.mockito.Mock
 import org.mockito.Mockito.mock
@@ -22,6 +23,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @WebFluxTest(AcaController::class)
 class AcaControllerTests {
 
@@ -35,7 +37,7 @@ class AcaControllerTests {
 
     @Mock private lateinit var responseSpec: WebClient.ResponseSpec
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `post cart succeeded`() = runTest {
         val request =
             NewDebtPositionRequestDto(
@@ -60,7 +62,7 @@ class AcaControllerTests {
     }
 
     @Test
-    fun `warm up controller`() {
+    fun `warm up controller`() = runTest {
         val webClient = mock(WebClient::class.java)
         given(webClient.post()).willReturn(requestBodyUriSpec)
         given(requestBodyUriSpec.uri(any(), any<Array<*>>())).willReturn(requestBodyUriSpec)
