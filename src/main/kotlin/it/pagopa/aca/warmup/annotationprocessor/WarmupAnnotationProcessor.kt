@@ -1,14 +1,14 @@
 package it.pagopa.aca.warmup.annotationprocessor
 
 import it.pagopa.aca.warmup.annotations.WarmupFunction
-import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.RestController
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedAnnotationTypes
 import javax.lang.model.element.*
 import javax.tools.Diagnostic
+import org.slf4j.LoggerFactory
+import org.springframework.web.bind.annotation.RestController
 
 @SupportedAnnotationTypes("it.pagopa.aca.WarmupFunction")
 class WarmupAnnotationProcessor : AbstractProcessor() {
