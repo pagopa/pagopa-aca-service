@@ -1,0 +1,131 @@
+microservice-chart:
+  namespace: "aca"
+  nameOverride: ""
+  fullnameOverride: ""
+  canaryDelivery:
+    create: false
+    ingress:
+      create: true
+      canary:
+        type: bluegreen
+    service:
+      create: true
+    deployment:
+      create: true
+      image:
+        repository: pagopaucommonacr.azurecr.io/pagopaacaservice
+        tag: "latest"
+        pullPolicy: Always
+    envConfig:
+      DEFAULT_LOGGING_LEVEL: "info"
+      APP_LOGGING_LEVEL: "info"
+      WEB_LOGGING_LEVEL: "off"
+      API_CONFIG_IBANS_URI: "https://api.platform.pagopa.it/apiconfig/auth/api/v1"
+      API_CONFIG_IBANS_READ_TIMEOUT: "10000"
+      API_CONFIG_IBANS_CONNECTION_TIMEOUT: "10000"
+      GPD_DEBIT_POSITION_URI: "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+      GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
+      GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
+      ECS_SERVICE_NAME: "pagopa-aca-service-blue"
+      ECS_SERVICE_ENVIRONMENT: "prod"
+      OTEL_RESOURCE_ATTRIBUTES: "service.name=pagopa-aca-service-blue,deployment.environment=prod"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+      OTEL_LOGS_EXPORTER: none
+      OTEL_TRACES_SAMPLER: "always_on"
+    envSecret:
+      API_CONFIG_IBANS_API_KEY: api-config-api-key
+      GPD_DEBIT_POSITION_API_KEY: gpd-api-key
+      OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
+  image:
+    repository: pagopapcommonacr.azurecr.io/pagopaacaservice
+    tag: "0.2.0"
+    pullPolicy: Always
+  livenessProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 8080
+    initialDelaySeconds: 30
+    failureThreshold: 6
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /actuator/health/readiness
+      port: 8080
+    initialDelaySeconds: 30
+    failureThreshold: 6
+    periodSeconds: 10
+  deployment:
+    create: true
+  service:
+    create: true
+    type: ClusterIP
+    ports:
+      - 8080
+  ingress:
+    create: true
+    host: "weuprod.aca.internal.platform.pagopa.it"
+    path: /pagopa-aca-service/(.*)
+    servicePort: 8080
+  serviceAccount:
+    create: false
+    annotations: { }
+    name: ""
+  podAnnotations: { }
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  securityContext:
+    allowPrivilegeEscalation: false
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "300m"
+    limits:
+      memory: "512Mi"
+      cpu: "300m"
+  autoscaling:
+    enable: false
+    minReplica: 2
+    maxReplica: 10
+    pollingInterval: 30 # seconds
+    cooldownPeriod: 300 # seconds
+    triggers:
+      - type: cpu
+        metadata:
+          # Required
+          type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
+          value: "70"
+  envConfig:
+    DEFAULT_LOGGING_LEVEL: "info"
+    APP_LOGGING_LEVEL: "info"
+    WEB_LOGGING_LEVEL: "off"
+    API_CONFIG_IBANS_URI: "https://api.platform.pagopa.it/apiconfig/auth/api/v1"
+    API_CONFIG_IBANS_READ_TIMEOUT: "10000"
+    API_CONFIG_IBANS_CONNECTION_TIMEOUT: "10000"
+    GPD_DEBIT_POSITION_URI: "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+    GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
+    GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
+    ECS_SERVICE_NAME: "pagopa-aca-service"
+    ECS_SERVICE_ENVIRONMENT: "prod"
+    OTEL_RESOURCE_ATTRIBUTES: "service.name=pagopa-aca-service,deployment.environment=prod"
+    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+    OTEL_LOGS_EXPORTER: none
+    OTEL_TRACES_SAMPLER: "always_on"
+  envSecret:
+    API_CONFIG_IBANS_API_KEY: api-config-api-key
+    GPD_DEBIT_POSITION_API_KEY: gpd-api-key
+    OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
+  keyvault:
+    name: "pagopa-p-aca-kv"
+    tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node_type
+                operator: In
+                values:
+                  - user
