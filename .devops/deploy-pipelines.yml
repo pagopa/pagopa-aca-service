@@ -259,7 +259,7 @@ stages:
           - template: azure-templates/chart-current-version.yml
 
   - stage: "tag_docker_release"
-    displayName: 'Tag Docker image to be release'
+    displayName: 'Tag Docker image to be released'
     dependsOn: Release
     condition:
       and(
