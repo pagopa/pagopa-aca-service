@@ -292,8 +292,8 @@ stages:
     condition: |
       and(
         eq(${{parameters.UAT_PROD_DEPLOY}}, true),
-        in(dependencies.tag_docker_release.result, 'Succeeded', 'Skipped'),
-        in(dependencies.Release.result, 'Succeeded', 'Skipped'),
+        ne(dependencies.tag_docker_release.result, 'Failed'),
+        ne(dependencies.Release.result,'Failed'),
         or(
           eq(variables['Build.SourceBranch'], 'refs/heads/main'),
           startsWith(variables['Build.SourceBranch'], 'refs/tags')
@@ -336,7 +336,6 @@ stages:
   - stage: "Green_API_UAT_test"
     displayName: 'Running API test on green app'
     dependsOn: Deploy_UAT_Green
-    condition: eq(dependencies.Deploy_UAT_Green.result, 'Succeeded')
     jobs:
       - job: newman_api_test
         steps:
@@ -355,7 +354,7 @@ stages:
       and(
         eq(${{parameters.UAT_PROD_DEPLOY}}, true),
         eq(dependencies.Deploy_UAT_Green.result, 'Succeeded'),
-        in(dependencies.Release.result, 'Succeeded', 'Skipped')
+        ne(dependencies.Release.result, 'Failed')
       )
     variables:
       release_url: $[ stageDependencies.Release.make_release.outputs['chart_current_version.releaseUrl'] ]
