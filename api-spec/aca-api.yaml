@@ -153,8 +153,7 @@ components:
             - G
         entityFiscalCode:
           type: string
-          minLength: 16
-          maxLength: 16
+          minLength: 2
         entityFullName:
           type: string
           minLength: 1
@@ -173,10 +172,10 @@ components:
           type: string
           format: date-time
     AmountEuroCents:
-      description: Amount for payments, in euro cents
+      description: Amount for payments, in eurocents
       type: integer
       minimum: 0
-      maximum: 99999999
+      maximum: 99999999999
     ProblemJson:
       type: object
       properties:
