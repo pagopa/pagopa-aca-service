@@ -13,7 +13,7 @@ microservice-chart:
     deployment:
       create: true
       image:
-        repository: pagopaucommonacr.azurecr.io/pagopaacaservice
+        repository: pagopapcommonacr.azurecr.io/pagopaacaservice
         tag: "latest"
         pullPolicy: Always
     envConfig:
@@ -38,7 +38,7 @@ microservice-chart:
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopapcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.2.0"
+    tag: "0.2.1"
     pullPolicy: Always
   livenessProbe:
     httpGet:
