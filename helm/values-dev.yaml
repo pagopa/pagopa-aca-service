@@ -4,20 +4,20 @@ microservice-chart:
   fullnameOverride: ""
   image:
     repository: pagopadcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.2.0"
+    tag: "0.2.1"
     pullPolicy: Always
   livenessProbe:
     httpGet:
       path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 30
+    initialDelaySeconds: 120
     failureThreshold: 6
     periodSeconds: 10
   readinessProbe:
     httpGet:
       path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 30
+    initialDelaySeconds: 120
     failureThreshold: 6
     periodSeconds: 10
   deployment:
