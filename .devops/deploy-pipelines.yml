@@ -457,7 +457,6 @@ stages:
 
   - stage: "PROD_Green_WaitForApproval"
     displayName: 'PROD green approval deployment'
-    dependsOn: [ Deploy_UAT_Green,Release ]
     ${{ if eq(parameters['PROD_SKIP_BLUE_DEPLOYMENT'], True) }}:
       dependsOn: Prod_WaitForApproval
       condition: |
