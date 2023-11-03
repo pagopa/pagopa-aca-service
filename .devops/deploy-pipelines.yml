@@ -421,7 +421,7 @@ stages:
       in(dependencies.Release.result, 'Succeeded', 'Skipped')
       )
     variables:
-      green_version: $[ stageDependencies.Build_release_candidate.build.outputs['chart_current_version.appVersion'] ]
+      green_version: $[ stageDependencies.Release.make_release.outputs['chart_current_version.appVersion'] ]
     jobs:
       - deployment: "Blue_PROD_deployment"
         displayName: "Blue PROD deployment"
@@ -529,7 +529,7 @@ stages:
         in(dependencies.Release.result, 'Succeeded', 'Skipped')
       )
     variables:
-      green_version: $[ stageDependencies.Build_release_candidate.build.outputs['chart_current_version.appVersion'] ]
+      green_version: $[ stageDependencies.Release.make_release.outputs['chart_current_version.appVersion'] ]
     jobs:
       - deployment: "Green_PROD_deployment"
         displayName: "Green PROD deployment"
