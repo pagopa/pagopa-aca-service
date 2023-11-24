@@ -84,8 +84,8 @@ microservice-chart:
       memory: "512Mi"
       cpu: "300m"
   autoscaling:
-    enable: false
-    minReplica: 2
+    enable: true
+    minReplica: 3
     maxReplica: 10
     pollingInterval: 30 # seconds
     cooldownPeriod: 300 # seconds
@@ -129,3 +129,12 @@ microservice-chart:
                 operator: In
                 values:
                   - user
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: pagopaacaservice
+            namespaces: [ "aca" ]
+            topologyKey: topology.kubernetes.io/zone
