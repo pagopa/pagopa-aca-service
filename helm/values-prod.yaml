@@ -38,7 +38,7 @@ microservice-chart:
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopapcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.3.0"
+    tag: "0.4.0"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -136,5 +136,5 @@ microservice-chart:
             labelSelector:
               matchLabels:
                 app.kubernetes.io/instance: pagopaacaservice
-            namespaces: [ "aca" ]
+            namespaces: ["aca"]
             topologyKey: topology.kubernetes.io/zone
