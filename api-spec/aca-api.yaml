@@ -26,8 +26,8 @@ paths:
             schema:
               $ref: '#/components/schemas/NewDebtPositionRequest'
       responses:
-        '201':
-          description: New debt position successfully created
+        '200':
+          description: New debt position successfully created or updated
         '400':
           description: Formally invalid input
           content:
