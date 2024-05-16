@@ -231,7 +231,7 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
-        val requestId = UUID.randomUUID().toString();
+        val requestId = UUID.randomUUID().toString()
         given(
                 gpdApi.getOrganizationDebtPositionByIUPD(
                     creditorInstitutionCode,
@@ -249,7 +249,9 @@ class GdpClientTest {
                 )
             )
         // test
-        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value(), requestId))
+        StepVerifier.create(
+                gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value(), requestId)
+            )
             .expectErrorMatches {
                 it as GpdException
                 it.toRestException().description == "Gpd error: $httpErrorStatusCode"
@@ -504,7 +506,9 @@ class GdpClientTest {
                     StandardCharsets.UTF_8
                 )
             )
-        StepVerifier.create(gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value(), requestId))
+        StepVerifier.create(
+                gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value(), requestId)
+            )
             .expectErrorMatches {
                 it as GpdException
                 it.toRestException().description == "Gpd error: $httpErrorStatusCode"
