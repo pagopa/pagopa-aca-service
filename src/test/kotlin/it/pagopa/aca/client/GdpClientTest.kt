@@ -231,7 +231,7 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
-        val requestId = UUID.randomUUID().toString()
+        val requestId = UUID.randomUUID().toString();
         given(
                 gpdApi.getOrganizationDebtPositionByIUPD(
                     creditorInstitutionCode,
@@ -249,7 +249,7 @@ class GdpClientTest {
                 )
             )
         // test
-        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value()))
+        StepVerifier.create(gpdClient.getDebtPosition(creditorInstitutionCode, iupd.value(), requestId))
             .expectErrorMatches {
                 it as GpdException
                 it.toRestException().description == "Gpd error: $httpErrorStatusCode"
@@ -333,7 +333,8 @@ class GdpClientTest {
         StepVerifier.create(
                 gpdClient.createDebtPosition(
                     creditorInstitutionCode,
-                    AcaTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd),
+                    requestId
                 )
             )
             .expectErrorMatches {
@@ -425,7 +426,8 @@ class GdpClientTest {
                 gpdClient.updateDebtPosition(
                     creditorInstitutionCode,
                     iupd.value(),
-                    AcaTestUtils.debitPositionRequestBody(iupd)
+                    AcaTestUtils.debitPositionRequestBody(iupd),
+                    requestId
                 )
             )
             .expectErrorMatches {
@@ -502,7 +504,7 @@ class GdpClientTest {
                     StandardCharsets.UTF_8
                 )
             )
-        StepVerifier.create(gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value()))
+        StepVerifier.create(gpdClient.invalidateDebtPosition(creditorInstitutionCode, iupd.value(), requestId))
             .expectErrorMatches {
                 it as GpdException
                 it.toRestException().description == "Gpd error: $httpErrorStatusCode"
