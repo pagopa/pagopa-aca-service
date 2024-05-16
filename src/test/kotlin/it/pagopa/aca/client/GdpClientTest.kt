@@ -230,7 +230,7 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
-        given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value()))
+        given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value(), ""))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
@@ -307,6 +307,7 @@ class GdpClientTest {
                 gpdApi.createPosition(
                     creditorInstitutionCode,
                     AcaTestUtils.debitPositionRequestBody(iupd),
+                    "",
                     true
                 )
             )
@@ -396,6 +397,7 @@ class GdpClientTest {
                     creditorInstitutionCode,
                     iupd.value(),
                     AcaTestUtils.debitPositionRequestBody(iupd),
+                    "",
                     true
                 )
             )
@@ -473,7 +475,7 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
-        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value()))
+        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value(), ""))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),

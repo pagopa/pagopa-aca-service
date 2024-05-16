@@ -80,20 +80,28 @@ class AcaService(
                         )
                     )
                 } else {
-                    ibansClient
-                        .getIban(paFiscalCode, requestId)
-                        .map { response ->
+                    if(newDebtPositionRequestDto.iban == null && newDebtPositionRequestDto.postalIban == null) {
+                        ibansClient
+                            .getIban(paFiscalCode, requestId)
+                            .map { response ->
+                                acaUtils.toPaymentPositionModelDto(
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    response.first,
+                                    response.second
+                                )
+                            }
+                            .flatMap { newDebitPosition ->
+                                logger.info("Create new debit position with iupd: ${iupd.value()}")
+                                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+                            }
+                    } else {
+                        gpdClient.createDebtPosition(paFiscalCode,
                             acaUtils.toPaymentPositionModelDto(
-                                newDebtPositionRequestDto,
-                                iupd,
-                                response.first,
-                                response.second
-                            )
-                        }
-                        .flatMap { newDebitPosition ->
-                            logger.info("Create new debit position with iupd: ${iupd.value()}")
-                            gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
-                        }
+                                newDebtPositionRequestDto, iupd,
+                                newDebtPositionRequestDto.iban!!, newDebtPositionRequestDto.entityFullName,
+                                newDebtPositionRequestDto.postalIban))
+                    }
                 }
             }
             .awaitSingle()

@@ -33,7 +33,7 @@ class GpdClient(
                 logger.info(
                     "Querying gpd to retrieve debt position for creditorInstitutionCode: $creditorInstitutionCode, iupd: $iupd"
                 )
-                client.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd)
+                client.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd, "")
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -71,7 +71,7 @@ class GpdClient(
                 logger.info(
                     "Querying gpd to create debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: ${debitPositionToCreate.iupd}"
                 )
-                client.createPosition(creditorInstitutionCode, debitPositionToCreate, true)
+                client.createPosition(creditorInstitutionCode, debitPositionToCreate, "", true)
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -119,7 +119,7 @@ class GpdClient(
                 logger.info(
                     "Querying gpd to update debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: $iupd"
                 )
-                client.updatePosition(creditorInstitutionCode, iupd, debitPositionToUpdate, true)
+                client.updatePosition(creditorInstitutionCode, iupd, debitPositionToUpdate, "",true)
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -170,7 +170,7 @@ class GpdClient(
         val response: Mono<PaymentPositionModelDto> =
             try {
                 logger.info("Querying gpd to invalidate debt position with iupd: $iupd")
-                clientForActions.invalidatePosition(creditorInstitutionCode, iupd)
+                clientForActions.invalidatePosition(creditorInstitutionCode, iupd, "")
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }

@@ -31,7 +31,8 @@ class AcaUtils {
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
         iban: String,
-        companyName: String?
+        companyName: String?,
+        postalIban: String ?= ""
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(iupd.value())
@@ -41,10 +42,12 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .switchToExpired(newDebtPositionRequestDto.switchToExpired)
             .paymentOption(
                 listOf(
                     PaymentOptionModelDto()
                         .iuv(newDebtPositionRequestDto.iuv)
+                        .nav(newDebtPositionRequestDto.nav)
                         .amount(newDebtPositionRequestDto.amount.toLong())
                         .description(newDebtPositionRequestDto.description)
                         .isPartialPayment(false)
@@ -58,6 +61,7 @@ class AcaUtils {
                                     .idTransfer(TransferModelDto.IdTransferEnum._1)
                                     .category(STAND_IN_CONSTANT)
                                     .iban(iban)
+                                    .postalIban(postalIban)
                             )
                         )
                 )
