@@ -144,26 +144,32 @@ components:
       properties:
         paFiscalCode:
           type: string
+          example: "12345678910"
           minLength: 11
           maxLength: 11
         entityType:
           type: string
+          example: "G"
           enum:
             - F
             - G
         entityFiscalCode:
           type: string
+          example: "12345678910"
           minLength: 2
         entityFullName:
           type: string
+          example: "Full Name"
           minLength: 1
           maxLength: 255
         iuv:
           type: string
+          example: "00000000000000000"
           minLength: 1
           maxLength: 255
         nav:
           type: string
+          example: "30000000000000000"
           minLength: 1
           maxLength: 255
           description: |-
@@ -172,6 +178,7 @@ components:
           $ref: '#/components/schemas/AmountEuroCents'
         description:
           type: string
+          example: "ACA Debt Position description"
           minLength: 1
           maxLength: 255
         expirationDate:
@@ -179,10 +186,12 @@ components:
           format: date-time
         iban:
           type: string
+          example: "IT0000000000000000000000000"
           minLength: 27
           maxLength: 27
         postalIban:
           type: string
+          example: "IT60X0542811101000000123456"
           minLength: 27
           maxLength: 27
         switchToExpired:
@@ -190,6 +199,7 @@ components:
     AmountEuroCents:
       description: Amount for payments, in eurocents
       type: integer
+      example: 100
       minimum: 0
       maximum: 99999999999
     ProblemJson:

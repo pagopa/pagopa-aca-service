@@ -25,6 +25,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.test.StepVerifier
+import java.util.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GdpClientTest {
@@ -230,7 +231,8 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
-        given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value(), ""))
+        val requestId = UUID.randomUUID().toString()
+        given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value(), requestId))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
@@ -303,12 +305,12 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.NOT_FOUND
+        val requestId = UUID.randomUUID().toString()
         given(
                 gpdApi.createPosition(
                     creditorInstitutionCode,
                     AcaTestUtils.debitPositionRequestBody(iupd),
-                    "",
-                    true
+                    requestId,true
                 )
             )
             .willThrow(
@@ -392,12 +394,13 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
+        val requestId = UUID.randomUUID().toString()
         given(
                 gpdApi.updatePosition(
                     creditorInstitutionCode,
                     iupd.value(),
                     AcaTestUtils.debitPositionRequestBody(iupd),
-                    "",
+                    requestId,
                     true
                 )
             )
@@ -475,7 +478,8 @@ class GdpClientTest {
         val gpdApiForInvalidate = mock<DebtPositionActionsApiApi>()
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
-        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value(), ""))
+        val requestId = UUID.randomUUID().toString()
+        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value(), requestId))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
