@@ -10,6 +10,7 @@ import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import java.nio.charset.StandardCharsets
+import java.util.*
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -25,7 +26,6 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.test.StepVerifier
-import java.util.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GdpClientTest {
@@ -232,7 +232,13 @@ class GdpClientTest {
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.CONFLICT
         val requestId = UUID.randomUUID().toString()
-        given(gpdApi.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd.value(), requestId))
+        given(
+                gpdApi.getOrganizationDebtPositionByIUPD(
+                    creditorInstitutionCode,
+                    iupd.value(),
+                    requestId
+                )
+            )
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
@@ -310,7 +316,8 @@ class GdpClientTest {
                 gpdApi.createPosition(
                     creditorInstitutionCode,
                     AcaTestUtils.debitPositionRequestBody(iupd),
-                    requestId,true
+                    requestId,
+                    true
                 )
             )
             .willThrow(
@@ -479,7 +486,13 @@ class GdpClientTest {
         val gpdClient = GpdClient(gpdApi, gpdApiForInvalidate)
         val httpErrorStatusCode = HttpStatus.UNPROCESSABLE_ENTITY
         val requestId = UUID.randomUUID().toString()
-        given(gpdApiForInvalidate.invalidatePosition(creditorInstitutionCode, iupd.value(), requestId))
+        given(
+                gpdApiForInvalidate.invalidatePosition(
+                    creditorInstitutionCode,
+                    iupd.value(),
+                    requestId
+                )
+            )
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),

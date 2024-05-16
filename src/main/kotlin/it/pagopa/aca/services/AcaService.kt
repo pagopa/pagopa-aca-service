@@ -80,7 +80,10 @@ class AcaService(
                         )
                     )
                 } else {
-                    if(newDebtPositionRequestDto.iban == null && newDebtPositionRequestDto.postalIban == null) {
+                    if (
+                        newDebtPositionRequestDto.iban == null &&
+                            newDebtPositionRequestDto.postalIban == null
+                    ) {
                         ibansClient
                             .getIban(paFiscalCode, requestId)
                             .map { response ->
@@ -96,11 +99,16 @@ class AcaService(
                                 gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
                             }
                     } else {
-                        gpdClient.createDebtPosition(paFiscalCode,
+                        gpdClient.createDebtPosition(
+                            paFiscalCode,
                             acaUtils.toPaymentPositionModelDto(
-                                newDebtPositionRequestDto, iupd,
-                                newDebtPositionRequestDto.iban!!, newDebtPositionRequestDto.entityFullName,
-                                newDebtPositionRequestDto.postalIban))
+                                newDebtPositionRequestDto,
+                                iupd,
+                                newDebtPositionRequestDto.iban!!,
+                                newDebtPositionRequestDto.entityFullName,
+                                newDebtPositionRequestDto.postalIban
+                            )
+                        )
                     }
                 }
             }

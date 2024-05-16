@@ -6,6 +6,7 @@ import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
-import java.util.*
 
 @Component
 class GpdClient(
@@ -74,7 +74,12 @@ class GpdClient(
                 logger.info(
                     "Querying gpd to create debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: ${debitPositionToCreate.iupd}"
                 )
-                client.createPosition(creditorInstitutionCode, debitPositionToCreate, requestId, true)
+                client.createPosition(
+                    creditorInstitutionCode,
+                    debitPositionToCreate,
+                    requestId,
+                    true
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -123,7 +128,13 @@ class GpdClient(
                 logger.info(
                     "Querying gpd to update debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: $iupd"
                 )
-                client.updatePosition(creditorInstitutionCode, iupd, debitPositionToUpdate, requestId,true)
+                client.updatePosition(
+                    creditorInstitutionCode,
+                    iupd,
+                    debitPositionToUpdate,
+                    requestId,
+                    true
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }

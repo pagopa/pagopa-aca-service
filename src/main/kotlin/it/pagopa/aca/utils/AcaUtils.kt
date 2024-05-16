@@ -32,7 +32,7 @@ class AcaUtils {
         iupd: Iupd,
         iban: String,
         companyName: String?,
-        postalIban: String ?= ""
+        postalIban: String? = ""
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(iupd.value())
