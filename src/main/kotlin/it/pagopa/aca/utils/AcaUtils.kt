@@ -30,9 +30,9 @@ class AcaUtils {
     fun toPaymentPositionModelDto(
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
-        iban: String,
+        iban: String? = null,
         companyName: String?,
-        postalIban: String? = ""
+        postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(iupd.value())

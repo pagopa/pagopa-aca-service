@@ -104,7 +104,7 @@ class AcaService(
                             acaUtils.toPaymentPositionModelDto(
                                 newDebtPositionRequestDto,
                                 iupd,
-                                newDebtPositionRequestDto.iban!!,
+                                newDebtPositionRequestDto.iban,
                                 newDebtPositionRequestDto.entityFullName,
                                 newDebtPositionRequestDto.postalIban
                             )

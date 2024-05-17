@@ -1,6 +1,7 @@
 package it.pagopa.aca
 
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.aca.service.AcaServiceTests
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import it.pagopa.generated.aca.model.ProblemJsonDto
 import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
@@ -88,6 +89,28 @@ object AcaTestUtils {
             amount,
             "description",
             OffsetDateTime.now()
+        )
+
+    fun createPositionRequestBody(
+        iupd: Iupd,
+        amount: Int,
+        iban: String? = null,
+        postalIban: String? = null,
+        switchToExpired: Boolean
+    ): NewDebtPositionRequestDto =
+        NewDebtPositionRequestDto(
+            iupd.fiscalCode,
+            NewDebtPositionRequestDto.EntityType.F,
+            "XXXYYY00X11Y123Z",
+            "entityFullName",
+            iupd.iuv,
+            amount,
+            "description",
+            OffsetDateTime.now(),
+            "3" + AcaServiceTests.iupd.iuv,
+            iban,
+            postalIban,
+            switchToExpired
         )
 
     fun responseGetPosition(
