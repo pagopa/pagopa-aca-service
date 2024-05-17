@@ -69,19 +69,21 @@ class AcaUtils {
             )
     }
 
-    // precondition: ACA debt position has 1 PaymentOption with 1 Transfer -> always valid for aca-service
+    // precondition: ACA debt position has 1 PaymentOption with 1 Transfer -> always valid for
+    // aca-service
     fun toDebtPositionResponse(
         paFiscalCode: String,
         pp: PaymentPositionModelDto
     ): DebtPositionResponseDto {
-        val po: PaymentOptionModelDto = pp.paymentOption?.get(0)
-            ?: return DebtPositionResponseDto(
-                paFiscalCode,
-                pp.companyName,
-                pp.type.toString(),
-                pp.fiscalCode,
-                pp.fullName
-            );
+        val po: PaymentOptionModelDto =
+            pp.paymentOption?.get(0)
+                ?: return DebtPositionResponseDto(
+                    paFiscalCode,
+                    pp.companyName,
+                    pp.type.toString(),
+                    pp.fiscalCode,
+                    pp.fullName
+                )
         return DebtPositionResponseDto(
             paFiscalCode,
             pp.companyName,

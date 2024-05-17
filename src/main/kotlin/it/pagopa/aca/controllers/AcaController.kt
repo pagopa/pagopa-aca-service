@@ -28,9 +28,14 @@ class AcaController(private val webClient: WebClient = WebClient.create()) : PaC
         newDebtPositionRequestDto: NewDebtPositionRequestDto
     ): ResponseEntity<DebtPositionResponseDto> {
         logger.info("[ACA service] paCreatePosition")
-        val paymentPositionModelDto: PaymentPositionModelDto = acaService.handleDebitPosition(newDebtPositionRequestDto)
-            ?: return ResponseEntity.ok().build()
-        val response: DebtPositionResponseDto = acaUtils.toDebtPositionResponse(newDebtPositionRequestDto.paFiscalCode, paymentPositionModelDto)
+        val paymentPositionModelDto: PaymentPositionModelDto =
+            acaService.handleDebitPosition(newDebtPositionRequestDto)
+                ?: return ResponseEntity.ok().build()
+        val response: DebtPositionResponseDto =
+            acaUtils.toDebtPositionResponse(
+                newDebtPositionRequestDto.paFiscalCode,
+                paymentPositionModelDto
+            )
         return ResponseEntity.ok().body(response)
     }
 
