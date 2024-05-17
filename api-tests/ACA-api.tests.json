@@ -49,7 +49,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"companyName\": \"Company name\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\",\n  \"iban\": \"IT0000000000000000000000000\",\n  \"postalIban\": \"IT60X0542811101000000123456\",\n  \"switchToExpired\": true}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -99,7 +99,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"companyName\": \"Company name\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\",\n  \"iban\": \"IT0000000000000000000000000\",\n  \"postalIban\": \"IT60X0542811101000000123456\",\n  \"switchToExpired\": true}",
 					"options": {
 						"raw": {
 							"language": "json"

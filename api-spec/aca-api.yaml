@@ -28,6 +28,10 @@ paths:
       responses:
         '200':
           description: New debt position successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebtPositionResponse'
         '400':
           description: Formally invalid input
           content:
@@ -202,6 +206,42 @@ components:
           maxLength: 27
         switchToExpired:
           type: boolean
+          example: true
+          default: false
+
+    DebtPositionResponse:
+      type: object
+      properties:
+        paFiscalCode:
+          type: string
+        companyName:
+          type: string
+        entityType:
+          type: string
+        entityFiscalCode:
+          type: string
+        entityFullName:
+          type: string
+        iuv:
+          type: string
+        nav:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        description:
+          type: string
+        expirationDate:
+          type: string
+          format: local-date-time
+        iban:
+          type: string
+        postalIban:
+          type: string
+        switchToExpired:
+          type: boolean
+        status:
+          type: string
     AmountEuroCents:
       description: Amount for payments, in eurocents
       type: integer

@@ -7,6 +7,7 @@ import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import java.util.UUID
 import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
@@ -24,14 +25,16 @@ class AcaService(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    suspend fun handleDebitPosition(newDebtPositionRequestDto: NewDebtPositionRequestDto) {
+    suspend fun handleDebitPosition(
+        newDebtPositionRequestDto: NewDebtPositionRequestDto
+    ): PaymentPositionModelDto? {
         logger.info(
             "Handle debit position for amount: ${newDebtPositionRequestDto.amount} and iuv: ${newDebtPositionRequestDto.iuv}"
         )
         val requestId = UUID.randomUUID().toString()
         val iupd = Iupd(newDebtPositionRequestDto.paFiscalCode, newDebtPositionRequestDto.iuv)
         val paFiscalCode = newDebtPositionRequestDto.paFiscalCode
-        gpdClient
+        return gpdClient
             .getDebtPosition(paFiscalCode, iupd.value())
             .filter { !acaUtils.isInvalidStatusForExecuteOperation(it.status) }
             .switchIfEmpty(
