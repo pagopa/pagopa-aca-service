@@ -48,25 +48,43 @@ class AcaService(
                     logger.info("Invalidate debit position with iupd: ${iupd.value()}")
                     gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
                 } else {
-                    logger.info("Update debit position with iupd: ${iupd.value()}")
-                    ibansClient
-                        .getIban(paFiscalCode, requestId)
-                        .map {
+                    if (
+                        newDebtPositionRequestDto.iban == null &&
+                            newDebtPositionRequestDto.postalIban == null
+                    ) {
+                        logger.info("Update debit position with iupd: ${iupd.value()}")
+                        ibansClient
+                            .getIban(paFiscalCode, requestId)
+                            .map {
+                                acaUtils.updateOldDebitPositionObject(
+                                    debitPosition,
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    iban = it.first,
+                                    newDebtPositionRequestDto.companyName
+                                )
+                            }
+                            .flatMap { updatedDebitPosition ->
+                                gpdClient.updateDebtPosition(
+                                    paFiscalCode,
+                                    iupd.value(),
+                                    updatedDebitPosition
+                                )
+                            }
+                    } else {
+                        gpdClient.updateDebtPosition(
+                            paFiscalCode,
+                            iupd.value(),
                             acaUtils.updateOldDebitPositionObject(
                                 debitPosition,
                                 newDebtPositionRequestDto,
                                 iupd,
-                                it.first,
-                                it.second
+                                newDebtPositionRequestDto.iban,
+                                newDebtPositionRequestDto.companyName,
+                                newDebtPositionRequestDto.postalIban
                             )
-                        }
-                        .flatMap { updatedDebitPosition ->
-                            gpdClient.updateDebtPosition(
-                                paFiscalCode,
-                                iupd.value(),
-                                updatedDebitPosition
-                            )
-                        }
+                        )
+                    }
                 }
             }
             .onErrorResume(GpdPositionNotFoundException::class.java) {
@@ -90,8 +108,8 @@ class AcaService(
                                 acaUtils.toPaymentPositionModelDto(
                                     newDebtPositionRequestDto,
                                     iupd,
-                                    response.first,
-                                    response.second
+                                    iban = response.first,
+                                    newDebtPositionRequestDto.companyName
                                 )
                             }
                             .flatMap { newDebitPosition ->
@@ -105,7 +123,7 @@ class AcaService(
                                 newDebtPositionRequestDto,
                                 iupd,
                                 newDebtPositionRequestDto.iban,
-                                newDebtPositionRequestDto.entityFullName,
+                                newDebtPositionRequestDto.companyName,
                                 newDebtPositionRequestDto.postalIban
                             )
                         )

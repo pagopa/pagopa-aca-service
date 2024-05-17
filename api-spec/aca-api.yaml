@@ -133,6 +133,7 @@ components:
       type: object
       required:
         - paFiscalCode
+        - companyName
         - entityType
         - entityFiscalCode
         - entityFullName
@@ -147,6 +148,11 @@ components:
           example: "12345678910"
           minLength: 11
           maxLength: 11
+        companyName:
+          type: string
+          example: "Company name"
+          minLength: 1
+          maxLength: 140
         entityType:
           type: string
           example: "G"

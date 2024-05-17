@@ -38,6 +38,7 @@ class AcaControllerTests {
         val request =
             NewDebtPositionRequestDto(
                 iuv = "302001069073736640",
+                companyName = "company name",
                 entityType = NewDebtPositionRequestDto.EntityType.F,
                 entityFullName = "entity example full name",
                 entityFiscalCode = "RYGFHDDDYR7FDFTR",

@@ -39,7 +39,7 @@ class AcaServiceTests {
         val iupd = Iupd(paFiscalCode, iuv)
         const val ibanTest = "IT55555555555555"
         const val ibanTestUpdate = "IT66666666666666"
-        const val companyName = "companyNameTests"
+        const val companyName = "company name"
     }
     @Test
     fun `create position successfully`() = runTest {
@@ -249,7 +249,7 @@ class AcaServiceTests {
                     requestCreatePosition,
                     iupd,
                     expectedIban,
-                    requestCreatePosition.entityFullName,
+                    requestCreatePosition.companyName,
                     expectedPostalIban
                 )
             )

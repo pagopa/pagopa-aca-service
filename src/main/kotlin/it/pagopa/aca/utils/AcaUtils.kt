@@ -31,7 +31,7 @@ class AcaUtils {
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
         iban: String? = null,
-        companyName: String?,
+        companyName: String,
         postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
@@ -72,8 +72,9 @@ class AcaUtils {
         oldDebitPosition: PaymentPositionModelBaseResponseDto,
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
-        iban: String,
-        companyName: String?
+        iban: String? = null,
+        companyName: String?,
+        postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(oldDebitPosition.iupd)
