@@ -2,7 +2,12 @@ package it.pagopa.aca.utils
 
 import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.generated.aca.model.DebtPositionResponseDto
+import it.pagopa.generated.gpd.model.PaymentOptionModelDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import it.pagopa.generated.gpd.model.TransferModelDto
+import java.time.LocalDateTime
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -103,5 +108,41 @@ class AcaUtilsTests {
         )
         Assertions.assertEquals(null, objectUpdated.validityDate)
         Assertions.assertEquals(apiRequestBody.entityType.value, objectUpdated.type.value)
+    }
+
+    @Test
+    fun `debt position response created successfully`() = runTest {
+        val iban = "ITRU0123456789"
+        val dueDate: LocalDateTime = LocalDateTime.now()
+        val pp = PaymentPositionModelDto()
+        val po = PaymentOptionModelDto()
+        val tf = TransferModelDto()
+
+        tf.iban = iban
+        po.iuv = iuv
+        po.nav = "3$iuv"
+        po.amount = 300
+        po.description = "description"
+        po.dueDate = dueDate
+        po.addTransferItem(tf)
+        pp.companyName = "companyName"
+        pp.type = PaymentPositionModelDto.TypeEnum.F
+        pp.fiscalCode = "MRFC"
+        pp.fullName = "Mario Rossi"
+        pp.switchToExpired = false
+        pp.addPaymentOptionItem(po)
+
+        val response: DebtPositionResponseDto =
+            acaUtils.toDebtPositionResponse(creditorInstitutionCode, pp)
+        Assertions.assertEquals(iban, response.iban)
+        Assertions.assertEquals(null, response.postalIban)
+        Assertions.assertEquals(iuv, response.iuv)
+        Assertions.assertEquals("3$iuv", response.nav)
+        Assertions.assertEquals(300, response.amount)
+        Assertions.assertEquals("description", response.description)
+        Assertions.assertEquals("companyName", response.companyName)
+        Assertions.assertEquals("MRFC", response.entityFiscalCode)
+        Assertions.assertEquals("Mario Rossi", response.entityFullName)
+        Assertions.assertEquals(dueDate.toString(), response.expirationDate)
     }
 }
