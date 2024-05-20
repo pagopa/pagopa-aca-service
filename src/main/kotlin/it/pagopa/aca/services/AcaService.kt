@@ -51,10 +51,7 @@ class AcaService(
                     logger.info("Invalidate debit position with iupd: ${iupd.value()}")
                     gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
                 } else {
-                    if (
-                        newDebtPositionRequestDto.iban == null &&
-                            newDebtPositionRequestDto.postalIban == null
-                    ) {
+                    if (newDebtPositionRequestDto.iban == null) {
                         logger.info("Update debit position with iupd: ${iupd.value()}")
                         ibansClient
                             .getIban(paFiscalCode, requestId)
@@ -64,7 +61,8 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = it.first,
-                                    newDebtPositionRequestDto.companyName
+                                    newDebtPositionRequestDto.companyName,
+                                    newDebtPositionRequestDto.postalIban
                                 )
                             }
                             .flatMap { updatedDebitPosition ->
@@ -101,10 +99,7 @@ class AcaService(
                         )
                     )
                 } else {
-                    if (
-                        newDebtPositionRequestDto.iban == null &&
-                            newDebtPositionRequestDto.postalIban == null
-                    ) {
+                    if (newDebtPositionRequestDto.iban == null) {
                         ibansClient
                             .getIban(paFiscalCode, requestId)
                             .map { response ->
@@ -112,7 +107,8 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = response.first,
-                                    newDebtPositionRequestDto.companyName
+                                    newDebtPositionRequestDto.companyName,
+                                    newDebtPositionRequestDto.postalIban
                                 )
                             }
                             .flatMap { newDebitPosition ->

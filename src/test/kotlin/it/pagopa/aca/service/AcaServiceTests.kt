@@ -90,10 +90,11 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params (except iban) successfully`() = runTest {
+        val iban: String = "IT99C0222211111000000000000"
         val postalIban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
-            AcaTestUtils.createPositionRequestBody(iupd, 10, iban = null, postalIban, true)
-        executeFullParamTest(requestCreatePosition, expectedIban = null, postalIban)
+            AcaTestUtils.createPositionRequestBody(iupd, 10, iban, postalIban, true)
+        executeFullParamTest(requestCreatePosition, expectedIban = iban, postalIban)
     }
 
     @Test
