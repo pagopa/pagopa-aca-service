@@ -25,7 +25,7 @@
 					"script": {
 						"exec": [
 							"const min = Number(\"10000000000000\");",
-							"const max = Number(\"19999999999999\");",
+							"const max = Number(\"10999999999999\");",
 							"const randomNoticeCode = _.random(min, max);",
 							"pm.environment.set(\"IUV\", randomNoticeCode);"
 						],
@@ -149,7 +149,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
+					"raw": "{\n  \"paFiscalCode\": {{FISCAL_CODE}},\n  \"companyName\": \"Company name\",\n  \"entityType\": \"G\",\n  \"entityFiscalCode\": \"{{ENTITY_FISCAL_CODE}}\",\n  \"entityFullName\": \"entity example full name updated\",\n  \"iuv\": {{IUV}},\n  \"amount\": {{AMOUNT_INVALIDATE}},\n  \"description\": \"description test updated\",\n  \"expirationDate\": \"2025-06-30T07:19:58.600Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
