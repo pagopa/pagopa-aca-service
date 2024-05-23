@@ -2,7 +2,10 @@ package it.pagopa.aca.controller
 
 import it.pagopa.aca.controllers.AcaController
 import it.pagopa.aca.services.AcaService
+import it.pagopa.aca.utils.AcaUtils
+import it.pagopa.generated.aca.model.DebtPositionResponseDto
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import java.time.OffsetDateTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -27,6 +30,8 @@ class AcaControllerTests {
 
     @MockBean lateinit var acaService: AcaService
 
+    @MockBean lateinit var acaUtils: AcaUtils
+
     @Mock private lateinit var requestBodyUriSpec: WebClient.RequestBodyUriSpec
 
     @Mock private lateinit var requestHeadersSpec: WebClient.RequestHeadersSpec<*>
@@ -38,6 +43,7 @@ class AcaControllerTests {
         val request =
             NewDebtPositionRequestDto(
                 iuv = "302001069073736640",
+                companyName = "company name",
                 entityType = NewDebtPositionRequestDto.EntityType.F,
                 entityFullName = "entity example full name",
                 entityFiscalCode = "RYGFHDDDYR7FDFTR",
@@ -46,7 +52,8 @@ class AcaControllerTests {
                 expirationDate = OffsetDateTime.now(),
                 paFiscalCode = "77777777777"
             )
-        given(acaService.handleDebitPosition(request)).willReturn(Unit)
+        given(acaService.handleDebitPosition(request)).willReturn(PaymentPositionModelDto())
+        given(acaUtils.toDebtPositionResponse(any(), any())).willReturn(DebtPositionResponseDto())
         webClient
             .post()
             .uri("/paCreatePosition")

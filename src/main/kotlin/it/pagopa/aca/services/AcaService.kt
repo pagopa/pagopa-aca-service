@@ -7,6 +7,7 @@ import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import java.util.UUID
 import kotlinx.coroutines.reactor.awaitSingle
 import org.slf4j.LoggerFactory
@@ -24,14 +25,16 @@ class AcaService(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    suspend fun handleDebitPosition(newDebtPositionRequestDto: NewDebtPositionRequestDto) {
+    suspend fun handleDebitPosition(
+        newDebtPositionRequestDto: NewDebtPositionRequestDto
+    ): PaymentPositionModelDto? {
         logger.info(
             "Handle debit position for amount: ${newDebtPositionRequestDto.amount} and iuv: ${newDebtPositionRequestDto.iuv}"
         )
         val requestId = UUID.randomUUID().toString()
         val iupd = Iupd(newDebtPositionRequestDto.paFiscalCode, newDebtPositionRequestDto.iuv)
         val paFiscalCode = newDebtPositionRequestDto.paFiscalCode
-        gpdClient
+        return gpdClient
             .getDebtPosition(paFiscalCode, iupd.value())
             .filter { !acaUtils.isInvalidStatusForExecuteOperation(it.status) }
             .switchIfEmpty(
@@ -48,25 +51,41 @@ class AcaService(
                     logger.info("Invalidate debit position with iupd: ${iupd.value()}")
                     gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
                 } else {
-                    logger.info("Update debit position with iupd: ${iupd.value()}")
-                    ibansClient
-                        .getIban(paFiscalCode, requestId)
-                        .map {
+                    if (newDebtPositionRequestDto.iban == null) {
+                        logger.info("Update debit position with iupd: ${iupd.value()}")
+                        ibansClient
+                            .getIban(paFiscalCode, requestId)
+                            .map {
+                                acaUtils.updateOldDebitPositionObject(
+                                    debitPosition,
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    iban = it.first,
+                                    newDebtPositionRequestDto.companyName,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { updatedDebitPosition ->
+                                gpdClient.updateDebtPosition(
+                                    paFiscalCode,
+                                    iupd.value(),
+                                    updatedDebitPosition
+                                )
+                            }
+                    } else {
+                        gpdClient.updateDebtPosition(
+                            paFiscalCode,
+                            iupd.value(),
                             acaUtils.updateOldDebitPositionObject(
                                 debitPosition,
                                 newDebtPositionRequestDto,
                                 iupd,
-                                it.first,
-                                it.second
+                                newDebtPositionRequestDto.iban,
+                                newDebtPositionRequestDto.companyName,
+                                newDebtPositionRequestDto.postalIban
                             )
-                        }
-                        .flatMap { updatedDebitPosition ->
-                            gpdClient.updateDebtPosition(
-                                paFiscalCode,
-                                iupd.value(),
-                                updatedDebitPosition
-                            )
-                        }
+                        )
+                    }
                 }
             }
             .onErrorResume(GpdPositionNotFoundException::class.java) {
@@ -80,20 +99,34 @@ class AcaService(
                         )
                     )
                 } else {
-                    ibansClient
-                        .getIban(paFiscalCode, requestId)
-                        .map { response ->
+                    if (newDebtPositionRequestDto.iban == null) {
+                        ibansClient
+                            .getIban(paFiscalCode, requestId)
+                            .map { response ->
+                                acaUtils.toPaymentPositionModelDto(
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    iban = response.first,
+                                    newDebtPositionRequestDto.companyName,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { newDebitPosition ->
+                                logger.info("Create new debit position with iupd: ${iupd.value()}")
+                                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+                            }
+                    } else {
+                        gpdClient.createDebtPosition(
+                            paFiscalCode,
                             acaUtils.toPaymentPositionModelDto(
                                 newDebtPositionRequestDto,
                                 iupd,
-                                response.first,
-                                response.second
+                                newDebtPositionRequestDto.iban,
+                                newDebtPositionRequestDto.companyName,
+                                newDebtPositionRequestDto.postalIban
                             )
-                        }
-                        .flatMap { newDebitPosition ->
-                            logger.info("Create new debit position with iupd: ${iupd.value()}")
-                            gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
-                        }
+                        )
+                    }
                 }
             }
             .awaitSingle()
