@@ -26,7 +26,8 @@ class AcaController(private val webClient: WebClient = WebClient.create()) : PaC
     private val logger = LoggerFactory.getLogger(this.javaClass)
 
     override suspend fun newDebtPosition(
-        newDebtPositionRequestDto: NewDebtPositionRequestDto
+        newDebtPositionRequestDto: NewDebtPositionRequestDto,
+        segregationCodes: kotlin.String?
     ): ResponseEntity<DebtPositionResponseDto> {
         logger.info("[ACA service] paCreatePosition")
         // Check authorization

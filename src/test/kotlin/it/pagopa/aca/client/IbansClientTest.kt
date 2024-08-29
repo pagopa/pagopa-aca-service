@@ -148,9 +148,11 @@ class IbansClientTest {
         val ibansClient = IbansClient(ibansApi)
         val httpErrorStatusCode = HttpStatus.CONFLICT
         given(
-                ibansApi.getCreditorInstitutionsIbansEnhanced(
+                ibansApi.getIbans(
+                    0,
                     creditorInstitutionCode,
                     requestId,
+                    5,
                     "ACA"
                 )
             )
