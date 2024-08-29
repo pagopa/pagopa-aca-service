@@ -46,7 +46,7 @@ class AcaController(private val webClient: WebClient = WebClient.create()) : PaC
 
     // Fun to check authorization based on IUV prefix
     private fun checkAuth(segregationCodes: String?, iuv: String): Boolean {
-        return segregationCodes?.contains(iuv.substring(0, 2)) == true
+        return (segregationCodes.isNullOrEmpty() || segregationCodes.contains(iuv.substring(0, 2)))
     }
 
     /** Controller warm up function, used to send a POST pa create position request */
