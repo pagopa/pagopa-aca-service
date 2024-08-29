@@ -1,6 +1,7 @@
 package it.pagopa.aca.utils
 
 import it.pagopa.aca.domain.Iupd
+import it.pagopa.generated.aca.model.DebtPositionResponseDto
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import it.pagopa.generated.gpd.model.PaymentOptionModelDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
@@ -30,8 +31,9 @@ class AcaUtils {
     fun toPaymentPositionModelDto(
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
-        iban: String,
-        companyName: String?
+        iban: String? = null,
+        companyName: String,
+        postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(iupd.value())
@@ -41,10 +43,12 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .switchToExpired(newDebtPositionRequestDto.switchToExpired)
             .paymentOption(
                 listOf(
                     PaymentOptionModelDto()
                         .iuv(newDebtPositionRequestDto.iuv)
+                        .nav(newDebtPositionRequestDto.nav)
                         .amount(newDebtPositionRequestDto.amount.toLong())
                         .description(newDebtPositionRequestDto.description)
                         .isPartialPayment(false)
@@ -58,18 +62,53 @@ class AcaUtils {
                                     .idTransfer(TransferModelDto.IdTransferEnum._1)
                                     .category(STAND_IN_CONSTANT)
                                     .iban(iban)
+                                    .postalIban(postalIban)
                             )
                         )
                 )
             )
     }
 
+    // precondition: ACA debt position has 1 PaymentOption with 1 Transfer -> always valid for
+    // aca-service
+    fun toDebtPositionResponse(
+        paFiscalCode: String,
+        pp: PaymentPositionModelDto
+    ): DebtPositionResponseDto {
+        val po: PaymentOptionModelDto =
+            pp.paymentOption?.get(0)
+                ?: return DebtPositionResponseDto(
+                    paFiscalCode,
+                    pp.companyName,
+                    pp.type.toString(),
+                    pp.fiscalCode,
+                    pp.fullName
+                )
+        return DebtPositionResponseDto(
+            paFiscalCode,
+            pp.companyName,
+            pp.type.toString(),
+            pp.fiscalCode,
+            pp.fullName,
+            po.iuv,
+            po.nav,
+            po.amount,
+            po.description,
+            po.dueDate.toString(),
+            po.transfer?.get(0)?.iban,
+            po.transfer?.get(0)?.postalIban,
+            pp.switchToExpired,
+            pp.status.toString()
+        )
+    }
+
     fun updateOldDebitPositionObject(
         oldDebitPosition: PaymentPositionModelBaseResponseDto,
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
-        iban: String,
-        companyName: String?
+        iban: String? = null,
+        companyName: String?,
+        postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
             .iupd(oldDebitPosition.iupd)

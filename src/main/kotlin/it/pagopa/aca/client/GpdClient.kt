@@ -6,6 +6,7 @@ import it.pagopa.generated.gpd.api.DebtPositionActionsApiApi
 import it.pagopa.generated.gpd.api.DebtPositionsApiApi
 import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
+import java.util.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -26,14 +27,20 @@ class GpdClient(
 
     fun getDebtPosition(
         creditorInstitutionCode: String,
-        iupd: String
+        iupd: String,
+        requestId: String? = null
     ): Mono<PaymentPositionModelBaseResponseDto> {
         val response: Mono<PaymentPositionModelBaseResponseDto> =
             try {
                 logger.info(
                     "Querying gpd to retrieve debt position for creditorInstitutionCode: $creditorInstitutionCode, iupd: $iupd"
                 )
-                client.getOrganizationDebtPositionByIUPD(creditorInstitutionCode, iupd)
+                logger.info(requestId)
+                client.getOrganizationDebtPositionByIUPD(
+                    creditorInstitutionCode,
+                    iupd,
+                    requestId ?: UUID.randomUUID().toString()
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -64,14 +71,20 @@ class GpdClient(
 
     fun createDebtPosition(
         creditorInstitutionCode: String,
-        debitPositionToCreate: PaymentPositionModelDto
+        debitPositionToCreate: PaymentPositionModelDto,
+        requestId: String? = null
     ): Mono<PaymentPositionModelDto> {
         val response: Mono<PaymentPositionModelDto> =
             try {
                 logger.info(
                     "Querying gpd to create debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: ${debitPositionToCreate.iupd}"
                 )
-                client.createPosition(creditorInstitutionCode, debitPositionToCreate, true)
+                client.createPosition(
+                    creditorInstitutionCode,
+                    debitPositionToCreate,
+                    requestId ?: UUID.randomUUID().toString(),
+                    true
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -112,14 +125,21 @@ class GpdClient(
     fun updateDebtPosition(
         creditorInstitutionCode: String,
         iupd: String,
-        debitPositionToUpdate: PaymentPositionModelDto
+        debitPositionToUpdate: PaymentPositionModelDto,
+        requestId: String? = null
     ): Mono<PaymentPositionModelDto> {
         val response: Mono<PaymentPositionModelDto> =
             try {
                 logger.info(
                     "Querying gpd to update debt position for creditorInstitutionCode: $creditorInstitutionCode with iupd: $iupd"
                 )
-                client.updatePosition(creditorInstitutionCode, iupd, debitPositionToUpdate, true)
+                client.updatePosition(
+                    creditorInstitutionCode,
+                    iupd,
+                    debitPositionToUpdate,
+                    requestId ?: UUID.randomUUID().toString(),
+                    true
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
@@ -165,12 +185,17 @@ class GpdClient(
 
     fun invalidateDebtPosition(
         creditorInstitutionCode: String,
-        iupd: String
+        iupd: String,
+        requestId: String? = null
     ): Mono<PaymentPositionModelDto> {
         val response: Mono<PaymentPositionModelDto> =
             try {
                 logger.info("Querying gpd to invalidate debt position with iupd: $iupd")
-                clientForActions.invalidatePosition(creditorInstitutionCode, iupd)
+                clientForActions.invalidatePosition(
+                    creditorInstitutionCode,
+                    iupd,
+                    requestId ?: UUID.randomUUID().toString()
+                )
             } catch (e: WebClientResponseException) {
                 Mono.error(e)
             }
