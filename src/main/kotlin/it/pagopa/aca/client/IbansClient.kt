@@ -26,9 +26,11 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
                 logger.info(
                     "Querying api config to retrieve iban for creditorInstitutionCode: $creditorInstitutionCode, request id: $requestId"
                 )
-                client.getCreditorInstitutionsIbansEnhanced(
+                client.getIbans(
+                    0,
                     creditorInstitutionCode,
                     requestId,
+                    5,
                     CREDITOR_INSTITUTION_LABEL
                 )
             } catch (e: WebClientResponseException) {
