@@ -81,10 +81,7 @@ class AcaControllerTests {
         webClient
             .post()
             .uri { uriBuilder ->
-                uriBuilder
-                    .path("/paCreatePosition")
-                    .queryParam("segregationCodes", "97,98")
-                    .build()
+                uriBuilder.path("/paCreatePosition").queryParam("segregationCodes", "97,98").build()
             }
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(request)
