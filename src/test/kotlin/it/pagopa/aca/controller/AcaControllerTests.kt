@@ -65,6 +65,32 @@ class AcaControllerTests {
     }
 
     @Test
+    fun `post paCreatePosition forbidden`() = runTest {
+        val request =
+            NewDebtPositionRequestDto(
+                iuv = "302001069073736640",
+                companyName = "company name",
+                entityType = NewDebtPositionRequestDto.EntityType.F,
+                entityFullName = "entity example full name",
+                entityFiscalCode = "RYGFHDDDYR7FDFTR",
+                description = "description test",
+                amount = 10,
+                expirationDate = OffsetDateTime.now(),
+                paFiscalCode = "77777777777"
+            )
+        webClient
+            .post()
+            .uri { uriBuilder ->
+                uriBuilder.path("/paCreatePosition").queryParam("segregationCodes", "97,98").build()
+            }
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(request)
+            .exchange()
+            .expectStatus()
+            .isForbidden
+    }
+
+    @Test
     fun `warm up controller`() = runTest {
         val webClient = mock(WebClient::class.java)
         given(webClient.post()).willReturn(requestBodyUriSpec)

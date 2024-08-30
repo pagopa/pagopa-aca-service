@@ -111,7 +111,8 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val (iban, companyName) = ibansClient.getIban(creditorInstitutionCode, requestId).block()!!
+        val (iban, companyName) =
+            ibansClient.getIban(0, 1, creditorInstitutionCode, requestId).block()!!
         // assertions
         assertEquals(mockedResponse.ibansEnhanced[0].iban, iban)
         assertEquals(mockedResponse.ibansEnhanced[0].companyName, companyName)
@@ -132,7 +133,7 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        StepVerifier.create(ibansClient.getIban(creditorInstitutionCode, requestId))
+        StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == expectedDescription
@@ -147,13 +148,7 @@ class IbansClientTest {
         val ibansApi = mock<IbansApi>()
         val ibansClient = IbansClient(ibansApi)
         val httpErrorStatusCode = HttpStatus.CONFLICT
-        given(
-                ibansApi.getCreditorInstitutionsIbansEnhanced(
-                    creditorInstitutionCode,
-                    requestId,
-                    "ACA"
-                )
-            )
+        given(ibansApi.getIbans(0, creditorInstitutionCode, requestId, 1, "ACA"))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
@@ -164,7 +159,7 @@ class IbansClientTest {
                 )
             )
         // test
-        StepVerifier.create(ibansClient.getIban(creditorInstitutionCode, requestId))
+        StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == "Api config error: $httpErrorStatusCode"

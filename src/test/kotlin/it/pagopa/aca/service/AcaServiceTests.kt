@@ -48,7 +48,8 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.error(GpdPositionNotFoundException()))
-        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
+        given(ibansClient.getIban(any(), any(), any(), any()))
+            .willReturn(Mono.just(Pair(ibanTest, companyName)))
         given(gpdClient.createDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
@@ -57,7 +58,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(ibansClient, Mockito.times(1))
-            .getIban(eq(requestCreatePosition.paFiscalCode), anyOrNull())
+            .getIban(any(), any(), eq(requestCreatePosition.paFiscalCode), anyOrNull())
         verify(gpdClient, Mockito.times(1))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
@@ -110,7 +111,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any(), anyOrNull())
-        verify(ibansClient, Mockito.times(0)).getIban(any(), any())
+        verify(ibansClient, Mockito.times(0)).getIban(any(), any(), any(), any())
     }
 
     @Test
@@ -133,7 +134,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(0)).createDebtPosition(any(), any(), anyOrNull())
-        verify(ibansClient, Mockito.times(0)).getIban(any(), any())
+        verify(ibansClient, Mockito.times(0)).getIban(any(), any(), any(), any())
     }
 
     @Test
@@ -159,7 +160,7 @@ class AcaServiceTests {
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(gpdClient, Mockito.times(1))
             .invalidateDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
-        verify(ibansClient, Mockito.times(0)).getIban(any(), any())
+        verify(ibansClient, Mockito.times(0)).getIban(any(), any(), any(), any())
         verify(gpdClient, Mockito.times(0))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
@@ -186,7 +187,7 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any()))
+        given(ibansClient.getIban(any(), any(), any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
         given(
                 gpdClient.updateDebtPosition(
@@ -203,7 +204,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(ibansClient, Mockito.times(1))
-            .getIban(eq(requestCreatePosition.paFiscalCode), anyOrNull())
+            .getIban(any(), any(), eq(requestCreatePosition.paFiscalCode), anyOrNull())
         verify(gpdClient, Mockito.times(1))
             .updateDebtPosition(
                 requestCreatePosition.paFiscalCode,
@@ -246,7 +247,7 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any()))
+        given(ibansClient.getIban(any(), any(), any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
         given(
                 gpdClient.updateDebtPosition(
@@ -263,7 +264,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(ibansClient, Mockito.times(0))
-            .getIban(eq(requestCreatePosition.paFiscalCode), anyOrNull())
+            .getIban(any(), any(), eq(requestCreatePosition.paFiscalCode), anyOrNull())
         verify(gpdClient, Mockito.times(1))
             .updateDebtPosition(
                 requestCreatePosition.paFiscalCode,
@@ -301,7 +302,7 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseGetPosition))
-        given(ibansClient.getIban(any(), any()))
+        given(ibansClient.getIban(any(), any(), any(), any()))
             .willReturn(Mono.just(Pair(ibanTestUpdate, companyName)))
         given(
                 gpdClient.updateDebtPosition(
@@ -318,7 +319,7 @@ class AcaServiceTests {
         verify(gpdClient, Mockito.times(1))
             .getDebtPosition(requestCreatePosition.paFiscalCode, iupd.value())
         verify(ibansClient, Mockito.times(1))
-            .getIban(eq(requestCreatePosition.paFiscalCode), anyOrNull())
+            .getIban(any(), any(), eq(requestCreatePosition.paFiscalCode), anyOrNull())
         verify(gpdClient, Mockito.times(1))
             .updateDebtPosition(
                 requestCreatePosition.paFiscalCode,
@@ -350,7 +351,8 @@ class AcaServiceTests {
         /* preconditions */
         given(gpdClient.getDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.error(GpdPositionNotFoundException()))
-        given(ibansClient.getIban(any(), any())).willReturn(Mono.just(Pair(ibanTest, companyName)))
+        given(ibansClient.getIban(any(), any(), any(), any()))
+            .willReturn(Mono.just(Pair(ibanTest, companyName)))
         given(gpdClient.createDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
@@ -358,7 +360,7 @@ class AcaServiceTests {
         /* Asserts */
         verify(gpdClient, Mockito.times(1)).getDebtPosition(any(), any(), anyOrNull())
         verify(ibansClient, Mockito.times(0))
-            .getIban(eq(requestCreatePosition.paFiscalCode), anyOrNull())
+            .getIban(any(), any(), eq(requestCreatePosition.paFiscalCode), anyOrNull())
         verify(gpdClient, Mockito.times(1))
             .createDebtPosition(
                 requestCreatePosition.paFiscalCode,
