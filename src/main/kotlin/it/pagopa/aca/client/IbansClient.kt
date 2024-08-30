@@ -20,17 +20,22 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
         const val CREDITOR_INSTITUTION_LABEL = "ACA"
     }
 
-    fun getIban(creditorInstitutionCode: String, requestId: String): Mono<Pair<String, String?>> {
+    fun getIban(
+        page: Int,
+        limit: Int,
+        creditorInstitutionCode: String,
+        requestId: String
+    ): Mono<Pair<String, String?>> {
         val response: Mono<IbansEnhancedDto> =
             try {
                 logger.info(
                     "Querying api config to retrieve iban for creditorInstitutionCode: $creditorInstitutionCode, request id: $requestId"
                 )
                 client.getIbans(
-                    0,
+                    page,
                     creditorInstitutionCode,
                     requestId,
-                    5,
+                    limit,
                     CREDITOR_INSTITUTION_LABEL
                 )
             } catch (e: WebClientResponseException) {

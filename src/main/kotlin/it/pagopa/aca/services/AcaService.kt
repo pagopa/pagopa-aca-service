@@ -54,7 +54,7 @@ class AcaService(
                     if (newDebtPositionRequestDto.iban == null) {
                         logger.info("Update debit position with iupd: ${iupd.value()}")
                         ibansClient
-                            .getIban(paFiscalCode, requestId)
+                            .getIban(0, 1, paFiscalCode, requestId) // only the first iban is used
                             .map {
                                 acaUtils.updateOldDebitPositionObject(
                                     debitPosition,
@@ -101,7 +101,7 @@ class AcaService(
                 } else {
                     if (newDebtPositionRequestDto.iban == null) {
                         ibansClient
-                            .getIban(paFiscalCode, requestId)
+                            .getIban(0, 1, paFiscalCode, requestId) // only the first iban is used
                             .map { response ->
                                 acaUtils.toPaymentPositionModelDto(
                                     newDebtPositionRequestDto,
