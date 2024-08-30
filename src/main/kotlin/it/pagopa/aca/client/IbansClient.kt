@@ -29,7 +29,7 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
         val response: Mono<IbansEnhancedDto> =
             try {
                 logger.info(
-                    "Querying api config to retrieve iban for creditorInstitutionCode: $creditorInstitutionCode, request id: $requestId"
+                    "Querying api config to retrieve iban for creditorInstitutionCode: $creditorInstitutionCode, request id: $requestId, page $page, limit $limit"
                 )
                 client.getIbans(
                     page,
