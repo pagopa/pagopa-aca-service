@@ -43,6 +43,7 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .payStandIn(newDebtPositionRequestDto.payStandIn)
             .switchToExpired(newDebtPositionRequestDto.switchToExpired)
             .paymentOption(
                 listOf(
