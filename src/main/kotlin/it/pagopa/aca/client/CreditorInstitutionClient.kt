@@ -12,7 +12,11 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono
 
 @Component
-class CreditorInstitutionClient(@Autowired @Qualifier("creditorInstitutionApiClient") private val client: CreditorInstitutionsApi) {
+class CreditorInstitutionClient(
+    @Autowired
+    @Qualifier("creditorInstitutionApiClient")
+    private val client: CreditorInstitutionsApi
+) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
