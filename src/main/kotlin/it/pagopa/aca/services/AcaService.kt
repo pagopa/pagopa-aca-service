@@ -61,7 +61,7 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = it.first,
-                                    newDebtPositionRequestDto.companyName,
+                                    companyName = it.second,
                                     newDebtPositionRequestDto.postalIban
                                 )
                             }
@@ -73,6 +73,7 @@ class AcaService(
                                 )
                             }
                     } else {
+                        // add api-config client to retrieve company name based on paFiscalCode
                         gpdClient.updateDebtPosition(
                             paFiscalCode,
                             iupd.value(),
