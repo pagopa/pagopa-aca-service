@@ -16,10 +16,10 @@ class WebClientConfig {
 
     @Bean(name = ["ibansApiClient"])
     fun ibansApiClient(
-        @Value("\${apiConfig.ibans.uri}") baseUrl: String,
-        @Value("\${apiConfig.ibans.readTimeout}") readTimeout: Int,
-        @Value("\${apiConfig.ibans.connectionTimeout}") connectionTimeout: Int,
-        @Value("\${apiConfig.ibans.apiKey}") apiKey: String
+        @Value("\${apiConfig.uri}") baseUrl: String,
+        @Value("\${apiConfig.readTimeout}") readTimeout: Int,
+        @Value("\${apiConfig.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${apiConfig.apiKey}") apiKey: String
     ): it.pagopa.generated.apiconfig.api.IbansApi {
         val webClient =
             buildWebClient(
@@ -31,6 +31,25 @@ class WebClientConfig {
         val apiClient = it.pagopa.generated.apiconfig.ApiClient(webClient).setBasePath(baseUrl)
         apiClient.setApiKey(apiKey)
         return it.pagopa.generated.apiconfig.api.IbansApi(apiClient)
+    }
+
+    @Bean(name = ["creditorInstitutionApiClient"])
+    fun creditorInstitutionApiClient(
+        @Value("\${apiConfig.uri}") baseUrl: String,
+        @Value("\${apiConfig.readTimeout}") readTimeout: Int,
+        @Value("\${apiConfig.connectionTimeout}") connectionTimeout: Int,
+        @Value("\${apiConfig.apiKey}") apiKey: String
+    ): it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi {
+        val webClient =
+            buildWebClient(
+                baseUrl = baseUrl,
+                readTimeout = readTimeout,
+                connectionTimeout = connectionTimeout,
+                it.pagopa.generated.apiconfig.ApiClient.buildWebClientBuilder()
+            )
+        val apiClient = it.pagopa.generated.apiconfig.ApiClient(webClient).setBasePath(baseUrl)
+        apiClient.setApiKey(apiKey)
+        return it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi(apiClient)
     }
 
     @Bean(name = ["gpdApiClient"])

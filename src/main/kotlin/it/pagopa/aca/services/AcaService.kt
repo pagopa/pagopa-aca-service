@@ -1,5 +1,6 @@
 package it.pagopa.aca.services
 
+import it.pagopa.aca.client.CreditorInstitutionClient
 import it.pagopa.aca.client.GpdClient
 import it.pagopa.aca.client.IbansClient
 import it.pagopa.aca.domain.Iupd
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono
 class AcaService(
     @Autowired private val gpdClient: GpdClient,
     @Autowired private val ibansClient: IbansClient,
+    @Autowired private val creditorInstitutionClient: CreditorInstitutionClient,
     @Autowired private val acaUtils: AcaUtils
 ) {
 
@@ -73,19 +75,25 @@ class AcaService(
                                 )
                             }
                     } else {
-                        // add api-config client to retrieve company name based on paFiscalCode
-                        gpdClient.updateDebtPosition(
-                            paFiscalCode,
-                            iupd.value(),
-                            acaUtils.updateOldDebitPositionObject(
-                                debitPosition,
-                                newDebtPositionRequestDto,
-                                iupd,
-                                newDebtPositionRequestDto.iban,
-                                newDebtPositionRequestDto.companyName,
-                                newDebtPositionRequestDto.postalIban
-                            )
-                        )
+                        creditorInstitutionClient
+                            .getCreditorInstitution(paFiscalCode, requestId)
+                            .map {
+                                acaUtils.updateOldDebitPositionObject(
+                                    debitPosition,
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    newDebtPositionRequestDto.iban,
+                                    companyName = it.second,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { updatedDebitPosition ->
+                                gpdClient.updateDebtPosition(
+                                    paFiscalCode,
+                                    iupd.value(),
+                                    updatedDebitPosition
+                                )
+                            }
                     }
                 }
             }
