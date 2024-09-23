@@ -63,12 +63,12 @@ class CreditorInstitutionClient(
                         )
                     HttpStatus.UNAUTHORIZED ->
                         ApiConfigException(
-                            description = "Internal server error",
+                            description = "Internal server error, unauthorized",
                             httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                         )
                     HttpStatus.TOO_MANY_REQUESTS ->
                         ApiConfigException(
-                            description = "Internal server error",
+                            description = "Internal server error, too many requests",
                             httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                         )
                     HttpStatus.NOT_FOUND ->
