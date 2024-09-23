@@ -5,7 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.exceptions.ApiConfigException
-import it.pagopa.generated.apiconfig.api.IbansApi
+import it.pagopa.generated.apiconfig.api.CreditorInstitutionsApi
 import java.nio.charset.StandardCharsets
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +25,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.test.StepVerifier
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class IbansClientTest {
+class CreditorInstitutionClientTest {
 
     companion object {
 
@@ -57,14 +57,14 @@ class IbansClientTest {
             Stream.of(
                 Arguments.of(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST, "Bad request"),
                 Arguments.of(
+                    HttpStatus.FORBIDDEN,
+                    HttpStatus.BAD_GATEWAY,
+                    "Bad gateway, api config forbidden getCreditorInstitution method"
+                ),
+                Arguments.of(
                     HttpStatus.UNAUTHORIZED,
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Internal server error"
-                ),
-                Arguments.of(
-                    HttpStatus.FORBIDDEN,
-                    HttpStatus.BAD_GATEWAY,
-                    "Bad gateway, api config forbidden getCreditorInstitutionsIbansEnhanced method"
                 ),
                 Arguments.of(
                     HttpStatus.NOT_FOUND,
@@ -72,14 +72,14 @@ class IbansClientTest {
                     "Creditor institution code: $creditorInstitutionCode not found"
                 ),
                 Arguments.of(
-                    HttpStatus.TOO_MANY_REQUESTS,
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Internal server error"
-                ),
-                Arguments.of(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     HttpStatus.BAD_GATEWAY,
                     "Bad gateway, api config internal server error"
+                ),
+                Arguments.of(
+                    HttpStatus.TOO_MANY_REQUESTS,
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Internal server error"
                 ),
                 Arguments.of(
                     HttpStatus.CONFLICT,
@@ -91,19 +91,19 @@ class IbansClientTest {
 
     private val creditorInstitutionsApi =
         WebClientConfig()
-            .ibansApiClient(
+            .creditorInstitutionApiClient(
                 baseUrl = "http://${mockWebServer.hostName}:${mockWebServer.port}",
                 apiKey = "apiKey",
                 connectionTimeout = 1000,
                 readTimeout = 1000
             )
 
-    private val ibansClient = IbansClient(creditorInstitutionsApi)
+    private val creditorInstitutionClient = CreditorInstitutionClient(creditorInstitutionsApi)
 
     @Test
-    fun `Should retrieve creditor institution iban successfully`() = runTest {
+    fun `Should retrieve creditor institution successfully`() = runTest {
         // pre-conditions
-        val mockedResponse = AcaTestUtils.creditorInstitutionIbanResponseBody()
+        val mockedResponse = AcaTestUtils.creditorInstitutionResponseBody()
         mockWebServer.enqueue(
             MockResponse()
                 .setBody(objectMapper.writeValueAsString(mockedResponse))
@@ -111,11 +111,11 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        val (iban, companyName) =
-            ibansClient.getIban(0, 1, creditorInstitutionCode, requestId).block()!!
+        val (creditorInstitutionCode, companyName) =
+            creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId).block()!!
         // assertions
-        assertEquals(mockedResponse.ibansEnhanced[0].iban, iban)
-        assertEquals(mockedResponse.ibansEnhanced[0].companyName, companyName)
+        assertEquals(mockedResponse.creditorInstitutionCode, creditorInstitutionCode)
+        assertEquals(mockedResponse.businessName, companyName)
     }
 
     @ParameterizedTest
@@ -133,7 +133,7 @@ class IbansClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
+        StepVerifier.create(creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId))
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == expectedDescription
@@ -145,10 +145,10 @@ class IbansClientTest {
     @Test
     fun `Should handle exception invoking api config`() = runTest {
         // pre-conditions
-        val ibansApi = mock<IbansApi>()
-        val ibansClient = IbansClient(ibansApi)
-        val httpErrorStatusCode = HttpStatus.CONFLICT
-        given(ibansApi.getIbans(0, creditorInstitutionCode, requestId, 1, "ACA"))
+        val creditorInstitutionsApi = mock<CreditorInstitutionsApi>()
+        val creditorInstitutionClient = CreditorInstitutionClient(creditorInstitutionsApi)
+        val httpErrorStatusCode = HttpStatus.NOT_FOUND
+        given(creditorInstitutionsApi.getCreditorInstitution(creditorInstitutionCode, requestId))
             .willThrow(
                 WebClientResponseException.create(
                     httpErrorStatusCode.value(),
@@ -159,11 +159,11 @@ class IbansClientTest {
                 )
             )
         // test
-        StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
+        StepVerifier.create(creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId))
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == "Api config error: $httpErrorStatusCode"
-                it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
+                it.toRestException().httpStatus == HttpStatus.NOT_FOUND
             }
             .verify()
     }

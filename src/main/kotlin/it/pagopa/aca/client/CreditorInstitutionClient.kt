@@ -55,27 +55,27 @@ class CreditorInstitutionClient(
                             description = "Bad request",
                             httpStatusCode = HttpStatus.BAD_REQUEST
                         )
-                    HttpStatus.UNAUTHORIZED ->
-                        ApiConfigException(
-                            description = "Internal server error",
-                            httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
-                        )
                     HttpStatus.FORBIDDEN ->
                         ApiConfigException(
                             description =
                                 "Bad gateway, api config forbidden getCreditorInstitution method",
                             httpStatusCode = HttpStatus.BAD_GATEWAY
                         )
-                    HttpStatus.NOT_FOUND ->
+                    HttpStatus.UNAUTHORIZED ->
                         ApiConfigException(
-                            description =
-                                "Creditor institution code: $creditorInstitutionCode not found",
-                            httpStatusCode = HttpStatus.NOT_FOUND
+                            description = "Internal server error",
+                            httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                         )
                     HttpStatus.TOO_MANY_REQUESTS ->
                         ApiConfigException(
                             description = "Internal server error",
                             httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
+                        )
+                    HttpStatus.NOT_FOUND ->
+                        ApiConfigException(
+                            description =
+                                "Creditor institution code: $creditorInstitutionCode not found",
+                            httpStatusCode = HttpStatus.NOT_FOUND
                         )
                     HttpStatus.INTERNAL_SERVER_ERROR ->
                         ApiConfigException(
