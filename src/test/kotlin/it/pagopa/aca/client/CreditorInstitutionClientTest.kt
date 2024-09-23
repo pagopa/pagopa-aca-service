@@ -112,7 +112,9 @@ class CreditorInstitutionClientTest {
         )
         // test
         val (creditorInstitutionCode, companyName) =
-            creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId).block()!!
+            creditorInstitutionClient
+                .getCreditorInstitution(creditorInstitutionCode, requestId)
+                .block()!!
         // assertions
         assertEquals(mockedResponse.creditorInstitutionCode, creditorInstitutionCode)
         assertEquals(mockedResponse.businessName, companyName)
@@ -133,7 +135,9 @@ class CreditorInstitutionClientTest {
                 .addHeader("Content-Type", "application/json")
         )
         // test
-        StepVerifier.create(creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId))
+        StepVerifier.create(
+                creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId)
+            )
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == expectedDescription
@@ -159,7 +163,9 @@ class CreditorInstitutionClientTest {
                 )
             )
         // test
-        StepVerifier.create(creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId))
+        StepVerifier.create(
+                creditorInstitutionClient.getCreditorInstitution(creditorInstitutionCode, requestId)
+            )
             .expectErrorMatches {
                 it as ApiConfigException
                 it.toRestException().description == "Api config error: $httpErrorStatusCode"
