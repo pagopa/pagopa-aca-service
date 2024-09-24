@@ -31,7 +31,7 @@ object AcaTestUtils {
 
     fun creditorInstitutionResponseBody(): CreditorInstitutionDetailsDto =
         CreditorInstitutionDetailsDto()
-            .creditorInstitutionCode("123456")
+            .creditorInstitutionCode("77777777777")
             .businessName("companyName")
 
     fun buildProblemJson(

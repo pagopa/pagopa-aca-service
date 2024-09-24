@@ -29,7 +29,7 @@ class CreditorInstitutionClientTest {
 
     companion object {
 
-        const val creditorInstitutionCode = "123456"
+        const val creditorInstitutionCode = "77777777777"
 
         const val requestId = "requestId"
 
