@@ -1,3 +1,4 @@
 {
-  "*/creditorinstitutions/:creditorinstitutioncode/ibans/enhanced\\?label=:label": "/ibans-enhanced-:creditorinstitutioncode-:label"
+  "*/creditorinstitutions/:creditorinstitutioncode/ibans/enhanced\\?label=:label": "/ibans-enhanced-:creditorinstitutioncode-:label",
+  "*/creditorinstitutions/:creditorinstitutioncode": "/creditor-institution-:creditorinstitutioncode"
 }

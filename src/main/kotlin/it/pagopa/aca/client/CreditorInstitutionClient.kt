@@ -20,10 +20,6 @@ class CreditorInstitutionClient(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    companion object {
-        const val CREDITOR_INSTITUTION_LABEL = "ACA"
-    }
-
     fun getCreditorInstitution(
         creditorInstitutionCode: String,
         requestId: String
