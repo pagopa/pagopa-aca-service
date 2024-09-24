@@ -76,6 +76,10 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params successfully`() = runTest {
+        /* preconditions */
+        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
+            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
+        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val postalIban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
@@ -85,6 +89,10 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params (except postalIban) successfully`() = runTest {
+        /* preconditions */
+        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
+            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
+        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
             AcaTestUtils.createPositionRequestBody(iupd, 10, iban, postalIban = null, true)
@@ -93,6 +101,10 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params (except iban) successfully`() = runTest {
+        /* preconditions */
+        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
+            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
+        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val postalIban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =

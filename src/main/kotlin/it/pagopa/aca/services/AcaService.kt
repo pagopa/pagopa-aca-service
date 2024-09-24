@@ -116,7 +116,7 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = response.first,
-                                    newDebtPositionRequestDto.companyName,
+                                    companyName = response.second,
                                     newDebtPositionRequestDto.postalIban
                                 )
                             }
@@ -125,16 +125,21 @@ class AcaService(
                                 gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
                             }
                     } else {
-                        gpdClient.createDebtPosition(
-                            paFiscalCode,
-                            acaUtils.toPaymentPositionModelDto(
-                                newDebtPositionRequestDto,
-                                iupd,
-                                newDebtPositionRequestDto.iban,
-                                newDebtPositionRequestDto.companyName,
-                                newDebtPositionRequestDto.postalIban
-                            )
-                        )
+                        creditorInstitutionClient
+                            .getCreditorInstitution(paFiscalCode, requestId)
+                            .map { response ->
+                                acaUtils.toPaymentPositionModelDto(
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    newDebtPositionRequestDto.iban,
+                                    companyName = response.second,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { newDebitPosition ->
+                                logger.info("Create new debit position with iupd: ${iupd.value()}")
+                                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+                            }
                     }
                 }
             }
