@@ -121,6 +121,7 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .payStandIn(newDebtPositionRequestDto.payStandIn)
             .paymentOption(
                 oldDebitPosition.paymentOption
                     ?.stream()
