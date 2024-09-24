@@ -41,7 +41,7 @@ class AcaServiceTests {
         val iupd = Iupd(paFiscalCode, iuv)
         const val ibanTest = "IT55555555555555"
         const val ibanTestUpdate = "IT66666666666666"
-        const val companyName = "company name"
+        const val companyName = "companyName"
     }
     @Test
     fun `create position successfully`() = runTest {
@@ -76,10 +76,6 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params successfully`() = runTest {
-        /* preconditions */
-        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
-            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
-        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val postalIban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
@@ -89,10 +85,6 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params (except postalIban) successfully`() = runTest {
-        /* preconditions */
-        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
-            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
-        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
             AcaTestUtils.createPositionRequestBody(iupd, 10, iban, postalIban = null, true)
@@ -101,10 +93,6 @@ class AcaServiceTests {
 
     @Test
     fun `create position full params (except iban) successfully`() = runTest {
-        /* preconditions */
-        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
-            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
-        /* execution */
         val iban: String = "IT99C0222211111000000000000"
         val postalIban: String = "IT99C0222211111000000000000"
         val requestCreatePosition =
@@ -369,6 +357,8 @@ class AcaServiceTests {
             .willReturn(Mono.error(GpdPositionNotFoundException()))
         given(ibansClient.getIban(any(), any(), any(), any()))
             .willReturn(Mono.just(Pair(ibanTest, companyName)))
+        given(creditorInstitutionClient.getCreditorInstitution(any(), any()))
+            .willReturn(Mono.just(Pair(paFiscalCode, companyName)))
         given(gpdClient.createDebtPosition(any(), any(), anyOrNull()))
             .willReturn(Mono.just(responseCreate))
         /* tests */
@@ -384,7 +374,7 @@ class AcaServiceTests {
                     requestCreatePosition,
                     iupd,
                     expectedIban,
-                    requestCreatePosition.companyName,
+                    companyName,
                     expectedPostalIban
                 )
             )

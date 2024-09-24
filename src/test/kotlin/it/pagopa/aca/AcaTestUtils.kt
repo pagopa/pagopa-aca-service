@@ -88,7 +88,6 @@ object AcaTestUtils {
     fun createPositionRequestBody(iupd: Iupd, amount: Int): NewDebtPositionRequestDto =
         NewDebtPositionRequestDto(
             iupd.fiscalCode,
-            "company name",
             NewDebtPositionRequestDto.EntityType.F,
             "XXXYYY00X11Y123Z",
             "entityFullName",
@@ -107,7 +106,6 @@ object AcaTestUtils {
     ): NewDebtPositionRequestDto =
         NewDebtPositionRequestDto(
             iupd.fiscalCode,
-            "company name",
             NewDebtPositionRequestDto.EntityType.F,
             "XXXYYY00X11Y123Z",
             "entityFullName",
