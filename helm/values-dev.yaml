@@ -78,7 +78,7 @@ microservice-chart:
     OTEL_LOGS_EXPORTER: none
     OTEL_TRACES_SAMPLER: "always_on"
   envSecret:
-    API_CONFIG_IBANS_API_KEY: api-config-api-key
+    API_CONFIG_API_KEY: api-config-api-key
     GPD_DEBIT_POSITION_API_KEY: gpd-api-key
     OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   keyvault:
