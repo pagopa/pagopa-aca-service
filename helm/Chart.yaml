@@ -2,7 +2,7 @@ apiVersion: v2
 name: aca
 description: Microservice that handles api for create a new debt position
 type: application
-version: 0.5.4
+version: 0.5.5
 appVersion: 0.5.4
 dependencies:
   - name: microservice-chart
