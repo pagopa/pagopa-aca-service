@@ -38,7 +38,7 @@ microservice-chart:
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopapcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.5.1"
+    tag: "0.5.2"
     pullPolicy: Always
   livenessProbe:
     httpGet:
