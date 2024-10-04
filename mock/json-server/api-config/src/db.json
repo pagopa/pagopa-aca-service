@@ -36,5 +36,13 @@
         "validity_date": "2023-04-01T13:49:19.897Z"
       }
     ]
+  },
+  "creditor-institution-77777777777": {
+    "creditor_institution_code": "77777777777",
+    "business_name": "Comune di Firenze"
+  },
+  "creditor-institution-66666666666": {
+    "creditor_institution_code": "66666666666",
+    "business_name": "Comune di Firenze"
   }
 }

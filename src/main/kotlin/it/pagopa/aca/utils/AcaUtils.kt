@@ -32,7 +32,7 @@ class AcaUtils {
         newDebtPositionRequestDto: NewDebtPositionRequestDto,
         iupd: Iupd,
         iban: String? = null,
-        companyName: String,
+        companyName: String?,
         postalIban: String? = null
     ): PaymentPositionModelDto {
         return PaymentPositionModelDto()
