@@ -3,7 +3,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 group = "it.pagopa.aca"
 
-version = "0.5.2"
+version = "0.5.3"
 
 description = "pagopa-aca-service"
 
