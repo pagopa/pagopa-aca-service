@@ -4,6 +4,7 @@ import it.pagopa.aca.domain.Iupd
 import it.pagopa.aca.service.AcaServiceTests
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
 import it.pagopa.generated.aca.model.ProblemJsonDto
+import it.pagopa.generated.apiconfig.model.CreditorInstitutionDetailsDto
 import it.pagopa.generated.apiconfig.model.IbanEnhancedDto
 import it.pagopa.generated.apiconfig.model.IbanLabelDto
 import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
@@ -13,7 +14,7 @@ import java.time.OffsetDateTime
 import org.springframework.http.HttpStatus
 
 object AcaTestUtils {
-    fun creditorInstitutionResponseBody(): IbansEnhancedDto =
+    fun creditorInstitutionIbanResponseBody(): IbansEnhancedDto =
         IbansEnhancedDto()
             .ibansEnhanced(
                 listOf(
@@ -27,6 +28,11 @@ object AcaTestUtils {
                         .validityDate(OffsetDateTime.now())
                 )
             )
+
+    fun creditorInstitutionResponseBody(): CreditorInstitutionDetailsDto =
+        CreditorInstitutionDetailsDto()
+            .creditorInstitutionCode("77777777777")
+            .businessName("companyName")
 
     fun buildProblemJson(
         httpStatus: HttpStatus,
@@ -82,7 +88,6 @@ object AcaTestUtils {
     fun createPositionRequestBody(iupd: Iupd, amount: Int): NewDebtPositionRequestDto =
         NewDebtPositionRequestDto(
             iupd.fiscalCode,
-            "company name",
             NewDebtPositionRequestDto.EntityType.F,
             "XXXYYY00X11Y123Z",
             "entityFullName",
@@ -101,7 +106,6 @@ object AcaTestUtils {
     ): NewDebtPositionRequestDto =
         NewDebtPositionRequestDto(
             iupd.fiscalCode,
-            "company name",
             NewDebtPositionRequestDto.EntityType.F,
             "XXXYYY00X11Y123Z",
             "entityFullName",

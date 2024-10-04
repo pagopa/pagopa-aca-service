@@ -1,5 +1,6 @@
 package it.pagopa.aca.services
 
+import it.pagopa.aca.client.CreditorInstitutionClient
 import it.pagopa.aca.client.GpdClient
 import it.pagopa.aca.client.IbansClient
 import it.pagopa.aca.domain.Iupd
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono
 class AcaService(
     @Autowired private val gpdClient: GpdClient,
     @Autowired private val ibansClient: IbansClient,
+    @Autowired private val creditorInstitutionClient: CreditorInstitutionClient,
     @Autowired private val acaUtils: AcaUtils
 ) {
 
@@ -61,7 +63,7 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = it.first,
-                                    newDebtPositionRequestDto.companyName,
+                                    companyName = it.second,
                                     newDebtPositionRequestDto.postalIban
                                 )
                             }
@@ -73,18 +75,25 @@ class AcaService(
                                 )
                             }
                     } else {
-                        gpdClient.updateDebtPosition(
-                            paFiscalCode,
-                            iupd.value(),
-                            acaUtils.updateOldDebitPositionObject(
-                                debitPosition,
-                                newDebtPositionRequestDto,
-                                iupd,
-                                newDebtPositionRequestDto.iban,
-                                newDebtPositionRequestDto.companyName,
-                                newDebtPositionRequestDto.postalIban
-                            )
-                        )
+                        creditorInstitutionClient
+                            .getCreditorInstitution(paFiscalCode, requestId)
+                            .map {
+                                acaUtils.updateOldDebitPositionObject(
+                                    debitPosition,
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    newDebtPositionRequestDto.iban,
+                                    companyName = it.second,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { updatedDebitPosition ->
+                                gpdClient.updateDebtPosition(
+                                    paFiscalCode,
+                                    iupd.value(),
+                                    updatedDebitPosition
+                                )
+                            }
                     }
                 }
             }
@@ -107,7 +116,7 @@ class AcaService(
                                     newDebtPositionRequestDto,
                                     iupd,
                                     iban = response.first,
-                                    newDebtPositionRequestDto.companyName,
+                                    companyName = response.second,
                                     newDebtPositionRequestDto.postalIban
                                 )
                             }
@@ -116,16 +125,21 @@ class AcaService(
                                 gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
                             }
                     } else {
-                        gpdClient.createDebtPosition(
-                            paFiscalCode,
-                            acaUtils.toPaymentPositionModelDto(
-                                newDebtPositionRequestDto,
-                                iupd,
-                                newDebtPositionRequestDto.iban,
-                                newDebtPositionRequestDto.companyName,
-                                newDebtPositionRequestDto.postalIban
-                            )
-                        )
+                        creditorInstitutionClient
+                            .getCreditorInstitution(paFiscalCode, requestId)
+                            .map { response ->
+                                acaUtils.toPaymentPositionModelDto(
+                                    newDebtPositionRequestDto,
+                                    iupd,
+                                    newDebtPositionRequestDto.iban,
+                                    companyName = response.second,
+                                    newDebtPositionRequestDto.postalIban
+                                )
+                            }
+                            .flatMap { newDebitPosition ->
+                                logger.info("Create new debit position with iupd: ${iupd.value()}")
+                                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+                            }
                     }
                 }
             }

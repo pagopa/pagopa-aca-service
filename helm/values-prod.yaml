@@ -20,9 +20,9 @@ microservice-chart:
       DEFAULT_LOGGING_LEVEL: "info"
       APP_LOGGING_LEVEL: "info"
       WEB_LOGGING_LEVEL: "off"
-      API_CONFIG_IBANS_URI: "https://api.platform.pagopa.it/apiconfig/auth/api/v1"
-      API_CONFIG_IBANS_READ_TIMEOUT: "10000"
-      API_CONFIG_IBANS_CONNECTION_TIMEOUT: "10000"
+      API_CONFIG_URI: "https://api.platform.pagopa.it/apiconfig/auth/api/v1"
+      API_CONFIG_READ_TIMEOUT: "10000"
+      API_CONFIG_CONNECTION_TIMEOUT: "10000"
       GPD_DEBIT_POSITION_URI: "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
       GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
       GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
@@ -33,12 +33,12 @@ microservice-chart:
       OTEL_LOGS_EXPORTER: none
       OTEL_TRACES_SAMPLER: "always_on"
     envSecret:
-      API_CONFIG_IBANS_API_KEY: api-config-api-key
+      API_CONFIG_API_KEY: api-config-api-key
       GPD_DEBIT_POSITION_API_KEY: gpd-api-key
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopapcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.5.1"
+    tag: "0.5.2"
     pullPolicy: Always
   livenessProbe:
     httpGet:
