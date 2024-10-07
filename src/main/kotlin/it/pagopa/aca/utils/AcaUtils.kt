@@ -43,6 +43,7 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .payStandIn(newDebtPositionRequestDto.payStandIn)
             .switchToExpired(newDebtPositionRequestDto.switchToExpired)
             .paymentOption(
                 listOf(
@@ -120,6 +121,7 @@ class AcaUtils {
             )
             .fullName(newDebtPositionRequestDto.entityFullName)
             .companyName(companyName)
+            .payStandIn(newDebtPositionRequestDto.payStandIn)
             .paymentOption(
                 oldDebitPosition.paymentOption
                     ?.stream()
