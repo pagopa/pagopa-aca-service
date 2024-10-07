@@ -212,7 +212,7 @@ components:
         payStandIn:
           type: boolean
           example: true
-          default: false
+          default: true
 
     DebtPositionResponse:
       type: object
