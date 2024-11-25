@@ -33,7 +33,7 @@ markdown-toc</a></i></small>
 ## Api Documentation 📖
 
 See
-the [OpenAPI 3 here.](https://editor.swagger.io/?url=https://raw.githubusercontent.com/pagopa/pagopa-aca-service/main/api-spec/aca-api.yaml)
+the [OpenAPI 3 here.](https://editor.swagger.io/?url=https://raw.githubusercontent.com/pagopa/pagopa-aca-service/main/aca-openapi.yaml)
 
 ---
 
