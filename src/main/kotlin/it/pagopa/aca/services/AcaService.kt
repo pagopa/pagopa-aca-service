@@ -8,6 +8,7 @@ import it.pagopa.aca.exceptions.GpdPositionNotFoundException
 import it.pagopa.aca.exceptions.RestApiException
 import it.pagopa.aca.utils.AcaUtils
 import it.pagopa.generated.aca.model.NewDebtPositionRequestDto
+import it.pagopa.generated.gpd.model.PaymentPositionModelBaseResponseDto
 import it.pagopa.generated.gpd.model.PaymentPositionModelDto
 import java.util.UUID
 import kotlinx.coroutines.reactor.awaitSingle
@@ -52,104 +53,122 @@ class AcaService(
                             )
                         )
                     )
-                    .flatMap { debitPosition ->
-                        if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
-                            logger.info("Invalidate debit position with iupd: ${iupd.value()}")
-                            gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
-                        } else {
-                            if (newDebtPositionRequestDto.iban == null) {
-                                logger.info("Update debit position with iupd: ${iupd.value()}")
-                                ibansClient
-                                    .getIban(
-                                        0,
-                                        1,
-                                        paFiscalCode,
-                                        requestId
-                                    ) // only the first iban is used
-                                    .map {
-                                        acaUtils.updateOldDebitPositionObject(
-                                            debitPosition,
-                                            newDebtPositionRequestDto,
-                                            iupd,
-                                            iban = it.first,
-                                            companyName = it.second,
-                                            newDebtPositionRequestDto.postalIban
-                                        )
-                                    }
-                                    .flatMap { updatedDebitPosition ->
-                                        gpdClient.updateDebtPosition(
-                                            paFiscalCode,
-                                            iupd.value(),
-                                            updatedDebitPosition
-                                        )
-                                    }
-                            } else {
-                                val updatedDebitPosition =
-                                    acaUtils.updateOldDebitPositionObject(
-                                        debitPosition,
-                                        newDebtPositionRequestDto,
-                                        iupd,
-                                        newDebtPositionRequestDto.iban,
-                                        companyName = creditorInstitutionResp.second,
-                                        newDebtPositionRequestDto.postalIban
-                                    )
-                                gpdClient.updateDebtPosition(
-                                    paFiscalCode,
-                                    iupd.value(),
-                                    updatedDebitPosition
-                                )
-                            }
-                        }
+                    .flatMap {
+                        processGetDebtPositionResponse(
+                            newDebtPositionRequestDto,
+                            iupd,
+                            paFiscalCode,
+                            requestId,
+                            debitPosition = it,
+                            companyName = creditorInstitutionResp.second
+                        )
                     }
                     .onErrorResume(GpdPositionNotFoundException::class.java) {
-                        if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
-                            logger.debug("Amount not compatible with the creation request")
-                            Mono.error(
-                                RestApiException(
-                                    HttpStatus.UNPROCESSABLE_ENTITY,
-                                    "Unprocessable request",
-                                    "Can not perform the requested action on debit position"
-                                )
-                            )
-                        } else {
-                            if (newDebtPositionRequestDto.iban == null) {
-                                ibansClient
-                                    .getIban(
-                                        0,
-                                        1,
-                                        paFiscalCode,
-                                        requestId
-                                    ) // only the first iban is used
-                                    .map { response ->
-                                        acaUtils.toPaymentPositionModelDto(
-                                            newDebtPositionRequestDto,
-                                            iupd,
-                                            iban = response.first,
-                                            companyName = response.second,
-                                            newDebtPositionRequestDto.postalIban
-                                        )
-                                    }
-                                    .flatMap { newDebitPosition ->
-                                        logger.info(
-                                            "Create new debit position with iupd: ${iupd.value()}"
-                                        )
-                                        gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
-                                    }
-                            } else {
-                                val newDebitPosition =
-                                    acaUtils.toPaymentPositionModelDto(
-                                        newDebtPositionRequestDto,
-                                        iupd,
-                                        newDebtPositionRequestDto.iban,
-                                        companyName = creditorInstitutionResp.second,
-                                        newDebtPositionRequestDto.postalIban
-                                    )
-                                logger.info("Create new debit position with iupd: ${iupd.value()}")
-                                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
-                            }
-                        }
+                        handlePositionNotFound(
+                            newDebtPositionRequestDto,
+                            iupd,
+                            paFiscalCode,
+                            requestId,
+                            companyName = creditorInstitutionResp.second
+                        )
                     }
             }
             .awaitSingle()
+    }
+
+    private fun processGetDebtPositionResponse(
+        newDebtPositionRequestDto: NewDebtPositionRequestDto,
+        iupd: Iupd,
+        paFiscalCode: String,
+        requestId: String,
+        debitPosition: PaymentPositionModelBaseResponseDto,
+        companyName: String
+    ): Mono<PaymentPositionModelDto> {
+        return if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
+            logger.info("Invalidate debit position with iupd: ${iupd.value()}")
+            return gpdClient.invalidateDebtPosition(paFiscalCode, iupd.value())
+        } else {
+            if (newDebtPositionRequestDto.iban == null) {
+                logger.info("Update debit position with iupd: ${iupd.value()}")
+                ibansClient
+                    .getIban(0, 1, paFiscalCode, requestId) // only the first iban is used
+                    .map {
+                        acaUtils.updateOldDebitPositionObject(
+                            debitPosition,
+                            newDebtPositionRequestDto,
+                            iupd,
+                            iban = it.first,
+                            companyName = it.second,
+                            newDebtPositionRequestDto.postalIban
+                        )
+                    }
+                    .flatMap { updatedDebitPosition ->
+                        gpdClient.updateDebtPosition(
+                            paFiscalCode,
+                            iupd.value(),
+                            updatedDebitPosition
+                        )
+                    }
+            } else {
+                val updatedDebitPosition =
+                    acaUtils.updateOldDebitPositionObject(
+                        debitPosition,
+                        newDebtPositionRequestDto,
+                        iupd,
+                        newDebtPositionRequestDto.iban,
+                        companyName = companyName,
+                        newDebtPositionRequestDto.postalIban
+                    )
+                gpdClient.updateDebtPosition(paFiscalCode, iupd.value(), updatedDebitPosition)
+            }
+        }
+    }
+
+    private fun handlePositionNotFound(
+        newDebtPositionRequestDto: NewDebtPositionRequestDto,
+        iupd: Iupd,
+        paFiscalCode: String,
+        requestId: String,
+        companyName: String
+    ): Mono<PaymentPositionModelDto> {
+        return if (acaUtils.isInvalidateAmount(newDebtPositionRequestDto.amount)) {
+            logger.debug("Amount not compatible with the creation request")
+            Mono.error(
+                RestApiException(
+                    HttpStatus.UNPROCESSABLE_ENTITY,
+                    "Unprocessable request",
+                    "Can not perform the requested action on debit position"
+                )
+            )
+        } else {
+            if (newDebtPositionRequestDto.iban == null) {
+                ibansClient
+                    .getIban(0, 1, paFiscalCode, requestId) // only the first iban is used
+                    .map { response ->
+                        acaUtils.toPaymentPositionModelDto(
+                            newDebtPositionRequestDto,
+                            iupd,
+                            iban = response.first,
+                            companyName = response.second,
+                            newDebtPositionRequestDto.postalIban
+                        )
+                    }
+                    .flatMap { newDebitPosition ->
+                        logger.info("Create new debit position with iupd: ${iupd.value()}")
+                        gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+                    }
+            } else {
+                val newDebitPosition =
+                    acaUtils.toPaymentPositionModelDto(
+                        newDebtPositionRequestDto,
+                        iupd,
+                        newDebtPositionRequestDto.iban,
+                        companyName = companyName,
+                        newDebtPositionRequestDto.postalIban
+                    )
+                logger.info("Create new debit position with iupd: ${iupd.value()}")
+                gpdClient.createDebtPosition(paFiscalCode, newDebitPosition)
+            }
+        }
     }
 }
