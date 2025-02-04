@@ -6,6 +6,7 @@ import it.pagopa.aca.AcaTestUtils
 import it.pagopa.aca.config.WebClientConfig
 import it.pagopa.aca.exceptions.ApiConfigException
 import it.pagopa.generated.apiconfig.api.IbansApi
+import it.pagopa.generated.apiconfig.model.IbansEnhancedDto
 import java.nio.charset.StandardCharsets
 import java.util.stream.Stream
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -164,6 +165,26 @@ class IbansClientTest {
                 it as ApiConfigException
                 it.toRestException().description == "Api config error: $httpErrorStatusCode"
                 it.toRestException().httpStatus == HttpStatus.BAD_GATEWAY
+            }
+            .verify()
+    }
+
+    @Test
+    fun `Should handle empty response invoking api config`() = runTest {
+        // pre-conditions
+        val mockedResponse = IbansEnhancedDto().ibansEnhanced(emptyList())
+        mockWebServer.enqueue(
+            MockResponse()
+                .setBody(objectMapper.writeValueAsString(mockedResponse))
+                .setResponseCode(200)
+                .addHeader("Content-Type", "application/json")
+        )
+        // test
+        StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
+            .expectErrorMatches {
+                it as ApiConfigException
+                it.toRestException().description == "No iban found for creditor institution with code: $creditorInstitutionCode"
+                it.toRestException().httpStatus == HttpStatus.INTERNAL_SERVER_ERROR
             }
             .verify()
     }

@@ -42,6 +42,15 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
                 Mono.error(e)
             }
         return response
+            .filter { it.ibansEnhanced.isNotEmpty() }
+            .switchIfEmpty(
+                Mono.error(
+                    ApiConfigException(
+                        description = "No iban found for creditor institution with code: $creditorInstitutionCode",
+                        httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
+                    )
+                )
+            )
             .map {
                 // TODO here we have to just take the first returned IbanDto object?
                 val ibanDto = it.ibansEnhanced[0]
