@@ -183,7 +183,8 @@ class IbansClientTest {
         StepVerifier.create(ibansClient.getIban(0, 1, creditorInstitutionCode, requestId))
             .expectErrorMatches {
                 it as ApiConfigException
-                it.toRestException().description == "No iban found for creditor institution with code: $creditorInstitutionCode"
+                it.toRestException().description ==
+                    "No iban found for creditor institution with code: $creditorInstitutionCode"
                 it.toRestException().httpStatus == HttpStatus.INTERNAL_SERVER_ERROR
             }
             .verify()
