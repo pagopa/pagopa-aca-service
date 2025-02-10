@@ -46,7 +46,8 @@ class IbansClient(@Autowired @Qualifier("ibansApiClient") private val client: Ib
             .switchIfEmpty(
                 Mono.error(
                     ApiConfigException(
-                        description = "No iban found for creditor institution with code: $creditorInstitutionCode",
+                        description =
+                            "No iban found for creditor institution with code: $creditorInstitutionCode",
                         httpStatusCode = HttpStatus.INTERNAL_SERVER_ERROR
                     )
                 )
