@@ -38,7 +38,7 @@ microservice-chart:
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopapcommonacr.azurecr.io/pagopaacaservice
-    tag: "0.7.1"
+    tag: "0.7.2"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -102,7 +102,7 @@ microservice-chart:
     API_CONFIG_URI: "https://api.platform.pagopa.it/apiconfig/auth/api/v1"
     API_CONFIG_READ_TIMEOUT: "10000"
     API_CONFIG_CONNECTION_TIMEOUT: "10000"
-    GPD_DEBIT_POSITION_URI: "https://api.platform.pagopa.it/gpd/debt-positions-service/v1"
+    GPD_DEBIT_POSITION_URI: "https://api.platform.pagopa.it/aca/debt-positions-service/v1"
     GPD_DEBIT_POSITION_READ_TIMEOUT: "10000"
     GPD_DEBIT_POSITION_CONNECTION_TIMEOUT: "10000"
     ECS_SERVICE_NAME: "pagopa-aca-service"
