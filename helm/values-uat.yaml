@@ -38,7 +38,7 @@ microservice-chart:
       OTEL_EXPORTER_OTLP_HEADERS: elastic-otel-token-header
   image:
     repository: pagopaucommonacr.azurecr.io/pagopaacaservice
-    tag: "0.7.2"
+    tag: "0.8.0"
     pullPolicy: Always
   livenessProbe:
     httpGet:
@@ -68,9 +68,9 @@ microservice-chart:
     servicePort: 8080
   serviceAccount:
     create: false
-    annotations: { }
+    annotations: {}
     name: "aca-workload-identity"
-  podAnnotations: { }
+  podAnnotations: {}
   podSecurityContext:
     seccompProfile:
       type: RuntimeDefault
@@ -118,8 +118,8 @@ microservice-chart:
   keyvault:
     name: "pagopa-u-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: { }
-  tolerations: [ ]
+  nodeSelector: {}
+  tolerations: []
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
