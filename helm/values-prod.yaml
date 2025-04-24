@@ -145,4 +145,4 @@ microservice-chart:
       maxSurge: 1
       maxUnavailable: 0
   azure:
-    workloadIdentityClientId: "TODO"
+    workloadIdentityClientId: "55ebe51a-23c1-4816-a122-623a655c91fe"
