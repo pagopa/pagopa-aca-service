@@ -34,9 +34,9 @@ microservice-chart:
     servicePort: 8080
   serviceAccount:
     create: false
-    annotations: {}
-    name: ""
-  podAnnotations: {}
+    annotations: { }
+    name: "aca-workload-identity"
+  podAnnotations: { }
   podSecurityContext:
     seccompProfile:
       type: RuntimeDefault
@@ -84,8 +84,8 @@ microservice-chart:
   keyvault:
     name: "pagopa-d-aca-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-  nodeSelector: {}
-  tolerations: []
+  nodeSelector: { }
+  tolerations: [ ]
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -99,3 +99,5 @@ microservice-chart:
     deployment:
       image:
         tag: ""
+  azure:
+    workloadIdentityClientId: "46ac7465-89c6-4a62-8439-9e724fe22260"
