@@ -37,7 +37,7 @@ class AcaUtilsTests {
                 Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT, false),
                 Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.PAID, true),
                 Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.INVALID, true),
-                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.EXPIRED, true),
+                Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.EXPIRED, false),
                 Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.PARTIALLY_PAID, true),
                 Arguments.of(PaymentPositionModelBaseResponseDto.StatusEnum.REPORTED, true),
             )
