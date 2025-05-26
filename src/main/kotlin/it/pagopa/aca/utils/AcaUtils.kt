@@ -21,7 +21,8 @@ class AcaUtils {
     ): Boolean {
         return status != PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT &&
             status != PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED &&
-            status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID
+            status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID &&
+            status != PaymentPositionModelBaseResponseDto.StatusEnum.EXPIRED
     }
 
     fun isInvalidateAmount(amount: Int): Boolean {
