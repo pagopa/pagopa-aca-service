@@ -43,7 +43,6 @@ class AcaService(
             .flatMap { creditorInstitutionResp ->
                 gpdClient
                     .getDebtPosition(paFiscalCode, iupd.value())
-                    .filter { !acaUtils.isInvalidStatusForExecuteOperation(it.status) }
                     .switchIfEmpty(
                         Mono.error(
                             RestApiException(

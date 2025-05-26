@@ -16,14 +16,6 @@ class AcaUtils {
         const val STAND_IN_CONSTANT: String = "STAND-IN"
     }
 
-    fun isInvalidStatusForExecuteOperation(
-        status: PaymentPositionModelBaseResponseDto.StatusEnum?
-    ): Boolean {
-        return status != PaymentPositionModelBaseResponseDto.StatusEnum.DRAFT &&
-            status != PaymentPositionModelBaseResponseDto.StatusEnum.PUBLISHED &&
-            status != PaymentPositionModelBaseResponseDto.StatusEnum.VALID
-    }
-
     fun isInvalidateAmount(amount: Int): Boolean {
         return amount == 0
     }
