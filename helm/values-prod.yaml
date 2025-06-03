@@ -82,8 +82,8 @@ microservice-chart:
       memory: "512Mi"
       cpu: "300m"
     limits:
-      memory: "512Mi"
-      cpu: "300m"
+      memory: "640Mi"
+      cpu: "400m"
   autoscaling:
     enable: true
     minReplica: 3
@@ -95,7 +95,7 @@ microservice-chart:
         metadata:
           # Required
           type: Utilization # Allowed types are 'Utilization' or 'AverageValue'
-          value: "70"
+          value: "80"
   envConfig:
     DEFAULT_LOGGING_LEVEL: "info"
     APP_LOGGING_LEVEL: "info"
