@@ -75,7 +75,7 @@ microservice-chart:
     ECS_SERVICE_NAME: "pagopa-aca-service"
     ECS_SERVICE_ENVIRONMENT: "dev"
     OTEL_RESOURCE_ATTRIBUTES: "service.name=pagopa-aca-service,deployment.environment=dev"
-    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.elastic-system.svc:4317"
+    OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-scalable-lb-collector.otel.svc.cluster.local:4317"
     OTEL_LOGS_EXPORTER: none
     OTEL_TRACES_SAMPLER: "always_on"
   envSecret:
