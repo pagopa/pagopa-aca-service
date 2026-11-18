@@ -17,7 +17,7 @@ microservice-chart:
         tag: "latest"
         pullPolicy: Always
     envConfig:
-      JAVA_OPTS: "-XX:-UseBASE64Intrinsics"
+      JAVA_TOOL_OPTIONS: "-XX:-UseBASE64Intrinsics"
       DEFAULT_LOGGING_LEVEL: "info"
       APP_LOGGING_LEVEL: "info"
       WEB_LOGGING_LEVEL: "off"
