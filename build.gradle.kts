@@ -140,7 +140,7 @@ tasks.register("aca", GenerateTask::class.java) {
 tasks.register("apiConfigAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(
-    "https://raw.githubusercontent.com/pagopa/pagopa-infra/main/src/domains/apiconfig-app/api/apiconfig_api/v1/_openapi.json.tpl"
+    "https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/tags/v1.433.0/src/domains/apiconfig-app/api/apiconfig_api/v1/_openapi.json.tpl"
   )
   outputDir.set("$buildDir/generated")
   apiPackage.set("it.pagopa.generated.apiconfig.api")
@@ -171,7 +171,7 @@ tasks.register("apiConfigAPI", GenerateTask::class.java) {
 tasks.register("gpdAPI", GenerateTask::class.java) {
   generatorName.set("java")
   remoteInputSpec.set(
-    "https://raw.githubusercontent.com/pagopa/pagopa-infra/main/src/domains/gps-app/api/gpd_api/debt-position-services/v1/_openapi.json.tpl"
+    "https://raw.githubusercontent.com/pagopa/pagopa-infra/refs/tags/v1.433.0/src/domains/gps-app/api/gpd_api/debt-position-services/v1/_openapi.json.tpl"
   )
   outputDir.set("$buildDir/generated")
   apiPackage.set("it.pagopa.generated.gpd.api")
